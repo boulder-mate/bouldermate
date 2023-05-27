@@ -1,0 +1,16 @@
+{
+  "name": "common",
+  "version": "1.0.0",
+  "description": "Common Types for BoulderMate",
+  "main": "index.js",
+  "scripts": {
+    "prerebuild": "rm -rf dist && rm -rf node_modules",
+    "build": "tsc",
+    "rebuild": "npm install && npm run build"
+  },
+  "author": "Ethan Husband",
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^5.0.4"
+  }
+}
