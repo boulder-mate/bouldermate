@@ -3,9 +3,10 @@ import { ID } from "./abstract";
 
 export type Location = {
     id: ID;
+    name: string;
     routes: Map<RouteTypes, Route[]>,
-    where: LocationMetadata,
-    who: string; // ID of owning company
+    metadata: LocationMetadata,
+    company: ID;
 }
 
 export type LocationMetadata = {
@@ -14,9 +15,6 @@ export type LocationMetadata = {
     state: string,
     country: string,
     coordinates: string,
-    gmaps_link?: string
-}
-
-export type CompanyMetadata = {
-
+    gmaps_link?: string,
+    gmaps_rating?: number
 }

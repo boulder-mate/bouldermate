@@ -6,7 +6,9 @@ export type Route = {
     name: string, // Set by the Route Setters on creation
     routesetters: ID[],
     active: boolean, // Is the route still there and useable
-    location: ID 
+    image: string,
+    location: ID,
+    reviews: ID[],
 }
 
 export enum RouteTypes {
@@ -15,4 +17,19 @@ export enum RouteTypes {
     TopRope = "Top Rope",
     Trad = "Trad",
     Ice = "Ice"
+}
+
+export type Project = {
+    user: ID,
+    route: ID,
+    status: ProjectStatus,
+    flash?: boolean,
+    onsight?: boolean,
+    redpoint?: boolean,
+}
+
+export enum ProjectStatus {
+    Completed = "Completed",
+    Projecting = "Projecting",
+    Following = "Following"
 }
