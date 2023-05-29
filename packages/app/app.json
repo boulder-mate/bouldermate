@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "BoulderMate",
-    "slug": "BoulderMate",
+    "slug": "bouldermate",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,6 +25,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "29d7fe9c-c4f6-44ea-9d1d-e1c4c5aca522"
+      }
     }
   }
 }

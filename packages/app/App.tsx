@@ -1,7 +1,19 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import AppLoading from "expo-app-loading";
+import {
+  useFonts,
+  Lexend_400Regular,
+  Roboto_400Regular_Italic
+} from "@expo-google-fonts/lexend";
 
 export default function App() {
+  let [fontsLoaded] = useFonts({
+    Lexend_400Regular,
+  });
+
+
   return (
     <View style={styles.container}>
       <Text>Open up App.js to start working on your app!</Text>
