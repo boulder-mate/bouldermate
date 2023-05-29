@@ -11,6 +11,7 @@ export type User = {
     locations: ID[],
     routes: ID[],
     reviews: ID[],
+    verified?: boolean
 }
 
 export type UserPreferences = {

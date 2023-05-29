@@ -5,7 +5,6 @@ import AppLoading from "expo-app-loading";
 import {
   useFonts,
   Lexend_400Regular,
-  Roboto_400Regular_Italic
 } from "@expo-google-fonts/lexend";
 
 export default function App() {

@@ -6,7 +6,8 @@ export type Location = {
     name: string;
     routes: Map<RouteTypes, Route[]>,
     metadata: LocationMetadata,
-    company: ID;
+    company: ID,
+    outdoor?: boolean,
 }
 
 export type LocationMetadata = {
