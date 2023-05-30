@@ -11,6 +11,7 @@
   "dependencies": {
     "@expo-google-fonts/lexend": "^0.2.3",
     "expo": "~48.0.15",
+    "common": "file:../common",
     "expo-app-loading": "^2.1.1",
     "expo-font": "~11.1.1",
     "expo-status-bar": "~1.4.4",
