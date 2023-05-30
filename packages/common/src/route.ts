@@ -1,14 +1,19 @@
-import { ID } from "./abstract"
+import { ID, Time } from "./abstract"
+import {Grade} from "./grades"
+import { Ratings } from "./feedback"
 
-export type Route = {
-    id: string,
+export type Route = Time & {
+    id: ID,
     type: RouteTypes,
+    grade: Grade,
     name: string, // Set by the Route Setters on creation
     routesetters: ID[],
     active: boolean, // Is the route still there and useable
     image: string,
     location: ID,
-    reviews: ID[],
+    ratings: Ratings, 
+    // Comments are stored in their own collection, so are not apart. Data will get inflated otherwise
+    // They can be found via the ID of the route (similarly for location comments)
 }
 
 export enum RouteTypes {
@@ -19,7 +24,7 @@ export enum RouteTypes {
     Ice = "Ice"
 }
 
-export type Project = {
+export type Project = Time & {
     user: ID,
     route: ID,
     status: ProjectStatus,
