@@ -1,30 +1,38 @@
-import { StatusBar } from 'expo-status-bar';
+import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import AppLoading from "expo-app-loading";
-import {
-  useFonts,
-  Lexend_400Regular,
-} from "@expo-google-fonts/lexend";
+import { StyleSheet, Text, View, Image } from "react-native";
+import { useFonts } from "expo-font";
+import { LogoScreen } from "./src/Logo";
 
 export default function App() {
-  let [fontsLoaded] = useFonts({
-    Lexend_400Regular,
+  let [loaded] = useFonts({
+    Lexend: require("./assets/fonts/Lexend/Lexend-VariableFont_wght.ttf"),
+    LexendBold: require("./assets/fonts/Lexend/static/Lexend-ExtraBold.ttf"),
   });
 
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+  if (!loaded) return null;
+
+  return <LogoScreen />;
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  title: {
+    color: "#FF3131",
+    fontFamily: "LexendBold",
+    fontWeight: "100",
+    fontSize: 50,
+    textShadowColor: "rgba(0, 0, 0, 1)",
+    textShadowOffset: { width: -0.5, height: 0.5 },
+    textShadowRadius: 0,
+  },
+  image: {
+    width: 380,
+    height: 280,
   },
 });
