@@ -1,8 +1,15 @@
-import { StatusBar } from "expo-status-bar";
-import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { useFonts } from "expo-font";
 import { LogoScreen } from "./src/Logo";
+import { createMaterialBottomTabNavigator  } from "@react-navigation/material-bottom-tabs";
+import { Friends } from "./src/Friends";
+import { Home } from "./src/Home";
+import { Search } from "./src/Search";
+
+import {
+  NavigationContainer,
+  useNavigationContainerRef,
+} from "@react-navigation/native";
 
 export default function App() {
   let [loaded] = useFonts({
@@ -12,7 +19,18 @@ export default function App() {
 
   if (!loaded) return null;
 
-  return <LogoScreen />;
+  const Tab = createMaterialBottomTabNavigator ();
+  return (
+    <>
+      <NavigationContainer>
+        <Tab.Navigator initialRouteName="Home" id="BottomTab" backBehavior="history" shifting={false} activeColor="#FF3131">
+          <Tab.Screen name="Search" component={Search} />
+          <Tab.Screen name="Home" component={Home} />
+          <Tab.Screen name="Friends" component={Friends} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -22,17 +40,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  title: {
-    color: "#FF3131",
-    fontFamily: "LexendBold",
-    fontWeight: "100",
-    fontSize: 50,
-    textShadowColor: "rgba(0, 0, 0, 1)",
-    textShadowOffset: { width: -0.5, height: 0.5 },
-    textShadowRadius: 0,
-  },
-  image: {
-    width: 380,
-    height: 280,
-  },
+  
 });
