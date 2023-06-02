@@ -1,10 +1,12 @@
+import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { useFonts } from "expo-font";
 import { LogoScreen } from "./src/Logo";
-import { createMaterialBottomTabNavigator  } from "@react-navigation/material-bottom-tabs";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Friends } from "./src/Friends";
 import { Home } from "./src/Home";
 import { Search } from "./src/Search";
+import { TabBar } from "./src/TabBar";
 
 import {
   NavigationContainer,
@@ -19,14 +21,20 @@ export default function App() {
 
   if (!loaded) return null;
 
-  const Tab = createMaterialBottomTabNavigator ();
+  const Tab = createBottomTabNavigator();
   return (
     <>
       <NavigationContainer>
-        <Tab.Navigator initialRouteName="Home" id="BottomTab" backBehavior="history" shifting={false} activeColor="#FF3131">
-          <Tab.Screen name="Search" component={Search} />
-          <Tab.Screen name="Home" component={Home} />
+        <Tab.Navigator
+          initialRouteName="Home"
+          id="BottomTab"
+          backBehavior="history"
+          tabBar={(props) => <TabBar {...props} />}
+        >
+          
           <Tab.Screen name="Friends" component={Friends} />
+          <Tab.Screen name="Home" component={Home} />
+          <Tab.Screen name="Settings" component={Search} />
         </Tab.Navigator>
       </NavigationContainer>
     </>
@@ -40,5 +48,4 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  
 });
