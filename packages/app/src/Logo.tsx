@@ -1,22 +1,22 @@
 import { StyleSheet, Text, View, Image } from "react-native";
-import Logo from "../assets/images/logo-whitebg.png";
+const LogoImg = require("../assets/images/logo-whitebg.png");
 
 // This page was used to generate the image of the logo with the brand text
 
 export const LogoScreen = () => {
   return (
     <View style={styles.container}>
-      <BrandIcon height={280} width={380} />
-      <BrandTitle size={50} />
+      <Logo height={280} width={380} />
+      <Title size={50} />
     </View>
   );
 };
 
-export const BrandIcon = ({ width, height }) => {
-  return <Image source={Logo} style={{ width, height }} />;
+export const Logo = ({ width, height }) => {
+  return <Image source={LogoImg} style={{ width, height }} />;
 };
 
-export const BrandTitle = ({ size }) => {
+export const Title = ({ size }) => {
   return <Text style={[styles.title, { fontSize: size }]}>BoulderMate</Text>;
 };
 

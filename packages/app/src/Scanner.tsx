@@ -1,9 +1,9 @@
 import { View, Text } from "react-native";
 
-export const Search = () => {
+export const Scanner = () => {
   return (
     <View>
-      <Text>Search!</Text>
+      <Text>Scan!</Text>
     </View>
   );
 };

@@ -1,8 +1,11 @@
 import React from "react";
-import { View, Pressable, Dimensions, StyleSheet } from "react-native";
-import NavigationIcon from "./NavigationIcon";
+import { View, Pressable, Text, Dimensions, StyleSheet } from "react-native";
+import NavigationTab from "./NavigationTab";
+import Octicons from "react-native-vector-icons/Octicons";
 
 const { width } = Dimensions.get("window");
+
+const ENLARGED_TAB = 2;
 
 export const TabBar = ({ state, descriptors, navigation }: any) => {
   return (
@@ -40,22 +43,41 @@ export const TabBar = ({ state, descriptors, navigation }: any) => {
             <Pressable
               onPress={onPress}
               style={{
-                backgroundColor: isFocused ? "#FF3131" : "#e0e0e0",
-                borderRadius: 15,
+                backgroundColor: isFocused ? "#FF3131" : "#FFF",
+                borderTopLeftRadius: index === ENLARGED_TAB ? 10 : 0,
+                borderTopRightRadius: index === ENLARGED_TAB ? 10 : 0,
+                marginTop: "auto",
+                height: indexToHeight(index, isFocused),
+                alignItems: "center",
+                borderWidth: isFocused ? 0.7 : 0.5,
+                borderTopColor: "#AAA",
+                borderRightColor:
+                  isFocused || index === ENLARGED_TAB ? "#AAA" : "#FFF",
+                borderLeftColor:
+                  isFocused || index === ENLARGED_TAB ? "#AAA" : "#FFF",
+                borderBottomColor: "#FFF",
               }}
             >
               <View
                 style={{
-                  justifyContent: "center",
-                  alignItems: "center",
                   flex: 1,
-                  padding: 10,
+                  alignItems: "center",
+                  paddingTop: 8,
                   height: 60,
                   width: 60,
                 }}
               >
-                <NavigationIcon route={label} isFocused={isFocused} />
+                <NavigationTab route={label} isFocused={isFocused} />
               </View>
+              {isFocused ? (
+                <Octicons
+                  name="dot-fill"
+                  color="white"
+                  style={{ position: "relative", bottom: 25 }}
+                />
+              ) : (
+                <Text style={{ position: "relative", bottom: 25, fontSize: 12}}>{label}</Text>
+              )}
             </Pressable>
           </View>
         );
@@ -64,22 +86,20 @@ export const TabBar = ({ state, descriptors, navigation }: any) => {
   );
 };
 
+function indexToHeight(index: any, isFocused: any) {
+  if (index === ENLARGED_TAB) return 105;
+  else return 80;
+}
+
 const styles = StyleSheet.create({
   mainContainer: {
     flexDirection: "row",
     position: "absolute",
     bottom: 0,
-    paddingBottom: 30,
-    borderTopColor: "#BBB",
-    borderTopWidth: 0.25,
-    backgroundColor: "#FFF",
   },
   mainItemContainer: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
-    marginVertical: 10,
     borderRadius: 1,
-    borderColor: "#333B42",
   },
 });

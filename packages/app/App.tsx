@@ -4,14 +4,15 @@ import { useFonts } from "expo-font";
 import { LogoScreen } from "./src/Logo";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Friends } from "./src/Friends";
-import { Home } from "./src/Home";
-import { Search } from "./src/Search";
-import { TabBar } from "./src/TabBar";
+import { Projects } from "./src/Projects";
+import { Scanner } from "./src/Scanner";
+import { TabBar } from "./src/TabBar/TabBar";
+import { Settings } from "./src/Settings";
 
 import {
   NavigationContainer,
-  useNavigationContainerRef,
 } from "@react-navigation/native";
+import { Search } from "./src/Search";
 
 export default function App() {
   let [loaded] = useFonts({
@@ -31,10 +32,13 @@ export default function App() {
           backBehavior="history"
           tabBar={(props) => <TabBar {...props} />}
         >
-          
+          <Tab.Screen name="Search" component={Search} />
           <Tab.Screen name="Friends" component={Friends} />
-          <Tab.Screen name="Home" component={Home} />
-          <Tab.Screen name="Settings" component={Search} />
+          <Tab.Screen name="Projects" component={Projects} />
+          <Tab.Screen name="Scanner" component={Scanner} />
+          
+          <Tab.Screen name="Settings" component={Settings} />
+          
         </Tab.Navigator>
       </NavigationContainer>
     </>
