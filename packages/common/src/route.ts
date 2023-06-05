@@ -5,7 +5,10 @@ import { Ratings } from "./feedback"
 export type Route = Time & {
     id: ID,
     type: RouteTypes,
-    grade: Grade,
+    grade: {
+        routesetter?: Grade,
+        user: Grade[]
+    },
     name: string, // Set by the Route Setters on creation
     routesetters: ID[],
     active: boolean, // Is the route still there and useable
