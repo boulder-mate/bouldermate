@@ -1,9 +1,9 @@
 import { View, Text } from "react-native";
 
-export const Search = () => {
+export const Gyms = () => {
   return (
     <View>
-      <Text>Search!</Text>
+      <Text>Gyms!</Text>
     </View>
   );
 };

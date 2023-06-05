@@ -4,7 +4,7 @@
     "slug": "bouldermate",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/logo-whitebg.png",
+    "icon": "/assets/images/logo-whitebg.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/images/logo-whitebg.jpeg",

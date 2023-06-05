@@ -1,9 +1,7 @@
 import React from "react";
-import { View, Pressable, Text, Dimensions, StyleSheet } from "react-native";
+import { View, Pressable, Text, StyleSheet } from "react-native";
 import NavigationTab from "./NavigationTab";
 import Octicons from "react-native-vector-icons/Octicons";
-
-const { width } = Dimensions.get("window");
 
 const ENLARGED_TAB = 2;
 
@@ -11,13 +9,9 @@ export const TabBar = ({ state, descriptors, navigation }: any) => {
   return (
     <View style={styles.mainContainer}>
       {state.routes.map((route: any, index: number) => {
+   
         const { options } = descriptors[route.key];
-        const label =
-          options.tabBarLabel !== undefined
-            ? options.tabBarLabel
-            : options.title !== undefined
-            ? options.title
-            : route.name;
+        const label = route.name;
 
         const isFocused = state.index === index;
 
@@ -44,8 +38,8 @@ export const TabBar = ({ state, descriptors, navigation }: any) => {
               onPress={onPress}
               style={{
                 backgroundColor: isFocused ? "#FF3131" : "#FFF",
-                borderTopLeftRadius: index === ENLARGED_TAB ? 10 : 0,
-                borderTopRightRadius: index === ENLARGED_TAB ? 10 : 0,
+                borderTopLeftRadius: index === ENLARGED_TAB ? 25 : 0,
+                borderTopRightRadius: index === ENLARGED_TAB ? 25 : 0,
                 marginTop: "auto",
                 height: indexToHeight(index, isFocused),
                 alignItems: "center",
@@ -62,7 +56,7 @@ export const TabBar = ({ state, descriptors, navigation }: any) => {
                 style={{
                   flex: 1,
                   alignItems: "center",
-                  paddingTop: 8,
+                  paddingTop: index === ENLARGED_TAB ? 10 : 8,
                   height: 60,
                   width: 60,
                 }}
@@ -76,7 +70,16 @@ export const TabBar = ({ state, descriptors, navigation }: any) => {
                   style={{ position: "relative", bottom: 25 }}
                 />
               ) : (
-                <Text style={{ position: "relative", bottom: 25, fontSize: 12}}>{label}</Text>
+                <Text
+                  style={{
+                    position: "relative",
+                    bottom: 27,
+                    fontSize: 12,
+                    fontFamily: "Lexend",
+                  }}
+                >
+                  {label}
+                </Text>
               )}
             </Pressable>
           </View>
@@ -87,8 +90,8 @@ export const TabBar = ({ state, descriptors, navigation }: any) => {
 };
 
 function indexToHeight(index: any, isFocused: any) {
-  if (index === ENLARGED_TAB) return 105;
-  else return 80;
+  if (index === ENLARGED_TAB) return 110;
+  else return 85;
 }
 
 const styles = StyleSheet.create({
@@ -96,6 +99,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     position: "absolute",
     bottom: 0,
+    backgroundColor: "#EEE"
   },
   mainItemContainer: {
     flex: 1,

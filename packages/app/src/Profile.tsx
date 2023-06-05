@@ -1,9 +1,9 @@
 import { View, Text } from "react-native";
 
-export const Scanner = () => {
+export const Profile = () => {
   return (
     <View>
-      <Text>Scan!</Text>
+      <Text>Profile!</Text>
     </View>
   );
 };

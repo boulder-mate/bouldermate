@@ -5,14 +5,43 @@ import { LogoScreen } from "./src/Logo";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Friends } from "./src/Friends";
 import { Projects } from "./src/Projects";
-import { Scanner } from "./src/Scanner";
+import { Gyms } from "./src/Gyms";
 import { TabBar } from "./src/TabBar/TabBar";
 import { Settings } from "./src/Settings";
 
 import {
-  NavigationContainer,
+  NavigationContainer, Theme, DocumentTitleOptions
 } from "@react-navigation/native";
-import { Search } from "./src/Search";
+import { Profile } from "./src/Profile";
+
+const appTheme: Theme = {
+  dark: false,
+  colors: {
+    primary: 'rgb(0, 122, 255)',
+    background: '#EEE',
+    card: 'rgb(255, 255, 255)',
+    text: 'rgb(28, 28, 30)',
+    border: 'rgb(216, 216, 216)',
+    notification: 'rgb(255, 59, 48)',
+  },
+}
+
+const headerStyles = StyleSheet.create({
+  title: {
+    color: "#FF3131",
+    fontFamily: "LexendBold",
+    fontSize: 27,
+    marginBottom: 5,
+    textShadowColor: "rgba(0, 0, 0, 1)",
+    textShadowOffset: { width: -0.5, height: 0.5 },
+    textShadowRadius: 0,
+  },
+});
+
+const header = {
+  title: "BoulderMate",
+  headerTitleStyle: headerStyles.title
+}
 
 export default function App() {
   let [loaded] = useFonts({
@@ -25,19 +54,19 @@ export default function App() {
   const Tab = createBottomTabNavigator();
   return (
     <>
-      <NavigationContainer>
+      <NavigationContainer theme={appTheme} >
         <Tab.Navigator
           initialRouteName="Home"
           id="BottomTab"
           backBehavior="history"
+          
           tabBar={(props) => <TabBar {...props} />}
         >
-          <Tab.Screen name="Search" component={Search} />
-          <Tab.Screen name="Friends" component={Friends} />
-          <Tab.Screen name="Projects" component={Projects} />
-          <Tab.Screen name="Scanner" component={Scanner} />
-          
-          <Tab.Screen name="Settings" component={Settings} />
+          <Tab.Screen name="Gyms" component={Gyms} options={{...header}} />
+          <Tab.Screen name="Friends" component={Friends} options={{...header}} />
+          <Tab.Screen name="Projects" component={Projects} options={{...header}} />
+          <Tab.Screen name="Me" component={Profile} options={{...header}} />
+          <Tab.Screen name="Settings" component={Settings} options={{...header}}  />
           
         </Tab.Navigator>
       </NavigationContainer>
@@ -45,11 +74,5 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+
+
