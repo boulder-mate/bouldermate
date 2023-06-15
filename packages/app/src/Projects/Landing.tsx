@@ -9,8 +9,9 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-const Boulder = require("../assets/images/bouldering.jpg");
-const Rope = require("../assets/images/lead.jpg");
+import { useNavigation } from "@react-navigation/native";
+const Boulder = require("../../assets/images/bouldering.jpg");
+const Rope = require("../../assets/images/lead.jpg");
 
 const MUTUAL_BR = 20;
 
@@ -19,23 +20,25 @@ enum ClimbPreference {
   Boulder,
 }
 
-export const Projects = () => {
-  var [ropePress, setRopePress] = useState(false);
-  var [boulderPress, setBoulderPress] = useState(false);
+export const ProjectsLanding = () => {
   var [lastPress, setLastPress] = useState(ClimbPreference.Boulder);
+  const navigation = useNavigation<any>();
 
   return (
     <View style={styles.container}>
       <TouchableHighlight
         style={[
           styles.section,
-          { borderWidth: ropePress ? 1.5 : 1, borderColor: "black" },
+          {
+            borderWidth: lastPress === ClimbPreference.Rope ? 1.5 : 1,
+            borderColor: "black",
+          },
         ]}
-        onPressIn={() => {
-          setRopePress(true)
-          setLastPress(ClimbPreference.Rope)
+        onPress={() => {
+          setLastPress(ClimbPreference.Rope);
+          navigation.navigate("MyRopes")
+
         }}
-        onPressOut={() => setRopePress(false)}
       >
         <ImageBackground
           source={Rope}
@@ -54,7 +57,12 @@ export const Projects = () => {
             <Text
               style={[
                 styles.text,
-                { color: lastPress === ClimbPreference.Rope ? "rgba(255, 49, 49, 1)" : "white" },
+                {
+                  color:
+                    lastPress === ClimbPreference.Rope
+                      ? "rgba(255, 49, 49, 1)"
+                      : "white",
+                },
               ]}
             >
               Rope Projects
@@ -63,12 +71,17 @@ export const Projects = () => {
         </ImageBackground>
       </TouchableHighlight>
       <TouchableHighlight
-        style={styles.section}
-        onPressIn={() => {
-          setRopePress(true)
-          setLastPress(ClimbPreference.Boulder)
+        style={[
+          styles.section,
+          {
+            borderWidth: lastPress === ClimbPreference.Boulder ? 1.5 : 1,
+            borderColor: "black",
+          },
+        ]}
+        onPress={() => {
+          setLastPress(ClimbPreference.Boulder);
+          navigation.navigate("MyBoulders")
         }}
-        onPressOut={() => setBoulderPress(false)}
       >
         <ImageBackground
           source={Boulder}
@@ -79,15 +92,20 @@ export const Projects = () => {
             start={{ x: 0.35, y: 0.4 }}
             colors={
               lastPress === ClimbPreference.Boulder
-              ? ["rgba(255,255,255,0.2)", "white"]
-              : ["rgba(255,49,49,0.1)", "rgba(255, 49, 49, 0.9)"]
+                ? ["rgba(255,255,255,0.2)", "white"]
+                : ["rgba(255,49,49,0.1)", "rgba(255, 49, 49, 0.9)"]
             }
             style={{ flex: 1, borderRadius: MUTUAL_BR }}
           >
             <Text
               style={[
                 styles.text,
-                { color: lastPress === ClimbPreference.Boulder ? "rgba(255, 49, 49, 1)" : "white" },
+                {
+                  color:
+                    lastPress === ClimbPreference.Boulder
+                      ? "rgba(255, 49, 49, 1)"
+                      : "white",
+                },
               ]}
             >
               Boulder Projects
@@ -102,22 +120,22 @@ export const Projects = () => {
 // These are for prolonged storage of climbing preferences - a small but nice perso
 async function setClimbPreference(value) {
   try {
-    await AsyncStorage.setItem('climb_preference', value)
-  } catch(e) {
-    console.log("Error saving climbing preference")
+    await AsyncStorage.setItem("climb_preference", value);
+  } catch (e) {
+    console.log("Error saving climbing preference");
     // save error
   }
-  console.log('Saved climbing preference as', value)
+  console.log("Saved climbing preference as", value);
 }
 
 async function getClimbPreference(value) {
   try {
-    return await AsyncStorage.getItem('climb_preference')
-  } catch(e) {
-    console.log("Error retrieving climbing preference")
+    return await AsyncStorage.getItem("climb_preference");
+  } catch (e) {
+    console.log("Error retrieving climbing preference");
     // save error
   }
-  console.log('Retrieved climbing preference as', value)
+  console.log("Retrieved climbing preference as", value);
 }
 
 const styles = StyleSheet.create({
@@ -140,8 +158,8 @@ const styles = StyleSheet.create({
   imageFit: {
     borderRadius: 20,
     overflow: "hidden",
-    height: "100%", 
-    width: "100%"
+    height: "100%",
+    width: "100%",
   },
   text: {
     color: "white",

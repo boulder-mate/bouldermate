@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { View, Image } from "react-native";
 
 const Climber = require("../../assets/images/climber.png");
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
@@ -39,7 +39,5 @@ const NavigationTab = ({ route, isFocused }) => {
 
   return <View>{renderIcon(route, isFocused)}</View>;
 };
-
-const styles = StyleSheet.create({});
 
 export default NavigationTab;

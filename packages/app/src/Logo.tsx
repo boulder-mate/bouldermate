@@ -22,7 +22,6 @@ export const Title = ({ size }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
@@ -33,6 +32,8 @@ const styles = StyleSheet.create({
     textShadowColor: "rgba(0, 0, 0, 1)",
     textShadowOffset: { width: -0.5, height: 0.5 },
     textShadowRadius: 0,
+    position: "relative",
+    bottom: 30,
   },
   image: {
     width: 380,

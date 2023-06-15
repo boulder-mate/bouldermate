@@ -3,8 +3,9 @@ import { StyleSheet, Text, View, Image } from "react-native";
 import { useFonts } from "expo-font";
 import { LogoScreen } from "./src/Logo";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Friends } from "./src/Friends";
-import { Projects } from "./src/Projects";
+
+import { Friends } from "./src/Friends/FriendsStack";
+import { Projects } from "./src/Projects/ProjectsStack";
 import { Gyms } from "./src/Gyms";
 import { TabBar } from "./src/TabBar/TabBar";
 import { Settings } from "./src/Settings";
@@ -26,22 +27,7 @@ const appTheme: Theme = {
   },
 }
 
-const headerStyles = StyleSheet.create({
-  title: {
-    color: "#FF3131",
-    fontFamily: "LexendBold",
-    fontSize: 27,
-    marginBottom: 5,
-    textShadowColor: "rgba(0, 0, 0, 1)",
-    textShadowOffset: { width: -0.5, height: 0.5 },
-    textShadowRadius: 0,
-  },
-});
 
-const header = {
-  title: "BoulderMate",
-  headerTitleStyle: headerStyles.title
-}
 
 export default function App() {
   let [loaded] = useFonts({
@@ -56,17 +42,16 @@ export default function App() {
     <>
       <NavigationContainer theme={appTheme} >
         <Tab.Navigator
-          initialRouteName="Home"
+          initialRouteName="Projects"
           id="BottomTab"
           backBehavior="history"
-          
           tabBar={(props) => <TabBar {...props} />}
         >
-          <Tab.Screen name="Gyms" component={Gyms} options={{...header}} />
-          <Tab.Screen name="Friends" component={Friends} options={{...header}} />
-          <Tab.Screen name="Projects" component={Projects} options={{...header}} />
-          <Tab.Screen name="Me" component={Profile} options={{...header}} />
-          <Tab.Screen name="Settings" component={Settings} options={{...header}}  />
+          <Tab.Screen name="Gyms" component={Gyms} options={{headerShown: false}}/>
+          <Tab.Screen name="Friends" component={Friends} options={{headerShown: false}}/>
+          <Tab.Screen name="Projects" component={Projects}  options={{headerShown: false}}/>
+          <Tab.Screen name="Me" component={Profile} options={{headerShown: false}} />
+          <Tab.Screen name="Settings" component={Settings} options={{headerShown: false}} />
           
         </Tab.Navigator>
       </NavigationContainer>

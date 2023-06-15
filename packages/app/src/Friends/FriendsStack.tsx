@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import { Logo, Title } from "./Logo";
+import { Logo, Title } from "../Logo";
 
 export const Friends = () => {
   return (
