@@ -1,0 +1,24 @@
+type Route  {
+    id: string,
+    created: string,
+    last_updated: string,
+    type: RouteTypes,
+    grade: {
+        routesetter?: Grade,
+        user: Grade[]
+    },
+    name: string, // Set by the Route Setters on creation
+    routesetters: ID[],
+    active: boolean, // Is the route still there and useable
+    image: string,
+    location: ID,
+    ratings: Ratings, 
+}
+
+enum RouteTypes {
+    Boulder,
+    Lead,
+    TopRope,
+    Trad,
+    Ice
+}
