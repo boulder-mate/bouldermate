@@ -6,14 +6,15 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { Friends } from "./src/Friends/FriendsStack";
 import { Projects } from "./src/Projects/ProjectsStack";
-import { Gyms } from "./src/Gyms";
+import { Gyms } from "./src/Gyms/Gyms";
 import { TabBar } from "./src/TabBar/TabBar";
-import { Settings } from "./src/Settings";
+import { Settings } from "./src/Settings/Settings";
+import { Profile } from "./src/Profile/Profile";
 
 import {
   NavigationContainer, Theme, DocumentTitleOptions
 } from "@react-navigation/native";
-import { Profile } from "./src/Profile";
+
 
 const appTheme: Theme = {
   dark: false,
@@ -44,7 +45,7 @@ export default function App() {
         <Tab.Navigator
           initialRouteName="Projects"
           id="BottomTab"
-          backBehavior="history"
+          backBehavior="none"
           tabBar={(props) => <TabBar {...props} />}
         >
           <Tab.Screen name="Gyms" component={Gyms} options={{headerShown: false}}/>
