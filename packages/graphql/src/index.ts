@@ -1,11 +1,11 @@
+import GQL_SCHEMA_FILES from "./schemaloader";
+
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
-import GQL_SCHEMA_FILES from "./schemaloader";
-
 import { Server } from "ws";
-
 import { createServer } from "http";
+
 import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { useServer } from "graphql-ws/lib/use/ws";
@@ -15,12 +15,18 @@ import { Request, Response } from "express";
 import { ApolloServer, gql } from "apollo-server-express";
 import { GraphQLUpload, graphqlUploadExpress } from "graphql-upload";
 
+import { MongoClient } from "mongodb";
+
 import {
   AuthContext,
   findUserByUID,
   resolveContext,
   resolveWSContext,
 } from "./auth/ResolveAuthContext";
+
+import { routeMutations } from "./routes/RouteMutations";
+
+import { routeQueries } from "./routes/RouteQueries";
 
 var Fingerprint = require("express-fingerprint");
 
@@ -35,7 +41,9 @@ app.use(Fingerprint());
 var urlEncodedServiceAccount = process.env.FIREBASE_SERVICE_ACCOUNT;
 
 // Need to initialise MongoDB and AWS stuff
-
+const client = new MongoClient(
+  `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_DATABASE}.gqupp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
+);
 
 
 const typeDefs = gql`
@@ -47,34 +55,12 @@ export const pubsub = new PubSub();
 const resolvers = {
   Upload: GraphQLUpload,
   Query: {
-    // ...deviceQueries,
-    // ...locationsQueries,
-    // ...paymentsQueries,
-    // ...presetsQueries,
-    // ...rfidQueries,
-    // ...sessionsQueries,
-    // ...tariffsQueries,
-    // ...tenanciesQueries,
-    // ...usersQueries,
-    // ...loggingQueries,
-    // ...DLBQueries,
-    // ...metadataQueries,
+    ...routeQueries
   },
   Mutation: {
-    // ...deviceMutations,
-    // ...locationMutations,
-    // ...paymentsMutations,
-    // ...presetsMutations,
-    // ...rfidMutations,
-    // ...tariffsMutations,
-    // ...tenanciesMutations,
-    // ...userMutations,
-    // ...DLBMutations,
-    // ...OCPPMutations
+    ...routeMutations
   },
   Subscription: {
-    // ...sessionsSubscriptions,
-    
   },
 };
 

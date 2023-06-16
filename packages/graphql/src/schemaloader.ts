@@ -6,8 +6,10 @@ const importGraphQL = (file: any) => {
   return fs.readFileSync(path.join(__dirname, file), "utf-8");
 };
 
-// const OCPI_GQL = importGraphQL("../schema/OCPI.graphql");
+const ROUTES_GQL = importGraphQL("../schema/Routes.graphql");
+const FEEDBACK_GQL = importGraphQL("../schema/Feedback.graphql");
 
 export default [
-  // OCPI_GQL,
+  ROUTES_GQL,
+  FEEDBACK_GQL
 ];
