@@ -1,11 +1,11 @@
 import { ID, Time } from "./abstract"
 import {Grade} from "./grades"
-import { Ratings } from "./feedback"
+import { Target, Rating } from "./feedback"
 
 export type Route = Time & {
     id: ID,
     type: RouteTypes,
-    grade: {
+    grades: {
         routesetter?: Grade,
         user: Grade[]
     },
@@ -14,7 +14,8 @@ export type Route = Time & {
     active: boolean, // Is the route still there and useable
     image: string,
     location: ID,
-    ratings: Ratings, 
+    ratings?: Rating[], 
+    comments?: Rating[],
     // Comments are stored in their own collection, so are not apart. Data will get inflated otherwise
     // They can be found via the ID of the route (similarly for location comments)
 }

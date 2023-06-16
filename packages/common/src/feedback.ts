@@ -9,20 +9,18 @@ export type Target = {
     target_id: ID
 }
 
-export type Rating = Source & Time & {
-    rating: number,
+export enum ReviewTarget {
+    Location = "Location",
+    Route = "Route",
 }
 
-// Ratings are stored directly on the target 
-export type Ratings = Target & {
-    list: Rating[],
+export type RatingValue = {
+    rating: number
 }
 
-// Comments can be uniquely identified by their target_id in a seperate collection
-// They are not stored on the target due to fertility of inflated data
-export type Comments = Target & Comment[] 
+export type Rating = ID & Time & Source & Target & RatingValue
 
-export type Comment = Time & Source & {
+export type Comment = ID & Time & Target & Source & {
     text: string,
     votes: number,
     replies: Reply[]
@@ -31,9 +29,4 @@ export type Reply = Source & Time & {
     reply_to: string, // @ Username
     text: string
     votes: string
-}
-
-export enum ReviewTarget {
-    Location = "Location",
-    Route = "Route",
 }

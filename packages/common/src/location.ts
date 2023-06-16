@@ -1,6 +1,6 @@
 import { Route, RouteTypes } from "./route"
 import { ID, Time } from "./abstract";
-import { Ratings, Comments } from "./feedback";
+import { Rating, Comment } from "./feedback";
 
 export type Location = Time & {
     id: ID;
@@ -8,7 +8,8 @@ export type Location = Time & {
     routes: Map<RouteTypes, ID[]>,
     metadata: LocationMetadata,
     company: ID,
-    ratings: Ratings,
+    ratings?: Rating[],
+    comments?: Comment[]
     outdoor?: boolean,
 }
 
