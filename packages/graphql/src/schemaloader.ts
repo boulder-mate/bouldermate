@@ -8,8 +8,10 @@ const importGraphQL = (file: any) => {
 
 const ROUTES_GQL = importGraphQL("../schema/Routes.graphql");
 const FEEDBACK_GQL = importGraphQL("../schema/Feedback.graphql");
+const UPLOAD_GQL = importGraphQL("../schema/Upload.graphql");
 
 export default [
   ROUTES_GQL,
-  FEEDBACK_GQL
+  FEEDBACK_GQL,
+  UPLOAD_GQL
 ];

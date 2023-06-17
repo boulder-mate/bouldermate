@@ -9,6 +9,7 @@ export type Route = Time & {
         routesetter?: Grade,
         user: Grade[]
     },
+    color: string,
     name: string, // Set by the Route Setters on creation
     routesetters: ID[],
     active: boolean, // Is the route still there and useable

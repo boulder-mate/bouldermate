@@ -24,6 +24,7 @@ type Comment {
     votes: Int!
     replies: [Reply]!
 }
+
 type Reply {
     created: String!
     last_updated: String!

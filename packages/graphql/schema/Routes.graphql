@@ -3,10 +3,8 @@ type Route  {
     created: String!
     last_updated: String!
     type: RouteTypes!
-    grades: {
-        routesetter: Grade
-        user: [Grade]!
-    },
+    grades: Grades!
+    color: String!
     name: String!
     routesetters: [String]!
     active: Boolean!
@@ -26,5 +24,32 @@ enum RouteTypes {
 
 type Grade {
     type: String!
-    value: String! | Number!
+    value: String!
+}
+
+type Grades {
+    routesetter: Grade
+    user: [Grade]!
+}
+
+input RouteInput {
+    type: RouteTypes!
+    color: String!
+    name: String!
+    image: Upload!
+    location: String!
+    routesetter_grade: GradeInput
+}
+
+input GradeInput {
+    type: String!
+    value: String!
+}
+
+type Query {
+    getRouteById: Route
+}
+
+type Mutation {
+    createRoute(route: RouteInput!): Boolean
 }
