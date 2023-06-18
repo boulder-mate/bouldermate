@@ -1,9 +1,8 @@
-import { ID, Time } from "./abstract"
+import { ID, LinkedID, Time } from "./abstract"
 import {Grade} from "./grades"
 import { Target, Rating } from "./feedback"
 
-export type Route = Time & {
-    id: ID,
+export type Route = Time & ID & {
     type: RouteTypes,
     grades: {
         routesetter?: Grade,
@@ -13,7 +12,7 @@ export type Route = Time & {
     name: string, // Set by the Route Setters on creation
     routesetters: ID[],
     active: boolean, // Is the route still there and useable
-    image: string,
+    image: string, // image url
     location: ID,
     ratings?: Rating[], 
     comments?: Rating[],
@@ -29,9 +28,9 @@ export enum RouteTypes {
     Ice = "Ice"
 }
 
-export type Project = Time & {
-    user: ID,
-    route: ID,
+export type Project = ID & Time & {
+    user: LinkedID,
+    route: LinkedID,
     status: ProjectStatus,
     flash?: boolean,
     onsight?: boolean,

@@ -1,13 +1,12 @@
 import { Route, RouteTypes } from "./route"
-import { ID, Time } from "./abstract";
+import { ID, LinkedID, Time } from "./abstract";
 import { Rating, Comment } from "./feedback";
 
-export type Location = Time & {
-    id: ID;
+export type Location = ID & Time & {
     name: string;
-    routes: Map<RouteTypes, ID[]>,
+    routes: Map<RouteTypes, LinkedID[]>,
     metadata: LocationMetadata,
-    company: ID,
+    company: LinkedID,
     ratings?: Rating[],
     comments?: Comment[]
     outdoor?: boolean,

@@ -1,12 +1,12 @@
-import { ID, Time } from "./abstract"
+import { ID, LinkedID, Time } from "./abstract"
 
 export type Source = {
-    user_id: ID,
+    user_id: LinkedID,
 }
 
 export type Target = {
     target_type: ReviewTarget,
-    target_id: ID
+    target_id: LinkedID
 }
 
 export enum ReviewTarget {
@@ -15,7 +15,7 @@ export enum ReviewTarget {
 }
 
 export type RatingValue = {
-    rating: number
+    value: number
 }
 
 export type Rating = ID & Time & Source & Target & RatingValue
