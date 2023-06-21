@@ -30,11 +30,12 @@ export enum RouteTypes {
 
 export type Project = ID & Time & {
     user: LinkedID,
-    route: LinkedID,
+    route: LinkedID | Route,
     status: ProjectStatus,
     flash?: boolean,
     onsight?: boolean,
     redpoint?: boolean,
+    notes: string[]
 }
 
 export enum ProjectStatus {

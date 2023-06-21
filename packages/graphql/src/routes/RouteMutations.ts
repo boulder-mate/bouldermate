@@ -1,5 +1,7 @@
 import { Route, newId, newTime } from "common";
 import { AuthContext } from "../auth/ResolveAuthContext";
+import {uploadImage} from "../utils/fileutils"
+import {v4 as uuid} from "uuid"
 import { db } from "../database";
 
 export async function createRoute(
@@ -9,8 +11,10 @@ export async function createRoute(
     info: any): Promise<string> {
       var input = args.route;
       // Need to handle the image upload first
+      var uploadData = uploadImage(args.image, args.name + uuid())
 
-
+      console.log("Upload data:", uploadData)
+      return "test image";
       var imageUrl = ""
 
       // Create object
