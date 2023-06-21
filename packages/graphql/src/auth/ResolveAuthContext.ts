@@ -1,9 +1,6 @@
 
 
-import { AuthenticationError } from "apollo-server-core";
 import {User} from "common";
-
-
 
 export type AuthContext = {
   user?: User;
@@ -22,7 +19,7 @@ async function decryptSymmetric(keyName: string, apiKey: string): Promise<any> {
 //   return JSON.parse(payload);
 }
 
-export async function resolveContext(context: any)/*: Promise<AuthContext>*/ {
+export async function resolveContext(context: any): Promise<AuthContext> {
 //   var token = context.req?.headers?.authorization;
 //   var xUserId = context.req?.headers["x-user-id"];
 //   var apiKey = context.req?.headers["x-api-key"];
@@ -49,6 +46,7 @@ export async function resolveContext(context: any)/*: Promise<AuthContext>*/ {
 //   return {
 //     user: userObject,
 //   };
+      return {}
 }
 
 export async function resolveWSContext(context: any)/*: Promise<AuthContext>*/ {

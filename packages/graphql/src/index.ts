@@ -1,24 +1,10 @@
-import { MongoDatabase } from "./database";
-import { server } from "./apollo"
-import {app, httpServer} from "./express"
+import {initDb} from "./database"
+import {initApolloServer} from "./server"
 
-// GQL and Apollo server initialised in ./apollo
-
-// WS Server and HTTP server initialised in ./express
-
-// Initialise MongoDB
-export const db = new MongoDatabase("MongoDB", "BoulderMate")
-
+// Sequentially initialise all services, then the server itself
 async function startServer() {
-  await db.connect()
-
-  const PORT = process.env.PORT || 8000;
-  await server.start();
-  server.applyMiddleware({ app, path: "/" });
-
-  httpServer.listen(PORT, () => {
-    console.log(`Listening on ${PORT}`);
-  });
+  await initDb();
+  await initApolloServer();
 }
 
 startServer();

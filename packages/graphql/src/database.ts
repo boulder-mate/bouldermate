@@ -48,3 +48,13 @@ export class MongoDatabase {
         this.initialised = true;
     }
 }
+
+const dbName = process.env.NODE_ENV === "prod" ? "bm-prod" : "bm-dev"
+
+// Initialise MongoDB
+export const db = new MongoDatabase("MongoDB", dbName)
+
+// Main function for the database
+export async function initDb() {
+    await db.connect()
+}

@@ -1,6 +1,6 @@
 import { Route, newId, newTime } from "common";
 import { AuthContext } from "../auth/ResolveAuthContext";
-import { db } from "..";
+import { db } from "../database";
 
 export async function createRoute(
     obj: any,
