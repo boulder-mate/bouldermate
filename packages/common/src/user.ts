@@ -12,6 +12,8 @@ export type User = ID & {
     ratings: LinkedID[],
     comments: LinkedID[],
     verified?: boolean
+    company_admin?: boolean,
+    company?: LinkedID
     // Activity for a user will be stored by their user ID in a different collection
 }
 
