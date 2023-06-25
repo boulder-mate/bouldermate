@@ -1,5 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
+import { RouteCard } from "../ClimbRoutes/RouteCard";
 
 export const GymsLanding = () => {
   const navigation = useNavigation<any>();
@@ -12,6 +13,9 @@ export const GymsLanding = () => {
       >
         <Text style={styles.addRouteText}>Add route +</Text>
       </TouchableHighlight>
+      <View style={styles.cardsSection}>
+        <RouteCard />
+      </View>
     </View>
   );
 };
@@ -21,7 +25,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   addRoute: {
-    backgroundColor: "#044fd1",
+    backgroundColor: "green",
     padding: 4,
     alignItems: "center",
     borderRadius: 10,
@@ -31,4 +35,7 @@ const styles = StyleSheet.create({
     fontFamily: "Lexend",
     fontSize: 20,
   },
+  cardsSection: {
+    paddingVertical: 10,
+  }
 });

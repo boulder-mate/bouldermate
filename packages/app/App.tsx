@@ -33,6 +33,7 @@ const appTheme: Theme = {
 export default function App() {
   let [loaded] = useFonts({
     Lexend: require("./assets/fonts/Lexend/Lexend-VariableFont_wght.ttf"),
+    LexendSemibold: require("./assets/fonts/Lexend/static/Lexend-SemiBold.ttf"),
     LexendBold: require("./assets/fonts/Lexend/static/Lexend-ExtraBold.ttf"),
   });
 

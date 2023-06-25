@@ -16,8 +16,8 @@ export const Logo = ({ width, height }) => {
   return <Image source={LogoImg} style={{ width, height }} />;
 };
 
-export const Title = ({ size }) => {
-  return <Text style={[styles.title, { fontSize: size }]}>BoulderMate</Text>;
+export const Title = ({ size, text="BoulderMate" }) => {
+  return <Text style={[styles.title, { fontSize: size }]}>{text}</Text>;
 };
 
 const styles = StyleSheet.create({
@@ -32,8 +32,6 @@ const styles = StyleSheet.create({
     textShadowColor: "rgba(0, 0, 0, 1)",
     textShadowOffset: { width: -0.5, height: 0.5 },
     textShadowRadius: 0,
-    position: "relative",
-    bottom: 30,
   },
   image: {
     width: 380,
