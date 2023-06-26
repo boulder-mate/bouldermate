@@ -12,6 +12,7 @@ export type Route = Time & ID & {
     name: string, // Set by the Route Setters on creation
     routesetters: ID[],
     active: boolean, // Is the route still there and useable
+    decomissioned?: string, // The time the route was taken down, if it was
     image: string, // image url
     location: ID,
     ratings?: Rating[], 
