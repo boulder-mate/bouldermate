@@ -17,7 +17,7 @@ export const RouteCard = () => {
   return (
     <TouchableHighlight
       onPress={() => navigator.navigate("Route")}
-      style={{ borderRadius: 20 }}
+      style={styles.container}
     >
       <ImageBackground
         source={wallImage}
@@ -56,6 +56,12 @@ export const RouteCard = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    shadowColor: "black",
+    shadowOffset: { width: 5, height: 5 },
+    shadowOpacity: 0.5,
+    borderRadius: 20,
+  },
   imageContainer: {
     alignContent: "center",
     borderRadius: 20,
@@ -63,7 +69,7 @@ const styles = StyleSheet.create({
     borderColor: "black",
   },
   image: {
-    height: 295,
+    height: 250,
   },
   title: {
     color: "#FF3131",

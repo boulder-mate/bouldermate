@@ -7,137 +7,98 @@ import {
   Dimensions,
   TouchableHighlight,
 } from "react-native";
-import Entypo from "react-native-vector-icons/Entypo";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
+
 import { useState } from "react";
 import { RoutePageHeader } from "./RoutePageHeader";
+import { RouteMetadata } from "./RouteMetadata";
+import { LinearGradient } from "expo-linear-gradient";
+import { RouteDiscussion } from "./RouteDiscussion";
 
-let width = Dimensions.get("screen").width;
+let height = Dimensions.get("screen").height;
 
 export const RoutePage = () => {
-  return (
-    <View>
-      <RoutePageHeader />
-      <RouteMetadata />
-    </View>
-  );
-};
+  const [selected, updateSelected] = useState("Details");
 
-const RouteMetadata = (route) => {
   return (
     <View style={styles.container}>
-      {!route.active && (
-        <View style={styles.section}>
-          <View style={[styles.fieldLabel, { width: "100%" }]}>
-            <Entypo
-              name="squared-cross"
-              size={20}
-              color="red"
-              style={{ width: 20, marginRight: "auto" }}
-            />
-            <Text style={[styles.fieldLabelText, { color: "red" }]}>
-              This route is no longer active :(
+      <LinearGradient start={{ x: 0.5, y: 0.5 }} colors={["#FFF", "#EEE"]}>
+        <RoutePageHeader />
+        <View style={styles.selector}>
+          <TouchableHighlight
+            style={
+              selected === "Details"
+                ? styles.selected
+                : [styles.selection, { borderBottomRightRadius: 15 }]
+            }
+            onPress={() => updateSelected("Details")}
+          >
+            <Text
+              style={
+                selected === "Details"
+                  ? styles.selectionText
+                  : styles.selectedText
+              }
+            >
+              Details
             </Text>
-          </View>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={
+              selected === "Disc"
+                ? styles.selected
+                : [styles.selection, { borderBottomLeftRadius: 15 }]
+            }
+            onPress={() => updateSelected("Disc")}
+          >
+            <Text
+              style={
+                selected === "Disc" ? styles.selectionText : styles.selectedText
+              }
+            >
+              Discussion
+            </Text>
+          </TouchableHighlight>
         </View>
-      )}
-      <View style={styles.section}>
-        <View style={styles.fieldLabel}>
-          <Entypo
-            name="tools"
-            size={20}
-            style={{ width: 20, marginRight: "auto" }}
-          />
-          <Text style={styles.fieldLabelText}>Routesetters</Text>
-        </View>
-        <Text style={styles.fieldValue}>Jonathon Brown, Jack Gilmore</Text>
-      </View>
-      <View style={styles.section}>
-        <View style={styles.fieldLabel}>
-          <Entypo
-            name="back-in-time"
-            size={20}
-            style={{ width: 20, marginRight: "auto" }}
-          />
-          <Text style={styles.fieldLabelText}>DOB</Text>
-        </View>
-        <Text style={styles.fieldValue}>10th July 2023</Text>
-      </View>
-      <View style={styles.section}>
-        <View style={styles.fieldLabel}>
-          <Entypo
-            name="arrow-long-up"
-            size={18}
-            style={{ width: 20, marginRight: "auto" }}
-          />
-          <Text style={styles.fieldLabelText}>Ascents</Text>
-        </View>
-        <Text style={styles.fieldValue}>1093 (2014 in progress)</Text>
-      </View>
-      <View style={styles.section}>
-        <View style={styles.fieldLabel}>
-          <FontAwesome
-            name="user-secret"
-            size={22}
-            style={{ width: 20, marginRight: "auto" }}
-          />
-          <Text style={styles.fieldLabelText}>Routesetter Grade</Text>
-        </View>
-        <Text style={styles.fieldValue}>V7</Text>
-      </View>
-      <View style={styles.section}>
-        <View style={styles.fieldLabel}>
-          <FontAwesome
-            name="users"
-            size={18}
-            style={{ width: 20, marginRight: "auto" }}
-          />
-          <Text style={styles.fieldLabelText}>Average User Grade</Text>
-        </View>
-        <Text style={styles.fieldValue}>V7</Text>
-      </View>
-      <View style={styles.section}>
-        <View style={styles.fieldLabel}>
-          <FontAwesome
-            name="user"
-            size={25}
-            style={{ width: 20, marginRight: "auto" }}
-          />
-          <Text style={styles.fieldLabelText}>My Grade</Text>
-        </View>
-        <Text style={styles.fieldValue}>
-          Add this as a project to grade this climb!
-        </Text>
-      </View>
+        {selected === "Disc" ? <RouteDiscussion /> : <RouteMetadata />}
+      </LinearGradient>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
-    padding: 15,
-    gap: 15,
+    overflow: "scroll",
+    height,
   },
-  section: {
+  selector: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
+    justifyContent: "space-evenly",
+    height: 45,
   },
-  fieldLabel: {
-    width: "40%",
-    flexDirection: "row",
-    gap: 8,
-    alignItems: "center",
-  },
-  fieldLabelText: {
+  selectedText: {
     fontSize: 15,
-    fontWeight: "600",
-    flex: 1,
-    flexWrap: "wrap",
+    fontFamily: "Lexend",
+    borderBottomWidth: 1,
+    borderBottomColor: "#FFF",
+    color: "white",
   },
-  fieldValue: {
-    flex: 1,
-    flexWrap: "wrap",
+  selectionText: {
+    fontSize: 15,
+    fontFamily: "Lexend",
+  },
+  selection: {
+    width: "50%",
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#FF3131",
+    borderBottomWidth: 0.5,
+  },
+  selected: {
+    width: "50%",
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

@@ -10,7 +10,7 @@ import Octicons from "react-native-vector-icons/Octicons";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { useState } from "react";
 
-var wallImage = require("../../assets/images/sampleratio.jpg");
+var wallImage = require("../../assets/images/wall-image.jpg");
 
 export const RoutePageHeader = () => {
   const [expanded, updateExpanded] = useState(false);

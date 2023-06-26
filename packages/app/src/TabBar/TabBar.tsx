@@ -99,7 +99,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     position: "absolute",
     bottom: 0,
-    backgroundColor: "#EEE"
   },
   mainItemContainer: {
     flex: 1,
