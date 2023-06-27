@@ -12,8 +12,8 @@ export const CommonScreens = (stack) => {
       options={{ ...stackHeader() }}
     />,
     <stack.Screen
-      name="UploadRoute"
-      key="UploadRoute"
+      name="RouteUpload"
+      key="RouteUpload"
       component={RouteUpload}
       options={{ ...stackHeader() }}
     />,

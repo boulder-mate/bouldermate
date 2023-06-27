@@ -1,5 +1,12 @@
 import { Route } from "common";
-import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  ScrollView,
+  Dimensions,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 import Entypo from "react-native-vector-icons/Entypo";
@@ -7,12 +14,13 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 const Climber = require("../../assets/images/climber.png");
+let height = Dimensions.get("screen").height;
 
 export const RouteMetadata = (route) => {
   return (
-    <ScrollView style={{ height: 380, overflow: "scroll" }}>
+    <ScrollView style={{ height, overflow: "scroll" }}>
       <View style={styles.container}>
-        {route.active && (
+        {!route.active && (
           <View style={styles.section}>
             <View style={[styles.fieldLabel, { width: "100%" }]}>
               <Entypo
@@ -118,7 +126,7 @@ export const RouteMetadata = (route) => {
           value={"Add this as a project to grade this climb!"}
         />
       </View>
-      <View style={{height: 20}}/>
+      <View style={{ height: 550 }} />
     </ScrollView>
   );
 };

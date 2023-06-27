@@ -107,6 +107,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     borderRadius: 10,
     height: 40,
+    width: 150,
+    alignItems: "center",
   },
   projectText: {
     marginTop: 4,

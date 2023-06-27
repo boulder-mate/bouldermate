@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "black"
+    borderColor: "black",
   },
   addRouteText: {
     color: "white",
@@ -39,5 +39,5 @@ const styles = StyleSheet.create({
   },
   cardsSection: {
     paddingVertical: 10,
-  }
+  },
 });
