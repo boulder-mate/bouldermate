@@ -10,16 +10,20 @@ import {
   TouchableHighlight,
   TextInput,
 } from "react-native";
+import DropDownPicker from "react-native-dropdown-picker";
+import { SliderHuePicker } from "react-native-slider-color-picker";
 
 import { useState } from "react";
-import { RouteMetadata } from "./RouteMetadata";
 import { LinearGradient } from "expo-linear-gradient";
-import { RouteDiscussion } from "./RouteDiscussion";
 
 import Entypo from "react-native-vector-icons/Entypo";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AntDesign from "react-native-vector-icons/AntDesign";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { RouteCamera } from "./RouteCamera";
+
+import { EXPANDED_IMG_HEIGHT, CARD_IMG_HEIGHT } from "./RoutePageHeader";
 
 const Climber = require("../../assets/images/climber.png");
 var wallImage = require("../../assets/images/wall-image.jpg");
@@ -30,6 +34,10 @@ export const RouteUpload = () => {
   const [selected, updateSelected] = useState("Details");
   const [metadata, updateMetadata] = useState({});
   const [header, updateHeader] = useState({});
+
+  console.log("\n");
+  console.log("Header:", header);
+  console.log("Metadata:", metadata);
 
   return (
     <View style={styles.mainContainer}>
@@ -43,14 +51,15 @@ export const RouteUpload = () => {
 
 export const UploadHeader = ({ header, updateHeader }) => {
   const [expanded, updateExpanded] = useState(false);
+  const [addingImg, updateAddingImg] = useState(false);
 
-  return (
-    <View>
+  if (header.image) {
+    var imageBody = (
       <TouchableHighlight onPress={() => updateExpanded(!expanded)}>
         <ImageBackground
-          source={wallImage}
+          source={{ uri: header.image }}
           resizeMode="cover"
-          style={{ height: expanded ? 550 : 220 }}
+          style={{ height: expanded ? EXPANDED_IMG_HEIGHT : CARD_IMG_HEIGHT }}
           imageStyle={styles.imageContainer}
         >
           <View style={styles.expandButton}>
@@ -60,21 +69,59 @@ export const UploadHeader = ({ header, updateHeader }) => {
               <AntDesign size={20} name="arrowsalt" color={"white"} />
             )}
           </View>
+          <TouchableHighlight
+            style={styles.retake}
+            onPress={() => {
+              updateHeader({ ...header, image: null });
+              updateAddingImg(true);
+            }}
+          >
+            <Text style={styles.retakeText}>Retake</Text>
+          </TouchableHighlight>
         </ImageBackground>
       </TouchableHighlight>
+    );
+  } else if (addingImg) {
+    var imageBody = (
+      <RouteCamera
+        height={EXPANDED_IMG_HEIGHT}
+        onCapture={(imgURI) => {
+          console.log("Updating header");
+          updateHeader({ ...header, image: imgURI });
+        }}
+      />
+    );
+  } else {
+    var imageBody = (
+      <TouchableHighlight onPress={() => updateAddingImg(true)}>
+        <View
+          style={[
+            styles.addPhoto,
+            { height: expanded ? EXPANDED_IMG_HEIGHT : CARD_IMG_HEIGHT },
+          ]}
+        >
+          <FontAwesome name="camera" color="#EEE" size={35} />
+          <Text style={{ color: "#EEE", fontSize: 20 }}>Add Image</Text>
+        </View>
+      </TouchableHighlight>
+    );
+  }
+
+  return (
+    <View>
+      {imageBody}
+
       <View style={styles.summaryContainer}>
         <View style={styles.summary}>
           <TextInput
             style={styles.title}
             numberOfLines={1}
-            placeholder="Enter Name"
+            placeholder="Route Name"
             allowFontScaling={false}
             autoCorrect={false}
             spellCheck={false}
             onChangeText={(text) => updateHeader({ ...header, name: text })}
-          >
-            Little Green Fuckers
-          </TextInput>
+          />
         </View>
         <TouchableHighlight style={styles.preview}>
           <Text style={styles.previewText}>
@@ -88,9 +135,9 @@ export const UploadHeader = ({ header, updateHeader }) => {
 
 export const UploadMetadata = ({ metadata, updateMetadata }) => {
   return (
-    <ScrollView style={{ height, overflow: "scroll" }}>
+    <ScrollView style={{ height, overflow: "scroll" }} nestedScrollEnabled>
       <View style={styles.metadataContainer}>
-        <MetadataField
+        <UploadMetadataField
           icon={
             <MaterialIcons
               style={{ marginRight: 2 }}
@@ -99,9 +146,14 @@ export const UploadMetadata = ({ metadata, updateMetadata }) => {
             />
           }
           label="Gym"
-          value={"Urban Climb Blackburn"}
-        />
-        <MetadataField
+        >
+          <Selector
+            items={["hello", "world"]}
+            value={metadata.gym}
+            update={(value: any) => updateMetadata({ ...metadata, gym: value })}
+          />
+        </UploadMetadataField>
+        <UploadMetadataField
           icon={
             <Entypo
               name="tools"
@@ -110,92 +162,86 @@ export const UploadMetadata = ({ metadata, updateMetadata }) => {
             />
           }
           label="Routesetters"
-          value={"Jonathon Brown, Jack Gilmore"}
-        />
-        <MetadataField
+        >
+          <Selector
+            items={["hello", "world"]}
+            multiple
+            value={metadata.routesetters}
+            update={(value: any) =>
+              updateMetadata({ ...metadata, routsetters: value })
+            }
+          />
+        </UploadMetadataField>
+        <UploadMetadataField
           icon={
-            <Entypo
-              name="back-in-time"
+            <Ionicons
+              name="square-outline"
               size={20}
               style={{ width: 20, marginRight: "auto" }}
             />
           }
-          label="DOB"
-          value={"10th July 2023"}
-        />
-        <MetadataField
-          icon={
-            <Entypo
-              name="arrow-long-up"
-              size={18}
-              style={{ width: 20, marginRight: "auto" }}
-            />
-          }
-          label="Ascents"
-          value={"48"}
-        />
-        <MetadataField
-          label="Projects"
-          value="573"
-          icon={
-            <Image
-              source={Climber}
-              style={{
-                height: 27,
-                width: 27,
-              }}
-            />
-          }
-        />
-        <MetadataField
-          icon={
-            <FontAwesome
-              name="user-secret"
-              size={22}
-              style={{ width: 20, marginRight: "auto" }}
-            />
-          }
-          label="Routesetter Grade"
-          value={"V7"}
-        />
-        <MetadataField
-          icon={
-            <FontAwesome
-              name="users"
-              size={18}
-              style={{ width: 20, marginRight: "auto" }}
-            />
-          }
-          label="Avg. User Grade"
-          value="V7"
-        />
-        <MetadataField
-          icon={
-            <FontAwesome
-              name="user"
-              size={25}
-              style={{ width: 20, marginRight: "auto" }}
-            />
-          }
-          label="My Grade"
-          value={"Add this as a project to grade this climb!"}
-        />
+          label="Colour"
+        >
+          <SliderHuePicker
+            thumbStyle={{ backgroundColor: "black" }}
+            trackStyle={{ width: 190 }}
+          />
+        </UploadMetadataField>
+        <View style={{ height: 550 }} />
       </View>
-      <View style={{ height: 550 }} />
     </ScrollView>
   );
 };
 
-const MetadataField = ({ label, value, icon }) => {
+const UploadMetadataField = ({ label, children, icon }) => {
   return (
-    <View style={styles.metadataSection}>
+    <View style={[styles.metadataSection, { zIndex: FIELD_TO_ZINDEX[label] }]}>
       <View style={styles.icon}>{icon}</View>
       <View style={styles.fieldLabel}>
         <Text style={styles.fieldLabelText}>{label}</Text>
       </View>
-      <Text style={styles.fieldValue}>{value}</Text>
+      <View style={[styles.fieldValue]}>{children}</View>
     </View>
   );
+};
+
+const Selector = ({ items, multiple = false, value, update }) => {
+  // Items should be an array or enum
+  items = items.map((x: any) => {
+    return { label: x, value: x };
+  });
+
+  const [open, setOpen] = useState(false);
+  // This package we use is an absolute fucking mess
+  // Should consider designing own rendition in the future
+  // For some reason the package requires a local copy of the value and couldnt do this internally
+  const [localValue, setLocalValue] = useState(value);
+
+  return (
+    <DropDownPicker
+      open={open}
+      value={localValue}
+      items={items}
+      style={[styles.dropdown, { borderWidth: !!localValue ? 1 : 0.5 }]}
+      setOpen={setOpen}
+      setValue={setLocalValue} // This prop works in a dumb way - onSelectItem is used for state updates for ease of mind
+      onSelectItem={
+        multiple
+          ? (item) => update(item.map((x) => x.value))
+          : (item) => update(item.value)
+      }
+      listMode={"SCROLLVIEW"}
+      mode="BADGE"
+      badgeDotColors={["#FF3131"]}
+      badgeColors={["#EEE"]}
+      multiple={multiple}
+    />
+  );
+};
+
+const FIELD_TO_ZINDEX = {
+  Gym: 5,
+  Routesetters: 4,
 };
 
 const styles = StyleSheet.create({
@@ -213,6 +259,12 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     alignContent: "center",
+  },
+  addPhoto: {
+    backgroundColor: "#333",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 5,
   },
   expandButton: {
     backgroundColor: "rgba(0,0,0,0.5)",
@@ -235,6 +287,23 @@ const styles = StyleSheet.create({
     borderColor: "black",
     borderWidth: 0.5,
     borderRadius: 5,
+  },
+  retake: {
+    backgroundColor: "#FF3131",
+    padding: 10,
+    width: 75,
+    marginLeft: "auto",
+    marginTop: "auto",
+    marginBottom: 5,
+    marginRight: 5,
+    borderRadius: 10,
+    alignItems: "center",
+    borderWidth: 1,
+  },
+  retakeText: {
+    fontSize: 15,
+    color: "white",
+    fontFamily: "Lexend",
   },
   summaryContainer: {
     backgroundColor: "white",
@@ -291,6 +360,13 @@ const styles = StyleSheet.create({
   fieldValue: {
     flex: 1,
     flexWrap: "wrap",
+    backgroundColor: "white",
+  },
+  dropdown: {
+    borderColor: "black",
+    height: 40,
+    backgroundColor: "white",
+    overflow: "scroll",
   },
   icon: {
     width: "6%",

@@ -12,6 +12,9 @@ import { useState } from "react";
 
 var wallImage = require("../../assets/images/wall-image.jpg");
 
+export const EXPANDED_IMG_HEIGHT = 550;
+export const CARD_IMG_HEIGHT = 220;
+
 export const RoutePageHeader = () => {
   const [expanded, updateExpanded] = useState(false);
 
@@ -21,7 +24,7 @@ export const RoutePageHeader = () => {
         <ImageBackground
           source={wallImage}
           resizeMode="cover"
-          style={{ height: expanded ? 550 : 220 }}
+          style={{ height: expanded ? EXPANDED_IMG_HEIGHT : CARD_IMG_HEIGHT }}
           imageStyle={styles.imageContainer}
         >
           <View style={styles.expandButton}>

@@ -5,6 +5,7 @@ import {
   Text,
   StyleSheet,
   ImageBackground,
+  Image,
   TouchableHighlight,
 } from "react-native";
 import Octicons from "react-native-vector-icons/Octicons";
@@ -19,12 +20,8 @@ export const RouteCard = () => {
       onPress={() => navigator.navigate("Route")}
       style={styles.container}
     >
-      <ImageBackground
-        source={wallImage}
-        resizeMode="cover"
-        style={styles.image}
-        imageStyle={styles.imageContainer}
-      >
+      <View>
+        <Image source={wallImage} resizeMode="cover" style={styles.image} />
         <View style={styles.aboutContainer}>
           <View style={styles.about}>
             <Text
@@ -50,7 +47,7 @@ export const RouteCard = () => {
             </View>
           </TouchableHighlight>
         </View>
-      </ImageBackground>
+      </View>
     </TouchableHighlight>
   );
 };
@@ -61,15 +58,15 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 5, height: 5 },
     shadowOpacity: 0.5,
     borderRadius: 20,
-  },
-  imageContainer: {
-    alignContent: "center",
-    borderRadius: 20,
     borderWidth: 1,
     borderColor: "black",
   },
   image: {
-    height: 250,
+    height: 200,
+    alignContent: "center",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    width: "100%",
   },
   title: {
     color: "#FF3131",
@@ -89,8 +86,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 12,
     paddingHorizontal: 15,
-    borderWidth: 1,
-    borderColor: "black",
+    borderTopWidth: 1,
     flexDirection: "row",
   },
   about: {
@@ -99,7 +95,6 @@ const styles = StyleSheet.create({
     marginRight: 15,
   },
   seeMore: {
-    borderColor: "black",
     paddingVertical: 5,
     paddingHorizontal: 8,
     borderRadius: 10,

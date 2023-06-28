@@ -125,8 +125,9 @@ export const RouteMetadata = (route) => {
           label="My Grade"
           value={"Add this as a project to grade this climb!"}
         />
+        <View style={{ height: 550 }} />
       </View>
-      <View style={{ height: 550 }} />
+      
     </ScrollView>
   );
 };
