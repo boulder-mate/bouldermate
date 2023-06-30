@@ -38,8 +38,9 @@ input RouteInput {
     name: String!
     image: Upload!
     location: String!
-    routesetter_grade: GradeInput
     routesetters: [String]!
+    routesetter_grade: GradeInput
+    notes: String
 }
 
 input GradeInput {

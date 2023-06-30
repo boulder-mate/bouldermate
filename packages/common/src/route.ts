@@ -26,9 +26,22 @@ export enum RouteTypes {
     Boulder = "Boulder",
     Lead = "Lead",
     TopRope = "Top Rope",
-    Trad = "Trad",
-    Ice = "Ice"
+    // Trad = "Trad", OUTDOORS NOT SUPPORTED YET
+    // Ice = "Ice"
 }
+
+export enum RouteColors {
+    Red = "#FF0000",
+    Green = "#00FF00",
+    Blue = "#0000FF",
+    Yellow = "#FFFF00",
+    Orange = "#FFA500",
+    Purple = "#800080",
+    Pink = "#FFC0CB",
+    Black = "#000000",
+    White = "#FFFFFF",
+    Wood = "#D2B48C" // Lighter wood color hex code
+  }
 
 export type Project = ID & Time & {
     user: LinkedID,

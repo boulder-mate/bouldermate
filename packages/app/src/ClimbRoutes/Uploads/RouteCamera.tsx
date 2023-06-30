@@ -5,7 +5,7 @@ import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { manipulateAsync, FlipType, SaveFormat } from "expo-image-manipulator";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { CARD_IMG_HEIGHT, EXPANDED_IMG_HEIGHT } from "./RoutePageHeader";
+import { CARD_IMG_HEIGHT, EXPANDED_IMG_HEIGHT } from "../RoutePageHeader";
 
 // Kind of heuristic
 const CARD_OUTLINE_LOWER = (EXPANDED_IMG_HEIGHT + CARD_IMG_HEIGHT) / 2 - 60;

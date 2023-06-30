@@ -1,6 +1,6 @@
 import { TypedNavigator } from "@react-navigation/native";
 import { RoutePage } from "./ClimbRoutes/RoutePage";
-import { RouteUpload } from "./ClimbRoutes/RouteUpload";
+import { RouteUpload } from "./ClimbRoutes/Uploads/RouteUpload";
 import { stackHeader } from "./Header";
 
 export const CommonScreens = (stack) => {

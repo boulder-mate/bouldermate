@@ -10,12 +10,12 @@ export type RopeGrade = Ewbank|YDS;
 
 export enum BoulderGradeScale {
     VScale = "V-Scale",
-    FontScale = "Font. Scale",
+    //FontScale = "Font. Scale",
 }
 export enum RopeGradeScale {
     Ewbank = "Ewbank Scale",
-    YDS = "Yosemite Decimal Scale",
-    FrenchScale = "French Scale",
+    YDS = "Yosemite Decimal System",
+    //FrenchScale = "French Scale",
 }
 
 // BOULDER GRADING SCALES
@@ -144,3 +144,8 @@ export enum RopeGradeScale {
         "5.15d" = "5.15d"
     }
     
+export const ScaleToGrades = {
+    "V-Scale" : VScaleValues,
+    "Ewbank Scale" : EwbankValues,
+    "Yosemite Decimal System": YDSValues
+}

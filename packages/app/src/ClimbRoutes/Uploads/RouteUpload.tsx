@@ -1,4 +1,3 @@
-import { Route } from "common";
 import {
   View,
   Text,
@@ -10,8 +9,6 @@ import {
   TouchableHighlight,
   TextInput,
 } from "react-native";
-import DropDownPicker from "react-native-dropdown-picker";
-import { SliderHuePicker } from "react-native-slider-color-picker";
 
 import { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
@@ -20,19 +17,19 @@ import Entypo from "react-native-vector-icons/Entypo";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AntDesign from "react-native-vector-icons/AntDesign";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import { RouteCamera } from "./RouteCamera";
 
-import { EXPANDED_IMG_HEIGHT, CARD_IMG_HEIGHT } from "./RoutePageHeader";
+import { EXPANDED_IMG_HEIGHT, CARD_IMG_HEIGHT } from "../RoutePageHeader";
+import { UploadMetadata } from "./RouteUploadMetadata";
 
-const Climber = require("../../assets/images/climber.png");
-var wallImage = require("../../assets/images/wall-image.jpg");
+const Climber = require("../../../assets/images/climber.png");
+var wallImage = require("../../../assets/images/wall-image.jpg");
 
 let height = Dimensions.get("screen").height;
 
 export const RouteUpload = () => {
-  const [selected, updateSelected] = useState("Details");
   const [metadata, updateMetadata] = useState({});
+  // Infer the gym, route type and one routesetter
   const [header, updateHeader] = useState({});
 
   console.log("\n");
@@ -131,117 +128,6 @@ export const UploadHeader = ({ header, updateHeader }) => {
       </View>
     </View>
   );
-};
-
-export const UploadMetadata = ({ metadata, updateMetadata }) => {
-  return (
-    <ScrollView style={{ height, overflow: "scroll" }} nestedScrollEnabled>
-      <View style={styles.metadataContainer}>
-        <UploadMetadataField
-          icon={
-            <MaterialIcons
-              style={{ marginRight: 2 }}
-              name={"location-pin"}
-              size={22}
-            />
-          }
-          label="Gym"
-        >
-          <Selector
-            items={["hello", "world"]}
-            value={metadata.gym}
-            update={(value: any) => updateMetadata({ ...metadata, gym: value })}
-          />
-        </UploadMetadataField>
-        <UploadMetadataField
-          icon={
-            <Entypo
-              name="tools"
-              size={20}
-              style={{ width: 20, marginRight: "auto" }}
-            />
-          }
-          label="Routesetters"
-        >
-          <Selector
-            items={["hello", "world"]}
-            multiple
-            value={metadata.routesetters}
-            update={(value: any) =>
-              updateMetadata({ ...metadata, routsetters: value })
-            }
-          />
-        </UploadMetadataField>
-        <UploadMetadataField
-          icon={
-            <Ionicons
-              name="square-outline"
-              size={20}
-              style={{ width: 20, marginRight: "auto" }}
-            />
-          }
-          label="Colour"
-        >
-          <SliderHuePicker
-            thumbStyle={{ backgroundColor: "black" }}
-            trackStyle={{ width: 190 }}
-          />
-        </UploadMetadataField>
-        <View style={{ height: 550 }} />
-      </View>
-    </ScrollView>
-  );
-};
-
-const UploadMetadataField = ({ label, children, icon }) => {
-  return (
-    <View style={[styles.metadataSection, { zIndex: FIELD_TO_ZINDEX[label] }]}>
-      <View style={styles.icon}>{icon}</View>
-      <View style={styles.fieldLabel}>
-        <Text style={styles.fieldLabelText}>{label}</Text>
-      </View>
-      <View style={[styles.fieldValue]}>{children}</View>
-    </View>
-  );
-};
-
-const Selector = ({ items, multiple = false, value, update }) => {
-  // Items should be an array or enum
-  items = items.map((x: any) => {
-    return { label: x, value: x };
-  });
-
-  const [open, setOpen] = useState(false);
-  // This package we use is an absolute fucking mess
-  // Should consider designing own rendition in the future
-  // For some reason the package requires a local copy of the value and couldnt do this internally
-  const [localValue, setLocalValue] = useState(value);
-
-  return (
-    <DropDownPicker
-      open={open}
-      value={localValue}
-      items={items}
-      style={[styles.dropdown, { borderWidth: !!localValue ? 1 : 0.5 }]}
-      setOpen={setOpen}
-      setValue={setLocalValue} // This prop works in a dumb way - onSelectItem is used for state updates for ease of mind
-      onSelectItem={
-        multiple
-          ? (item) => update(item.map((x) => x.value))
-          : (item) => update(item.value)
-      }
-      listMode={"SCROLLVIEW"}
-      mode="BADGE"
-      badgeDotColors={["#FF3131"]}
-      badgeColors={["#EEE"]}
-      multiple={multiple}
-    />
-  );
-};
-
-const FIELD_TO_ZINDEX = {
-  Gym: 5,
-  Routesetters: 4,
 };
 
 const styles = StyleSheet.create({

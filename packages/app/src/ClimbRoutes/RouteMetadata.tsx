@@ -18,7 +18,7 @@ let height = Dimensions.get("screen").height;
 
 export const RouteMetadata = (route) => {
   return (
-    <ScrollView style={{ height, overflow: "scroll" }}>
+    <ScrollView style={{ height, overflow: "scroll" }} persistentScrollbar>
       <View style={styles.container}>
         {!route.active && (
           <View style={styles.section}>
@@ -127,7 +127,6 @@ export const RouteMetadata = (route) => {
         />
         <View style={{ height: 550 }} />
       </View>
-      
     </ScrollView>
   );
 };

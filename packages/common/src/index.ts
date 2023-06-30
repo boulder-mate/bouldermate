@@ -1,7 +1,7 @@
 export * from "./abstract";
 export * from "./feedback";
 export * from "./grades";
-export * from "./location";
+export * from "./gyms";
 export * from "./route";
 export * from "./user";
 
