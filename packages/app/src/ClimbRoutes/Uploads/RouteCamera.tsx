@@ -5,11 +5,12 @@ import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { manipulateAsync, FlipType, SaveFormat } from "expo-image-manipulator";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { CARD_IMG_HEIGHT, EXPANDED_IMG_HEIGHT } from "../RoutePageHeader";
 
 // Kind of heuristic
-const CARD_OUTLINE_LOWER = (EXPANDED_IMG_HEIGHT + CARD_IMG_HEIGHT) / 2 - 60;
-const CARD_OUTLINE_UPPER = (EXPANDED_IMG_HEIGHT - CARD_IMG_HEIGHT) / 2 - 60;
+const CARD_OUTLINE_LOWER = (EXPANDED_IMG_HEIGHT + CARD_IMG_HEIGHT) / 2 - 25;
+const CARD_OUTLINE_UPPER = (EXPANDED_IMG_HEIGHT - CARD_IMG_HEIGHT) / 2 - 5;
 
 export function RouteCamera({ height, onCapture }) {
   const [type, setType] = useState(CameraType.back);
@@ -18,6 +19,7 @@ export function RouteCamera({ height, onCapture }) {
 
   const [camera, setCamera] = useState(null);
   const [border, setBorder] = useState("black");
+  const [buttonColor, setButtonColor] = useState("white");
 
   const permisionFunction = async () => {
     // here is how you can get the camera permission
@@ -81,6 +83,12 @@ export function RouteCamera({ height, onCapture }) {
   return (
     <View style={{ height }}>
       <Camera style={styles.camera} type={type} ref={(ref) => setCamera(ref)}>
+        <View style={styles.cameraRollContainer}>
+          <TouchableOpacity style={styles.cameraRoll} onPress={pickImage}>
+            <FontAwesome name="image" size={25} />
+            <Text>Camera Roll</Text>
+          </TouchableOpacity>
+        </View>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.toggleButton}
@@ -92,11 +100,16 @@ export function RouteCamera({ height, onCapture }) {
         <CardOutline />
         <View style={styles.captureContainer}>
           <TouchableOpacity
-            style={[styles.captureButton, { borderColor: border }]}
+            style={[
+              styles.captureButton,
+              { borderColor: border, backgroundColor: buttonColor },
+            ]}
             onPress={async () => {
               setBorder("red");
               await takePicture();
             }}
+            onPressIn={() => setButtonColor("red")}
+            onPressOut={() => setButtonColor("white")}
           />
         </View>
       </Camera>
@@ -156,10 +169,24 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   buttonContainer: {},
+  cameraRollContainer: {
+    position: "absolute",
+    top: 12,
+    left: 10,
+    alignItems: "center",
+    backgroundColor: "white",
+    padding: 5,
+    borderRadius: 5,
+  },
+  cameraRoll: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+  },
   toggleButton: {
-    marginLeft: "auto",
-    marginTop: 10,
-    marginRight: 10,
+    position: "absolute",
+    top: 10,
+    right: 10,
   },
   captureContainer: {
     backgroundColor: "white",

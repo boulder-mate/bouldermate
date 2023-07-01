@@ -65,7 +65,7 @@ export const server = new ApolloServer<AuthContext>({
 // Main function for the server
 export async function initApolloServer() {
   console.log("Initialising Apollo server...")
-  const PORT = process.env.PORT || 8000;
+  const PORT = process.env.PORT || 8080;
   await server.start();
 
   httpServer.listen(PORT, () => {

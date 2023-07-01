@@ -1,8 +1,8 @@
 import React from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
 import { useFonts } from "expo-font";
-import { LogoScreen } from "./src/Logo";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { ApolloProvider } from "@apollo/client";
+import { client } from "./src/Apollo/apollo";
 
 import { Friends } from "./src/Friends/FriendsStack";
 import { Projects } from "./src/Projects/ProjectsStack";
@@ -11,11 +11,7 @@ import { TabBar } from "./src/TabBar/TabBar";
 import { Settings } from "./src/Settings/Settings";
 import { Profile } from "./src/Profile/Profile";
 
-import {
-  NavigationContainer,
-  Theme,
-  DocumentTitleOptions,
-} from "@react-navigation/native";
+import { NavigationContainer, Theme } from "@react-navigation/native";
 
 const appTheme: Theme = {
   dark: false,
@@ -41,7 +37,7 @@ export default function App() {
 
   const Tab = createBottomTabNavigator();
   return (
-    <>
+    <ApolloProvider client={client}>
       <NavigationContainer theme={appTheme}>
         <Tab.Navigator
           initialRouteName="Projects"
@@ -76,6 +72,6 @@ export default function App() {
           />
         </Tab.Navigator>
       </NavigationContainer>
-    </>
+    </ApolloProvider>
   );
 }

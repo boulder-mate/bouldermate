@@ -4,10 +4,11 @@ import {
   StyleSheet,
   ImageBackground,
   Dimensions,
-  ScrollView,
-  Image,
+  Keyboard,
   TouchableHighlight,
   TextInput,
+  Alert,
+  TouchableWithoutFeedback,
 } from "react-native";
 
 import { useState } from "react";
@@ -15,22 +16,41 @@ import { LinearGradient } from "expo-linear-gradient";
 
 import Entypo from "react-native-vector-icons/Entypo";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { RouteCamera } from "./RouteCamera";
 
 import { EXPANDED_IMG_HEIGHT, CARD_IMG_HEIGHT } from "../RoutePageHeader";
-import { UploadMetadata } from "./RouteUploadMetadata";
-
-const Climber = require("../../../assets/images/climber.png");
-var wallImage = require("../../../assets/images/wall-image.jpg");
+import { UploadMetadata } from "./UploadMetadata";
+import { useNavigation } from "@react-navigation/native";
+import { HeaderButtons } from "../HeaderButtons";
 
 let height = Dimensions.get("screen").height;
 
 export const RouteUpload = () => {
-  const [metadata, updateMetadata] = useState({});
+  const [metadata, updateMetadata] = useState<any>({});
   // Infer the gym, route type and one routesetter
-  const [header, updateHeader] = useState({});
+  const [header, updateHeader] = useState<any>({});
+
+  const navigation = useNavigation<any>();
+
+  const stateToRoute = () => {
+    // Kills two birds with one stone:
+    // Merges all the data to send to the backend
+    // Ensures scale and grade are always mutually selected on behalf of the backend
+    let grades = undefined;
+    if (metadata.scale && metadata.grade) {
+      grades = {
+        routesetter: { scale: metadata.scale, value: metadata.grade },
+      };
+    }
+    return {
+      ...header,
+      ...metadata,
+      scale: undefined,
+      grade: undefined,
+      grades,
+    };
+  };
 
   console.log("\n");
   console.log("Header:", header);
@@ -38,15 +58,35 @@ export const RouteUpload = () => {
 
   return (
     <View style={styles.mainContainer}>
-      <LinearGradient start={{ x: 0.5, y: 0.5 }} colors={["#FFF", "#EEE"]}>
-        <UploadHeader header={header} updateHeader={updateHeader} />
-        <UploadMetadata metadata={metadata} updateMetadata={updateMetadata} />
-      </LinearGradient>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <LinearGradient start={{ x: 0.5, y: 0.5 }} colors={["#FFF", "#EEE"]}>
+          <UploadHeader
+            header={header}
+            updateHeader={updateHeader}
+            onPreview={() => {
+              // First, validate
+              let route = stateToRoute();
+              let valResponse = ValidateInput(route);
+
+              if (valResponse) {
+                Alert.alert("Whoops!", valResponse);
+                return;
+              } else {
+                navigation.navigate("RoutePage", {
+                  route,
+                  headerButton: HeaderButtons.Upload,
+                });
+              }
+            }}
+          />
+          <UploadMetadata metadata={metadata} updateMetadata={updateMetadata} />
+        </LinearGradient>
+      </TouchableWithoutFeedback>
     </View>
   );
 };
 
-export const UploadHeader = ({ header, updateHeader }) => {
+export const UploadHeader = ({ header, updateHeader, onPreview }) => {
   const [expanded, updateExpanded] = useState(false);
   const [addingImg, updateAddingImg] = useState(false);
 
@@ -73,7 +113,10 @@ export const UploadHeader = ({ header, updateHeader }) => {
               updateAddingImg(true);
             }}
           >
-            <Text style={styles.retakeText}>Retake</Text>
+            <View style={styles.retakeContainer}>
+              <Text style={styles.retakeText}>Retake</Text>
+              <FontAwesome name="refresh" size={15} color="white" />
+            </View>
           </TouchableHighlight>
         </ImageBackground>
       </TouchableHighlight>
@@ -120,7 +163,7 @@ export const UploadHeader = ({ header, updateHeader }) => {
             onChangeText={(text) => updateHeader({ ...header, name: text })}
           />
         </View>
-        <TouchableHighlight style={styles.preview}>
+        <TouchableHighlight style={styles.preview} onPress={onPreview}>
           <Text style={styles.previewText}>
             Preview <Entypo name="chevron-right" size={16} />
           </Text>
@@ -128,6 +171,33 @@ export const UploadHeader = ({ header, updateHeader }) => {
       </View>
     </View>
   );
+};
+
+const ValidateInput = (route) => {
+  // Returns text indicating missing fields or empty string if satisfied
+  var missing = [];
+  !route.gym && missing.push("select a gym");
+  !route.image && missing.push("upload an image");
+  !route.name && missing.push("choose a name");
+  !route.colors?.length && missing.push("select at least one color");
+  !route.routsetters?.length && missing.push("select at least one routesetter");
+  !route.type && missing.push("select a route type");
+
+  console.log(missing);
+  console.log(missing.slice(0, -1));
+
+  if (missing.length === 0) return "";
+  else if (missing.length === 1) return "Please " + missing[0] + ".";
+  else {
+    // Form a proper sentences
+    return (
+      "Please " +
+      missing.slice(0, -1).join(", ") +
+      " and " +
+      missing[missing.length - 1] +
+      "."
+    );
+  }
 };
 
 const styles = StyleSheet.create({
@@ -175,16 +245,21 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   retake: {
-    backgroundColor: "#FF3131",
-    padding: 10,
-    width: 75,
-    marginLeft: "auto",
-    marginTop: "auto",
-    marginBottom: 5,
-    marginRight: 5,
-    borderRadius: 10,
+    backgroundColor: "#333",
+    position: "absolute",
+    top: 5,
+    left: 5,
+    padding: 5,
+    borderRadius: 5,
+    width: 85,
     alignItems: "center",
     borderWidth: 1,
+    opacity: 0.9,
+  },
+  retakeContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
   },
   retakeText: {
     fontSize: 15,
@@ -225,37 +300,5 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: "Lexend",
     color: "white",
-  },
-  metadataSection: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
-  fieldLabel: {
-    width: "40%",
-    flexDirection: "row",
-    gap: 8,
-    alignItems: "center",
-  },
-  fieldLabelText: {
-    fontSize: 15,
-    fontWeight: "600",
-    flex: 1,
-    flexWrap: "wrap",
-  },
-  fieldValue: {
-    flex: 1,
-    flexWrap: "wrap",
-    backgroundColor: "white",
-  },
-  dropdown: {
-    borderColor: "black",
-    height: 40,
-    backgroundColor: "white",
-    overflow: "scroll",
-  },
-  icon: {
-    width: "6%",
-    alignItems: "center",
   },
 });

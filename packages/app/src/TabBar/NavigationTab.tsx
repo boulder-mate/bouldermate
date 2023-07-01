@@ -13,7 +13,7 @@ const NavigationTab = ({ route, isFocused }) => {
         return (
           <View
           
-            style={{ padding: 5, borderRadius: 25, backgroundColor: "#FFF" }}
+            style={{ padding: 4.5, borderRadius: 25, backgroundColor: "#FFF" }}
           >
             <Image
               source={Climber}

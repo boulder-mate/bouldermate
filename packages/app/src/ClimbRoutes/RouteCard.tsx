@@ -12,12 +12,12 @@ import Octicons from "react-native-vector-icons/Octicons";
 
 let wallImage = require("../../assets/images/wall-image.jpg");
 
-export const RouteCard = () => {
+export const RouteCard = ({ route }) => {
   const navigator = useNavigation<any>();
 
   return (
     <TouchableHighlight
-      onPress={() => navigator.navigate("Route")}
+      onPress={() => navigator.navigate("RoutePage", { route })}
       style={styles.container}
     >
       <View>
@@ -40,12 +40,12 @@ export const RouteCard = () => {
               <Octicons name="star-fill" style={styles.dots} />
             </View>
           </View>
-          <TouchableHighlight style={styles.seeMore}>
+          <View style={styles.seeMore}>
             <View style={styles.projectText}>
               <Text style={{ fontSize: 15 }}>See More</Text>
               <Octicons size={20} name="chevron-right" />
             </View>
-          </TouchableHighlight>
+          </View>
         </View>
       </View>
     </TouchableHighlight>

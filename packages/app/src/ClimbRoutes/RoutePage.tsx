@@ -16,13 +16,13 @@ import { RouteDiscussion } from "./RouteDiscussion";
 
 let height = Dimensions.get("screen").height;
 
-export const RoutePage = () => {
+export const RoutePage = ({ route, headerButton }) => {
   const [selected, updateSelected] = useState("Details");
 
   return (
     <View style={styles.container}>
       <LinearGradient start={{ x: 0.5, y: 0.5 }} colors={["#FFF", "#EEE"]}>
-        <RoutePageHeader />
+        <RoutePageHeader route={route}>{headerButton}</RoutePageHeader>
         <SectionSelector selected={selected} updateSelected={updateSelected} />
         {selected === "Disc" ? <RouteDiscussion /> : <RouteMetadata />}
       </LinearGradient>

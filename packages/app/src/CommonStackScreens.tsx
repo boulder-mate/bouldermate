@@ -6,8 +6,8 @@ import { stackHeader } from "./Header";
 export const CommonScreens = (stack) => {
   return [
     <stack.Screen
-      name="Route"
-      key="Route"
+      name="RoutePage"
+      key="RoutePage"
       component={RoutePage}
       options={{ ...stackHeader() }}
     />,

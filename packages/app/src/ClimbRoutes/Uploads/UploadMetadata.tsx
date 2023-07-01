@@ -6,7 +6,6 @@ import {
   ScrollView,
   Image,
   TextInput,
-  Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
 import { useState, useEffect } from "react";
@@ -44,7 +43,6 @@ export const UploadMetadata = ({ metadata, updateMetadata }) => {
       nestedScrollEnabled
       persistentScrollbar
     >
-      <TouchableWithoutFeedback>
         <View style={styles.metadataContainer}>
           <View style={styles.sectionIndicator}>
             <Text style={styles.sectionIndicatorText}>Required</Text>
@@ -164,7 +162,7 @@ export const UploadMetadata = ({ metadata, updateMetadata }) => {
                 // Need to do it this messy way because Object.values returns numbers
                 metadata.scale
                   ? Object.values(ScaleToGrades[metadata.scale])
-                  : ["Select a scale first"]
+                  : []
               }
               value={metadata.grade}
               update={(value: any) =>
@@ -192,7 +190,6 @@ export const UploadMetadata = ({ metadata, updateMetadata }) => {
           </UploadMetadataField>
           <View style={{ marginTop: 700, height: 10 }} />
         </View>
-      </TouchableWithoutFeedback>
     </ScrollView>
   );
 };
@@ -210,7 +207,6 @@ const UploadMetadataField = ({ label, children, icon }) => {
 };
 
 const Selector = ({ items, multiple = false, value, update }) => {
-  console.log("ITEMS", items);
   // Items should be an array or enum
   items = items.map((x: any) => {
     return { label: x, value: x };
@@ -231,6 +227,12 @@ const Selector = ({ items, multiple = false, value, update }) => {
       open={open}
       value={localValue}
       items={items}
+      translation={{
+        NOTHING_TO_SHOW: "Select a scale first!",
+      }}
+      dropDownContainerStyle={{
+        borderWidth: 0.5,
+      }}
       style={[
         styles.dropdown,
         {
@@ -268,6 +270,9 @@ const RoutesetterSelector = ({ items, update }) => {
       open={open}
       value={localValue}
       items={items}
+      dropDownContainerStyle={{
+        borderWidth: 0.5,
+      }}
       style={[styles.dropdown, { borderWidth: localValue.length ? 1 : 0.5 }]}
       setOpen={setOpen}
       setValue={setLocalValue} // This prop works in a dumb way - onSelectItem is used for state updates for ease of mind
@@ -330,6 +335,9 @@ const ColorSelector = ({ items, update }) => {
       setValue={setLocalValue} // This prop works in a dumb way - onSelectItem is used for state updates for ease of mind
       listMode={"SCROLLVIEW"}
       mode="BADGE"
+      dropDownContainerStyle={{
+        borderWidth: 0.5,
+      }}
       dropDownDirection="BOTTOM"
       placeholder="Select items"
       showBadgeDot={false}

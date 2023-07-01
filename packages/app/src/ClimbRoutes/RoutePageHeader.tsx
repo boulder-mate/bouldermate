@@ -15,7 +15,8 @@ var wallImage = require("../../assets/images/wall-image.jpg");
 export const EXPANDED_IMG_HEIGHT = 550;
 export const CARD_IMG_HEIGHT = 220;
 
-export const RoutePageHeader = () => {
+// Pass in the route and children, which will be an element apart of HeaderButtons
+export const RoutePageHeader = ({ route, children }) => {
   const [expanded, updateExpanded] = useState(false);
 
   return (
@@ -54,9 +55,7 @@ export const RoutePageHeader = () => {
             <Octicons name="star-fill" style={styles.dots} />
           </View>
         </View>
-        <TouchableHighlight style={styles.addProject}>
-          <Text style={styles.projectText}>Add to Projects +</Text>
-        </TouchableHighlight>
+        {children}
       </View>
     </View>
   );
@@ -101,23 +100,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     flex: 1,
     marginRight: 15,
-  },
-  addProject: {
-    borderWidth: 1,
-    borderColor: "black",
-    backgroundColor: "green",
-    paddingVertical: 5,
-    paddingHorizontal: 8,
-    borderRadius: 10,
-    height: 40,
-    width: 150,
-    alignItems: "center",
-  },
-  projectText: {
-    marginTop: 4,
-    fontSize: 15,
-    fontFamily: "Lexend",
-    color: "white",
   },
   desc: {
     backgroundColor: "white",
