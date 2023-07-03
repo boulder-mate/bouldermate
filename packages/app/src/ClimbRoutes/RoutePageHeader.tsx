@@ -19,11 +19,13 @@ export const CARD_IMG_HEIGHT = 220;
 export const RoutePageHeader = ({ route, children }) => {
   const [expanded, updateExpanded] = useState(false);
 
+  console.log(route);
+
   return (
     <View>
       <TouchableHighlight onPress={() => updateExpanded(!expanded)}>
         <ImageBackground
-          source={wallImage}
+          source={{ uri: route.image }}
           resizeMode="cover"
           style={{ height: expanded ? EXPANDED_IMG_HEIGHT : CARD_IMG_HEIGHT }}
           imageStyle={styles.imageContainer}
@@ -44,15 +46,23 @@ export const RoutePageHeader = ({ route, children }) => {
             numberOfLines={1}
             adjustsFontSizeToFit={true}
           >
-            Little Green Fuckers
+            {route.name}
           </Text>
           <View style={styles.desc}>
-            <Text style={styles.descText}>Green</Text>
+            <Text style={styles.descText}>{route.colors}</Text>
             <Octicons name="dot-fill" style={styles.dots} />
-            <Text style={styles.descText}>V7</Text>
-            <Octicons name="dot-fill" style={styles.dots} />
-            <Text style={styles.descText}>4.71</Text>
-            <Octicons name="star-fill" style={styles.dots} />
+            {route.grade && (
+              <>
+                <Text style={styles.descText}>{route.grade.value}</Text>
+                <Octicons name="dot-fill" style={styles.dots} />
+              </>
+            )}
+            {route.ratings && (
+              <>
+                <Text style={styles.descText}>4.71</Text>
+                <Octicons name="star-fill" style={styles.dots} />
+              </>
+            )}
           </View>
         </View>
         {children}

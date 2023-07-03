@@ -16,13 +16,17 @@ import { RouteDiscussion } from "./RouteDiscussion";
 
 let height = Dimensions.get("screen").height;
 
-export const RoutePage = ({ route, headerButton }) => {
+// Input refers to page route, not the object
+export const RoutePage = ({ route }) => {
   const [selected, updateSelected] = useState("Details");
+  var routeObj = route.params.route;
+  var headerButton = route.params.headerButton;
 
   return (
     <View style={styles.container}>
       <LinearGradient start={{ x: 0.5, y: 0.5 }} colors={["#FFF", "#EEE"]}>
-        <RoutePageHeader route={route}>{headerButton}</RoutePageHeader>
+        <RoutePageHeader route={routeObj}>{headerButton()}</RoutePageHeader>
+        
         <SectionSelector selected={selected} updateSelected={updateSelected} />
         {selected === "Disc" ? <RouteDiscussion /> : <RouteMetadata />}
       </LinearGradient>

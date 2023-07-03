@@ -72,8 +72,9 @@ export const RouteUpload = () => {
                 Alert.alert("Whoops!", valResponse);
                 return;
               } else {
+                navigation.setOptions();
                 navigation.navigate("RoutePage", {
-                  route,
+                  route, 
                   headerButton: HeaderButtons.Upload,
                 });
               }

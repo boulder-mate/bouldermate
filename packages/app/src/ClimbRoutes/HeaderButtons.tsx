@@ -1,4 +1,4 @@
-import { TouchableHighlight, Text, StyleSheet } from "react-native";
+import { TouchableHighlight, Text, StyleSheet, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 const AddToProjects = () => {
@@ -13,12 +13,13 @@ const AddToProjects = () => {
 
 const Upload = () => {
   return (
-    <TouchableHighlight
-      style={[styles.headerButton, { backgroundColor: "green" }]}
-    >
-      <Text style={styles.buttonText}>
-        Upload <Ionicons name="upload" />
-      </Text>
+    <TouchableHighlight>
+      <View
+        style={[styles.headerButton, { backgroundColor: "green", width: 120 }]}
+      >
+        <Text style={styles.buttonText}>Upload</Text>
+        <Ionicons name="cloud-upload" size={20} color="white" />
+      </View>
     </TouchableHighlight>
   );
 };
@@ -36,13 +37,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     borderRadius: 10,
     height: 40,
-    width: 150,
+    maxWidth: 150,
+    gap: 8,
     alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
   },
   buttonText: {
-    marginTop: 4,
-    fontSize: 15,
+    fontSize: 16,
     fontFamily: "Lexend",
     color: "white",
+    textAlignVertical: "center",
   },
 });
