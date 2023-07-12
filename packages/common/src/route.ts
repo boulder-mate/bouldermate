@@ -18,6 +18,8 @@ export type Route = Time & ID & {
     location: ID,
     ratings?: Rating[], 
     comments?: Rating[],
+    ascents?: number, // Derived
+    projects?: number, // Derived
     // Comments are stored in their own collection, so are not apart. Data will get inflated otherwise
     // They can be found via the ID of the route (similarly for location comments)
 }
