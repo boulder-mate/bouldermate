@@ -9,6 +9,7 @@ import {
 import Octicons from "react-native-vector-icons/Octicons";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { useState } from "react";
+import { ColorDisplay } from "./Uploads/UploadMetadata";
 
 var wallImage = require("../../assets/images/wall-image.jpg");
 
@@ -49,19 +50,16 @@ export const RoutePageHeader = ({ route, children }) => {
             {route.name}
           </Text>
           <View style={styles.desc}>
-            <Text style={styles.descText}>{route.colors}</Text>
-            <Octicons name="dot-fill" style={styles.dots} />
-            {route.grade && (
-              <>
-                <Text style={styles.descText}>{route.grade.value}</Text>
-                <Octicons name="dot-fill" style={styles.dots} />
-              </>
+            <Text style={styles.descText}>{route.colors.join("/")}</Text>
+            <ColorDisplay colors={route.colors} size={14} />
+            {route.ratings && <Text style={styles.descText}>4.71</Text>}
+            {route.ratings && route.grades && (
+              <Octicons name="dot-fill" style={styles.dots} />
             )}
-            {route.ratings && (
-              <>
-                <Text style={styles.descText}>4.71</Text>
-                <Octicons name="star-fill" style={styles.dots} />
-              </>
+            {route.grades && (
+              <Text style={styles.descText}>
+                Grade {route.grades.routesetter.value}
+              </Text>
             )}
           </View>
         </View>
@@ -115,6 +113,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     flexDirection: "row",
     alignItems: "center",
+    gap: 5,
   },
   descText: {
     fontFamily: "Lexend",
@@ -124,6 +123,5 @@ const styles = StyleSheet.create({
   dots: {
     alignSelf: "center",
     marginTop: 3,
-    marginHorizontal: 10,
   },
 });

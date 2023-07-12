@@ -48,6 +48,8 @@ export const RouteUpload = () => {
       ...metadata,
       scale: undefined,
       grade: undefined,
+      active: true,
+      created: new Date().toISOString(),
       grades,
     };
   };
@@ -74,7 +76,7 @@ export const RouteUpload = () => {
               } else {
                 navigation.setOptions();
                 navigation.navigate("RoutePage", {
-                  route, 
+                  route,
                   headerButton: HeaderButtons.Upload,
                 });
               }
@@ -181,7 +183,8 @@ const ValidateInput = (route) => {
   !route.image && missing.push("upload an image");
   !route.name && missing.push("choose a name");
   !route.colors?.length && missing.push("select at least one color");
-  !route.routsetters?.length && missing.push("select at least one routesetter");
+  !route.routesetters?.length &&
+    missing.push("select at least one routesetter");
   !route.type && missing.push("select a route type");
 
   console.log(missing);

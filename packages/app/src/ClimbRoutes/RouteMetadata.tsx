@@ -7,6 +7,7 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
+import moment from "moment";
 import { LinearGradient } from "expo-linear-gradient";
 
 import Entypo from "react-native-vector-icons/Entypo";
@@ -16,7 +17,9 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 const Climber = require("../../assets/images/climber.png");
 let height = Dimensions.get("screen").height;
 
-export const RouteMetadata = (route) => {
+export const RouteMetadata = ({ route }) => {
+  console.log("METROUTE", route);
+
   return (
     <ScrollView style={{ height, overflow: "scroll" }} persistentScrollbar>
       <View style={styles.container}>
@@ -44,7 +47,7 @@ export const RouteMetadata = (route) => {
             />
           }
           label="Gym"
-          value={"Urban Climb Blackburn"}
+          value={route.gym}
         />
         <MetadataField
           icon={
@@ -55,7 +58,7 @@ export const RouteMetadata = (route) => {
             />
           }
           label="Routesetters"
-          value={"Jonathon Brown, Jack Gilmore"}
+          value={route.routesetters.join(", ")}
         />
         <MetadataField
           icon={
@@ -66,7 +69,7 @@ export const RouteMetadata = (route) => {
             />
           }
           label="DOB"
-          value={"10th July 2023"}
+          value={moment(new Date(route.created)).format("DD[th] MMMM YYYY")}
         />
         <MetadataField
           icon={
@@ -77,11 +80,11 @@ export const RouteMetadata = (route) => {
             />
           }
           label="Ascents"
-          value={"48"}
+          value={route.ascents || 0}
         />
         <MetadataField
           label="Projects"
-          value="573"
+          value={route.projects || 0}
           icon={
             <Image
               source={Climber}
@@ -101,7 +104,7 @@ export const RouteMetadata = (route) => {
             />
           }
           label="Routesetter Grade"
-          value={"V7"}
+          value={route.grades.routesetter.value || "N/A"}
         />
         <MetadataField
           icon={
@@ -112,7 +115,8 @@ export const RouteMetadata = (route) => {
             />
           }
           label="Avg. User Grade"
-          value="V7"
+          value={route.grades.user && route.grades.user[0]?.value || "N/A"}
+          // value={route.grades.user && route.grades.user[0]?.value} This will take some further care
         />
         <MetadataField
           icon={
@@ -125,6 +129,19 @@ export const RouteMetadata = (route) => {
           label="My Grade"
           value={"Add this as a project to grade this climb!"}
         />
+        {route.notes && (
+          <MetadataField
+            icon={
+              <Entypo
+                name="tools"
+                size={20}
+                style={{ width: 20, marginRight: "auto" }}
+              />
+            }
+            label="Routesetter Notes"
+            value={route.notes}
+          />
+        )}
         <View style={{ height: 550 }} />
       </View>
     </ScrollView>

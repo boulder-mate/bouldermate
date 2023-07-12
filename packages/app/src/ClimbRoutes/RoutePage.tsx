@@ -26,9 +26,13 @@ export const RoutePage = ({ route }) => {
     <View style={styles.container}>
       <LinearGradient start={{ x: 0.5, y: 0.5 }} colors={["#FFF", "#EEE"]}>
         <RoutePageHeader route={routeObj}>{headerButton()}</RoutePageHeader>
-        
+
         <SectionSelector selected={selected} updateSelected={updateSelected} />
-        {selected === "Disc" ? <RouteDiscussion /> : <RouteMetadata />}
+        {selected === "Disc" ? (
+          <RouteDiscussion />
+        ) : (
+          <RouteMetadata route={routeObj} />
+        )}
       </LinearGradient>
     </View>
   );
