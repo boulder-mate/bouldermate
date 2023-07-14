@@ -18,8 +18,6 @@ const Climber = require("../../assets/images/climber.png");
 let height = Dimensions.get("screen").height;
 
 export const RouteMetadata = ({ route }) => {
-  console.log("METROUTE", route);
-
   return (
     <ScrollView style={{ height, overflow: "scroll" }} persistentScrollbar>
       <View style={styles.container}>
@@ -47,7 +45,7 @@ export const RouteMetadata = ({ route }) => {
             />
           }
           label="Gym"
-          value={route.gym}
+          value={route.location}
         />
         <MetadataField
           icon={
@@ -115,7 +113,7 @@ export const RouteMetadata = ({ route }) => {
             />
           }
           label="Avg. User Grade"
-          value={route.grades.user && route.grades.user[0]?.value || "N/A"}
+          value={(route.grades.user && route.grades.user[0]?.value) || "N/A"}
           // value={route.grades.user && route.grades.user[0]?.value} This will take some further care
         />
         <MetadataField

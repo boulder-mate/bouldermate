@@ -20,8 +20,6 @@ export const CARD_IMG_HEIGHT = 220;
 export const RoutePageHeader = ({ route, children }) => {
   const [expanded, updateExpanded] = useState(false);
 
-  console.log(route);
-
   return (
     <View>
       <TouchableHighlight onPress={() => updateExpanded(!expanded)}>

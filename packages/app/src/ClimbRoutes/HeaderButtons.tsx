@@ -1,7 +1,22 @@
-import { TouchableHighlight, Text, StyleSheet, View } from "react-native";
+import {
+  TouchableHighlight,
+  Text,
+  StyleSheet,
+  View,
+  Alert,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { gql, useMutation } from "@apollo/client";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import * as Progress from "react-native-progress";
 
-const AddToProjects = () => {
+const UPLOAD_ROUTE = gql`
+  mutation CreateRoute($route: RouteInput!) {
+    createRoute(route: $route)
+  }
+`;
+
+export const AddToProjects = () => {
   return (
     <TouchableHighlight
       style={[styles.headerButton, { backgroundColor: "green" }]}
@@ -11,15 +26,55 @@ const AddToProjects = () => {
   );
 };
 
-const Upload = () => {
+export const Upload = (routeObj) => {
+  const [createRoute, result] = useMutation(UPLOAD_ROUTE);
+  const navigation = useNavigation<any>();
+
   return (
-    <TouchableHighlight>
-      <View
-        style={[styles.headerButton, { backgroundColor: "green", width: 120 }]}
-      >
-        <Text style={styles.buttonText}>Upload</Text>
-        <Ionicons name="cloud-upload" size={20} color="white" />
-      </View>
+    <TouchableHighlight
+      style={[styles.headerButton, { backgroundColor: "green", width: 120 }]}
+      onPress={async () => {
+        console.log("Uploading route", routeObj);
+        await createRoute({
+          variables: {
+            route: {
+              type: routeObj.type,
+              colors: routeObj.colors,
+              name: routeObj.name,
+              image: routeObj.image,
+              location: routeObj.location,
+              routesetters: routeObj.routesetters,
+              routesetter_grade: routeObj.grades?.routesetter, // Optional prop - can be null
+              notes: routeObj.notes, // Optional prop - can be null
+            },
+          },
+        });
+
+        if (result.error) {
+          console.log("Graphql route upload error:", result.error);
+          Alert.alert(
+            "Error",
+            "An error occurred creating the route. Please notify BoulderMate support."
+          );
+        }
+
+        if (result.data) {
+          // result.data should simply be the id of the route
+          navigation.navigate("RoutePage", {
+            routeObj,
+            headerButton: HeaderButtons.AddToProjects,
+          }); // Pass in the id and route for a faster page
+        }
+      }}
+    >
+      {result.loading ? (
+        <Progress.Circle color={"white"} size={25} indeterminate />
+      ) : (
+        <>
+          <Text style={styles.buttonText}>Upload</Text>
+          <Ionicons name="cloud-upload" size={20} color="white" />
+        </>
+      )}
     </TouchableHighlight>
   );
 };

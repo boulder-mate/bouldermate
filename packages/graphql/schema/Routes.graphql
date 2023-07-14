@@ -34,7 +34,7 @@ type Grades {
 
 input RouteInput {
     type: RouteTypes!
-    color: String!
+    colors: [String]!
     name: String!
     image: Upload!
     location: String!

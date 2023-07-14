@@ -6,7 +6,6 @@ import {
   ScrollView,
   Image,
   TextInput,
-  TouchableWithoutFeedback,
 } from "react-native";
 import { useState, useEffect } from "react";
 import {
@@ -56,12 +55,12 @@ export const UploadMetadata = ({ metadata, updateMetadata }) => {
               size={22}
             />
           }
-          label="Gym"
+          label="Gym" // This will be updated if we introduce outdoor locations
         >
           <Selector
             items={["Urban Climb Blackburn", "BoulderLabs Clayton"]}
-            value={metadata.gym}
-            update={(value: any) => updateMetadata({ ...metadata, gym: value })}
+            value={metadata.location}
+            update={(value: any) => updateMetadata({ ...metadata, location: value })}
           />
         </UploadMetadataField>
         <UploadMetadataField

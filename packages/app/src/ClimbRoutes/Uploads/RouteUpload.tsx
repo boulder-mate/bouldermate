@@ -10,31 +10,30 @@ import {
   Alert,
   TouchableWithoutFeedback,
 } from "react-native";
-
 import { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
+import { useNavigation } from "@react-navigation/native";
 
 import Entypo from "react-native-vector-icons/Entypo";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import AntDesign from "react-native-vector-icons/AntDesign";
-import { RouteCamera } from "./RouteCamera";
 
+import { RouteCamera } from "./RouteCamera";
 import { EXPANDED_IMG_HEIGHT, CARD_IMG_HEIGHT } from "../RoutePageHeader";
 import { UploadMetadata } from "./UploadMetadata";
-import { useNavigation } from "@react-navigation/native";
 import { HeaderButtons } from "../HeaderButtons";
 
 let height = Dimensions.get("screen").height;
 
 export const RouteUpload = () => {
   const [metadata, updateMetadata] = useState<any>({});
-  // Infer the gym, route type and one routesetter
+  // Infer the gym, route type and one routesetter from params!
   const [header, updateHeader] = useState<any>({});
 
   const navigation = useNavigation<any>();
 
   const stateToRoute = () => {
-    // Kills two birds with one stone:
+    // This function does two things:
     // Merges all the data to send to the backend
     // Ensures scale and grade are always mutually selected on behalf of the backend
     let grades = undefined;
@@ -43,15 +42,17 @@ export const RouteUpload = () => {
         routesetter: { scale: metadata.scale, value: metadata.grade },
       };
     }
-    return {
+    var outRoute = {
       ...header,
       ...metadata,
-      scale: undefined,
-      grade: undefined,
       active: true,
       created: new Date().toISOString(),
       grades,
     };
+    delete outRoute.scale;
+    delete outRoute.grade;
+
+    return outRoute;
   };
 
   console.log("\n");
@@ -67,8 +68,8 @@ export const RouteUpload = () => {
             updateHeader={updateHeader}
             onPreview={() => {
               // First, validate
-              let route = stateToRoute();
-              let valResponse = ValidateInput(route);
+              let routeObj = stateToRoute();
+              let valResponse = ValidateInput(routeObj);
 
               if (valResponse) {
                 Alert.alert("Whoops!", valResponse);
@@ -76,8 +77,8 @@ export const RouteUpload = () => {
               } else {
                 navigation.setOptions();
                 navigation.navigate("RoutePage", {
-                  route,
-                  headerButton: HeaderButtons.Upload,
+                  route: routeObj,
+                  headerButton: () => HeaderButtons.Upload(routeObj),
                 });
               }
             }}
@@ -129,7 +130,6 @@ export const UploadHeader = ({ header, updateHeader, onPreview }) => {
       <RouteCamera
         height={EXPANDED_IMG_HEIGHT}
         onCapture={(imgURI) => {
-          console.log("Updating header");
           updateHeader({ ...header, image: imgURI });
         }}
       />
@@ -179,16 +179,13 @@ export const UploadHeader = ({ header, updateHeader, onPreview }) => {
 const ValidateInput = (route) => {
   // Returns text indicating missing fields or empty string if satisfied
   var missing = [];
-  !route.gym && missing.push("select a gym");
+  !route.location && missing.push("select a gym");
   !route.image && missing.push("upload an image");
   !route.name && missing.push("choose a name");
   !route.colors?.length && missing.push("select at least one color");
   !route.routesetters?.length &&
     missing.push("select at least one routesetter");
   !route.type && missing.push("select a route type");
-
-  console.log(missing);
-  console.log(missing.slice(0, -1));
 
   if (missing.length === 0) return "";
   else if (missing.length === 1) return "Please " + missing[0] + ".";

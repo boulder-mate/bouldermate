@@ -37,7 +37,12 @@ export class MongoDatabase {
     public async connect() {
         // Establish client connection and database
         console.log("Connecting to MongoDB...")
-        await this.client.connect();
+        try {
+            await this.client.connect();
+        } catch (err: any) {
+            throw Error(`Unable to connect mongo - ${err.message}`)
+        }
+        
         const db = this.client.db(this.databaseName);
 
         // Establish collections

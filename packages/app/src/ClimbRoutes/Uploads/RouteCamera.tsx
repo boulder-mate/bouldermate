@@ -18,18 +18,17 @@ export function RouteCamera({ height, onCapture }) {
   const [galleryPermission, setGalleryPermission] = useState(null);
 
   const [camera, setCamera] = useState(null);
-  const [border, setBorder] = useState("black");
-  const [buttonColor, setButtonColor] = useState("white");
+  const [pressed, setPressed] = useState(false);
 
   const permisionFunction = async () => {
     // here is how you can get the camera permission
     const cameraPermission = await Camera.requestCameraPermissionsAsync();
-    console.log(cameraPermission.status);
+    console.log("CAMERA PERMISSION:", cameraPermission.status);
 
     setCameraPermission(cameraPermission.status === "granted");
 
     const imagePermission = await ImagePicker.getMediaLibraryPermissionsAsync();
-    console.log(imagePermission.status);
+    console.log("IMAGE PERMISSION:", imagePermission.status);
 
     setGalleryPermission(imagePermission.status === "granted");
   };
@@ -57,7 +56,6 @@ export function RouteCamera({ height, onCapture }) {
       quality: 1,
     });
 
-    console.log(result);
     if (!result.canceled) {
       onCapture(result.assets[0].uri);
     }
@@ -97,19 +95,20 @@ export function RouteCamera({ height, onCapture }) {
             <Ionicons name="camera-reverse" size={35} color="white" />
           </TouchableOpacity>
         </View>
-        <CardOutline />
+        <CardOutline color={pressed ? "red" : "white"} />
         <View style={styles.captureContainer}>
           <TouchableOpacity
             style={[
               styles.captureButton,
-              { borderColor: border, backgroundColor: buttonColor },
+              {
+                borderColor: "black",
+                backgroundColor: pressed ? "red" : "white",
+              },
             ]}
             onPress={async () => {
-              setBorder("red");
+              setPressed(true);
               await takePicture();
             }}
-            onPressIn={() => setButtonColor("red")}
-            onPressOut={() => setButtonColor("white")}
           />
         </View>
       </Camera>
@@ -117,18 +116,18 @@ export function RouteCamera({ height, onCapture }) {
   );
 }
 
-const CardOutline = () => {
+const CardOutline = ({ color }) => {
   return (
     <View>
       <MaterialCommunityIcons
         name="rounded-corner"
-        color="white"
+        color={color}
         size={30}
         style={{ position: "absolute", top: CARD_OUTLINE_UPPER, right: 0 }}
       />
       <MaterialCommunityIcons
         name="rounded-corner"
-        color="white"
+        color={color}
         size={30}
         style={{
           position: "absolute",
@@ -139,7 +138,7 @@ const CardOutline = () => {
       />
       <MaterialCommunityIcons
         name="rounded-corner"
-        color="white"
+        color={color}
         size={30}
         style={{
           position: "absolute",
@@ -150,7 +149,7 @@ const CardOutline = () => {
       />
       <MaterialCommunityIcons
         name="rounded-corner"
-        color="white"
+        color={color}
         size={30}
         style={{
           position: "absolute",
