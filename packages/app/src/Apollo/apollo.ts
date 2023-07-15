@@ -10,11 +10,11 @@ import {
   import { createClient } from "graphql-ws";
   import { makeVar } from "@apollo/client";
   
-  import Constants from "expo-constants";
-  
-  const GQL_HOSTNAME = Constants?.manifest?.extra?.gqlHostname;
-  const WEBSOCKET_PREFIX = Constants?.manifest?.extra?.wsPrefix;
-  const HTTP_PREFIX = Constants?.manifest?.extra?.httpPrefix;
+  import env from "../envManager";
+
+  const GQL_HOSTNAME = env.GQL_HOSTNAME
+  const WEBSOCKET_PREFIX = env.WS_PREFIX
+  const HTTP_PREFIX = env.HTTP_PREFIX
   export const tokenVar = makeVar("");
   
   const wsLink = new GraphQLWsLink(

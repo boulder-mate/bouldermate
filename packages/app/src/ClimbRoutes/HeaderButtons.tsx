@@ -9,6 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 import { gql, useMutation } from "@apollo/client";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as Progress from "react-native-progress";
+import { useState } from "react";
 
 const UPLOAD_ROUTE = gql`
   mutation CreateRoute($route: RouteInput!) {
@@ -28,6 +29,7 @@ export const AddToProjects = () => {
 
 export const Upload = (routeObj) => {
   const [createRoute, result] = useMutation(UPLOAD_ROUTE);
+  const [submitting, updateSubmitting] = useState(false);
   const navigation = useNavigation<any>();
 
   return (
@@ -35,39 +37,44 @@ export const Upload = (routeObj) => {
       style={[styles.headerButton, { backgroundColor: "green", width: 120 }]}
       onPress={async () => {
         console.log("Uploading route", routeObj);
-        await createRoute({
-          variables: {
-            route: {
-              type: routeObj.type,
-              colors: routeObj.colors,
-              name: routeObj.name,
-              image: routeObj.image,
-              location: routeObj.location,
-              routesetters: routeObj.routesetters,
-              routesetter_grade: routeObj.grades?.routesetter, // Optional prop - can be null
-              notes: routeObj.notes, // Optional prop - can be null
+        updateSubmitting(true);
+        try {
+          // Call the mutation
+          await createRoute({
+            variables: {
+              route: {
+                type: routeObj.type,
+                colors: routeObj.colors,
+                name: routeObj.name,
+                image: routeObj.image,
+                location: routeObj.location,
+                routesetters: routeObj.routesetters,
+                routesetter_grade: routeObj.grades?.routesetter, // Optional prop - can be null
+                notes: routeObj.notes, // Optional prop - can be null
+              },
             },
-          },
-        });
+          });
 
-        if (result.error) {
-          console.log("Graphql route upload error:", result.error);
+          // Handle the result if there were no issues calling the function
+          if (result.error) throw Error(`${result.error}`);
+          if (result.data) {
+            // result.data should simply be the id of the route
+            navigation.navigate("RoutePage", {
+              routeObj,
+              headerButton: HeaderButtons.AddToProjects,
+            }); // Pass in the id and route for a faster page
+          }
+        } catch (err) {
+          console.log("Graphql route upload error:", err);
           Alert.alert(
             "Error",
             "An error occurred creating the route. Please notify BoulderMate support."
           );
-        }
-
-        if (result.data) {
-          // result.data should simply be the id of the route
-          navigation.navigate("RoutePage", {
-            routeObj,
-            headerButton: HeaderButtons.AddToProjects,
-          }); // Pass in the id and route for a faster page
+          updateSubmitting(false);
         }
       }}
     >
-      {result.loading ? (
+      {submitting ? (
         <Progress.Circle color={"white"} size={25} indeterminate />
       ) : (
         <>

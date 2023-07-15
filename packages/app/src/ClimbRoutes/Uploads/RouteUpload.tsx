@@ -39,7 +39,7 @@ export const RouteUpload = () => {
     let grades = undefined;
     if (metadata.scale && metadata.grade) {
       grades = {
-        routesetter: { scale: metadata.scale, value: metadata.grade },
+        routesetter: { type: metadata.scale, value: metadata.grade },
       };
     }
     var outRoute = {
