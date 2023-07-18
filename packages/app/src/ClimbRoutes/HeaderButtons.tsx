@@ -10,6 +10,7 @@ import { gql, useMutation } from "@apollo/client";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as Progress from "react-native-progress";
 import { useState } from "react";
+import { ReactNativeFile } from "apollo-upload-client";
 
 const UPLOAD_ROUTE = gql`
   mutation CreateRoute($route: RouteInput!) {
@@ -36,22 +37,29 @@ export const Upload = (routeObj) => {
     <TouchableHighlight
       style={[styles.headerButton, { backgroundColor: "green", width: 120 }]}
       onPress={async () => {
-        console.log("Uploading route", routeObj);
         updateSubmitting(true);
         try {
+          // Create input object
+          const route = {
+            type: routeObj.type,
+            colors: routeObj.colors,
+            name: routeObj.name,
+            image: new ReactNativeFile({
+              name: `testimage.png`,
+              type: "image/png",
+              uri: routeObj.image.uri,
+            }),
+
+            location: routeObj.location,
+            routesetters: routeObj.routesetters,
+            routesetter_grade: routeObj.grades?.routesetter, // Optional prop - can be null
+            notes: routeObj.notes, // Optional prop - can be null
+          };
+          console.log("Uploading object", route)
           // Call the mutation
           await createRoute({
             variables: {
-              route: {
-                type: routeObj.type,
-                colors: routeObj.colors,
-                name: routeObj.name,
-                image: routeObj.image,
-                location: routeObj.location,
-                routesetters: routeObj.routesetters,
-                routesetter_grade: routeObj.grades?.routesetter, // Optional prop - can be null
-                notes: routeObj.notes, // Optional prop - can be null
-              },
+              route,
             },
           });
 

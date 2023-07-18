@@ -43,8 +43,8 @@ export function RouteCamera({ height, onCapture }) {
       data = await manipulateAsync(data.uri, ops, {
         format: SaveFormat.PNG,
       });
-      // Save the URI
-      onCapture(data.uri);
+      // Save the image
+      onCapture(data);
     }
   };
 
@@ -57,7 +57,7 @@ export function RouteCamera({ height, onCapture }) {
     });
 
     if (!result.canceled) {
-      onCapture(result.assets[0].uri);
+      onCapture(result.assets[0]);
     }
   };
 
@@ -95,7 +95,7 @@ export function RouteCamera({ height, onCapture }) {
             <Ionicons name="camera-reverse" size={35} color="white" />
           </TouchableOpacity>
         </View>
-        <CardOutline color={pressed ? "red" : "white"} />
+        <CardOutline color={"white"} />
         <View style={styles.captureContainer}>
           <TouchableOpacity
             style={[

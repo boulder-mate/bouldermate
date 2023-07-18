@@ -14,7 +14,7 @@ import { ColorDisplay } from "./Uploads/UploadMetadata";
 var wallImage = require("../../assets/images/wall-image.jpg");
 
 export const EXPANDED_IMG_HEIGHT = 550;
-export const CARD_IMG_HEIGHT = 220;
+export const CARD_IMG_HEIGHT = 250;
 
 // Pass in the route and children, which will be an element apart of HeaderButtons
 export const RoutePageHeader = ({ route, children }) => {
@@ -24,7 +24,7 @@ export const RoutePageHeader = ({ route, children }) => {
     <View>
       <TouchableHighlight onPress={() => updateExpanded(!expanded)}>
         <ImageBackground
-          source={{ uri: route.image }}
+          source={{ uri: route.image.uri }}
           resizeMode="cover"
           style={{ height: expanded ? EXPANDED_IMG_HEIGHT : CARD_IMG_HEIGHT }}
           imageStyle={styles.imageContainer}
@@ -56,7 +56,7 @@ export const RoutePageHeader = ({ route, children }) => {
             )}
             {route.grades && (
               <Text style={styles.descText}>
-                Grade {route.grades.routesetter.value}
+                {route.grades.routesetter.value}
               </Text>
             )}
           </View>
@@ -95,7 +95,6 @@ const styles = StyleSheet.create({
     height: 75,
     marginTop: "auto",
     alignItems: "center",
-    paddingVertical: 12,
     paddingHorizontal: 15,
     borderTopWidth: 0.5,
     borderBottomWidth: 0.5,

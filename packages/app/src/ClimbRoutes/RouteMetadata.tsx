@@ -161,7 +161,7 @@ const MetadataField = ({ label, value, icon }) => {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 16,
-    paddingVertical: 15,
+    paddingVertical: 10,
     gap: 17,
     flexDirection: "column",
     alignContent: "space-between",
