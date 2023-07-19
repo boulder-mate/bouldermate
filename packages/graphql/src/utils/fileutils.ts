@@ -1,27 +1,40 @@
+import { ReadStream } from "fs"
 import {s3} from "../aws"
-import 
+import { GetObjectCommand, PutObjectCommand, PutObjectCommandInput } from "@aws-sdk/client-s3"
 
-const IMAGES_BUCKET = "bouldermate-images"
+export const uploadImage = async (file: any, keyName: string) => {
+  // Convert file stream to buffer inpreparation for AWS upload
+  const stream: ReadStream = file.createReadStream()
+  const buffer = await streamToBuffer(stream)
 
-export const uploadImage = async (filePath: string, keyName: string) => {
   console.log("[AWS] Uploading image to AWS:", keyName)
     try {
-      var fs = require('fs');
-      const file = fs.readFileSync(filePath);
-      const BUCKET = IMAGES_BUCKET;
-      
-      const uploadParams = {
-        Bucket: BUCKET,
+      // First upload the object to AWS
+      const uploadParams: PutObjectCommandInput = {
+        Bucket: process.env.S3_BUCKET,
         Key: keyName,
-        Body: file
+        ContentType: "image",
+        Body: buffer,
       };
       
-      await s3.upload(uploadParams, function (err: any, data: any) {
-        if (err) throw err;
-        if (data) return data;
-      });
+      const uploadCommand = new PutObjectCommand(uploadParams)
+      await s3.send(uploadCommand);
       console.log("[AWS] Image uploaded successfully")
+
+      // Then we need to return it's public URL
+      return `https://${process.env.S3_BUCKET}.s3.${process.env.S3_REGION}.amazonaws.com/${keyName}`
+      
     } catch (err: any) {
-      throw Error(`Error uploading to AWS ${err}`);
+      throw Error(`Error uploading to AWS - ${err}`);
     }
+  }
+
+  async function streamToBuffer(stream: ReadStream): Promise<Buffer> {
+    return new Promise<Buffer>((resolve, reject) => {
+      const _buf: any[] = [];
+  
+      stream.on('data', (chunk) => _buf.push(chunk));
+      stream.on('end', () => resolve(Buffer.concat(_buf)));
+      stream.on('error', (err) => reject(err));
+    });
   }

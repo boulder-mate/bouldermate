@@ -14,15 +14,17 @@ import {
   import env from "../envManager";
   
   export const tokenVar = makeVar("");
+  const gqlUrl = `${env.HTTP_PREFIX}://${env.GQL_HOSTNAME}`
+  console.log("Initialising GQL at URL", gqlUrl)
   
-  const uploadsLink = createUploadLink({ uri: `${env.HTTP_PREFIX}://${env.GQL_HOSTNAME}` })
+  const uploadsLink = createUploadLink({ uri: gqlUrl })
 
   const authLink = new ApolloLink((operation, forward) => {
     if (tokenVar()) {
       operation.setContext({
         headers: {
           Authorization: `Bearer ${tokenVar()}`,
-          'Apollo-Require-Preflight': 'true'
+          'Apollo-Require-Preflight': true
         },
       });
     }

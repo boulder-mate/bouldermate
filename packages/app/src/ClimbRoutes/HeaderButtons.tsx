@@ -13,7 +13,7 @@ import { useState } from "react";
 import { ReactNativeFile } from "apollo-upload-client";
 
 const UPLOAD_ROUTE = gql`
-  mutation CreateRoute($image: Upload) {
+  mutation CreateRoute($image: Upload!) {
     createRoute(image: $image)
   }
 `;
