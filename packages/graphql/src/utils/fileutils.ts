@@ -1,9 +1,10 @@
 import {s3} from "../aws"
+import 
 
 const IMAGES_BUCKET = "bouldermate-images"
 
-export const uploadImage = (filePath: string, keyName: string) => {
-  return new Promise((resolve, reject) => {
+export const uploadImage = async (filePath: string, keyName: string) => {
+  console.log("[AWS] Uploading image to AWS:", keyName)
     try {
       var fs = require('fs');
       const file = fs.readFileSync(filePath);
@@ -15,12 +16,12 @@ export const uploadImage = (filePath: string, keyName: string) => {
         Body: file
       };
       
-      s3.upload(uploadParams, function (err: any, data: any) {
-        if (err) return reject(err);
-        if (data) return resolve(data);
+      await s3.upload(uploadParams, function (err: any, data: any) {
+        if (err) throw err;
+        if (data) return data;
       });
-    } catch (err) {
-      return reject(err);
+      console.log("[AWS] Image uploaded successfully")
+    } catch (err: any) {
+      throw Error(`Error uploading to AWS ${err}`);
     }
-  })
-}
+  }

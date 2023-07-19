@@ -10,13 +10,16 @@ export async function createRoute(
     args: any,
     context: AuthContext,
     info: any): Promise<string> {
-      var input = args.route;
+      console.log("received frontend call with args", args)
+      var input = args.image;
+      if (!input) return "no image found"
+
       console.log("Received route input for upload:", input)
       // Need to handle the image upload first
-      var uploadData = await uploadImage(args.image, args.name + uuid())
+      var uploadData = await uploadImage(input, "testfile-" + uuid())
 
       console.log("image upload data:", uploadData)
-      return "test image";
+      return "test image success";
       var imageUrl = ""
 
       // Create object
