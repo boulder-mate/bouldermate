@@ -13,8 +13,8 @@ import { useState } from "react";
 import { ReactNativeFile } from "apollo-upload-client";
 
 const UPLOAD_ROUTE = gql`
-  mutation CreateRoute($route: RouteInput!) {
-    createRoute(route: $route)
+  mutation CreateRoute($image: Upload) {
+    createRoute(image: $image)
   }
 `;
 
@@ -55,11 +55,14 @@ export const Upload = (routeObj) => {
             routesetter_grade: routeObj.grades?.routesetter, // Optional prop - can be null
             notes: routeObj.notes, // Optional prop - can be null
           };
-          console.log("Uploading object", route)
+          console.log("Uploading object", route);
+
+          const image = route.image;
+
           // Call the mutation
           await createRoute({
             variables: {
-              route,
+              image,
             },
           });
 

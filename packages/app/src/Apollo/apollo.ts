@@ -15,11 +15,14 @@ import {
   
   export const tokenVar = makeVar("");
   
+  const uploadsLink = createUploadLink({ uri: `${env.HTTP_PREFIX}://${env.GQL_HOSTNAME}` })
+
   const authLink = new ApolloLink((operation, forward) => {
     if (tokenVar()) {
       operation.setContext({
         headers: {
           Authorization: `Bearer ${tokenVar()}`,
+          'Apollo-Require-Preflight': 'true'
         },
       });
     }
@@ -28,6 +31,6 @@ import {
   
   export const client = new ApolloClient({
     cache: new InMemoryCache(),
-    link: createUploadLink({ uri: `${env.HTTP_PREFIX}://${env.GQL_HOSTNAME}` }),
+    link: authLink.concat(uploadsLink),
   });
   
