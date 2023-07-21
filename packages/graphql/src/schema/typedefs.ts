@@ -10,12 +10,12 @@ const importGraphQL = (file: any) => {
 
 const ROUTES_GQL = importGraphQL("../../schema/Routes.graphql");
 const FEEDBACK_GQL = importGraphQL("../../schema/Feedback.graphql");
-const UPLOAD_GQL = importGraphQL("../../schema/Upload.graphql");
+const SCALARS_GQL = importGraphQL("../../schema/Scalars.graphql");
 
 export const GQL_SCHEMA_FILES = [
   ROUTES_GQL,
   FEEDBACK_GQL,
-  UPLOAD_GQL
+  SCALARS_GQL
 ];
 
 // Initialise typeDefs

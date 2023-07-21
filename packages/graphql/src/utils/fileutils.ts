@@ -8,6 +8,8 @@ export const uploadImage = async (file: any, keyName: string) => {
   const stream: ReadStream = file.createReadStream()
   const buffer = await streamToBuffer(stream)
 
+  console.log("image has buffer", buffer)
+
   console.log("[AWS] Uploading image to AWS:", keyName)
     try {
       // First upload the object to AWS
