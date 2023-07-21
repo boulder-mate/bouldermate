@@ -36,7 +36,7 @@ input RouteInput {
     type: RouteTypes!
     colors: [String]!
     name: String!
-    
+    image: Upload!
     location: String!
     routesetters: [String]!
     routesetter_grade: GradeInput
@@ -53,5 +53,5 @@ type Query {
 }
 
 type Mutation {
-    createRoute(image: Upload!): String!
+    createRoute(route: RouteInput!): String!
 }

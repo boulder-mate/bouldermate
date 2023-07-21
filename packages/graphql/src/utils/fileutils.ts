@@ -1,9 +1,10 @@
 import { ReadStream } from "fs"
 import {s3} from "../aws"
-import { GetObjectCommand, PutObjectCommand, PutObjectCommandInput } from "@aws-sdk/client-s3"
+import { PutObjectCommand, PutObjectCommandInput } from "@aws-sdk/client-s3"
 
 export const uploadImage = async (file: any, keyName: string) => {
   // Convert file stream to buffer inpreparation for AWS upload
+  console.log("Creating read stream and buffer for uploaded image")
   const stream: ReadStream = file.createReadStream()
   const buffer = await streamToBuffer(stream)
 
@@ -25,6 +26,7 @@ export const uploadImage = async (file: any, keyName: string) => {
       return `https://${process.env.S3_BUCKET}.s3.${process.env.S3_REGION}.amazonaws.com/${keyName}`
       
     } catch (err: any) {
+      console.log("[AWS] Error uploading image", err)
       throw Error(`Error uploading to AWS - ${err}`);
     }
   }

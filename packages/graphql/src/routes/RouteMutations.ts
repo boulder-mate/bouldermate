@@ -10,17 +10,12 @@ export async function createRoute(
     args: any,
     context: AuthContext,
     info: any): Promise<string> {
-      console.log("received frontend call with args", args)
-      var input = await args.image
-      if (!input) return "no image found"
+      var input = args.route
+      console.log("[GraphQL] Received route creation request")
 
-      console.log("Received route input for upload:", input)
       // Need to handle the image upload first
-      var uploadData = await uploadImage(input, "testfile_" + uuid())
-
-      console.log("image upload url:", uploadData)
-      return "test image success";
-      var imageUrl = ""
+      var image = await input.image;
+      var imageUrl = await uploadImage(image, "testfile_" + uuid())
 
       // Create object
       var route: Route = {
@@ -31,7 +26,7 @@ export async function createRoute(
             routesetter: input.routesetter_grade || undefined,
             user: []
         },
-        color: input.color,
+        colors: input.colors,
         active: true,
         name: input.name,
         routesetters: input.routesetters,
@@ -39,7 +34,9 @@ export async function createRoute(
         image: imageUrl,
       }
 
+      
       // Upload to database
+      console.log("[MongoDB] Uploading route", route)
       await db.routesCollection?.insertOne(route);
 
       // Return string id of newly created object

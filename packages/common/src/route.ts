@@ -1,6 +1,6 @@
 import { ID, LinkedID, Time } from "./abstract"
 import {Grade} from "./grades"
-import { Target, Rating } from "./feedback"
+import {Target, Rating } from "./feedback"
 
 export type Route = Time & ID & {
     type: RouteTypes,
@@ -8,7 +8,7 @@ export type Route = Time & ID & {
         routesetter?: Grade,
         user: Grade[]
     },
-    color: string,
+    colors: string[],
     name: string, // Set by the Route Setters on creation
     routesetters: ID[],
     notes?: string,
@@ -26,8 +26,7 @@ export type Route = Time & ID & {
 
 export enum RouteTypes {
     Boulder = "Boulder",
-    Lead = "Lead",
-    TopRope = "Top Rope",
+    Rope = "Rope"
     // Trad = "Trad", OUTDOORS NOT SUPPORTED YET
     // Ice = "Ice"
 }
