@@ -77,8 +77,9 @@ export const RouteUpload = () => {
               } else {
                 navigation.setOptions();
                 navigation.navigate("RoutePage", {
-                  route: routeObj,
+                  routeObj,
                   headerButton: () => HeaderButtons.Upload(routeObj),
+                  isPreview: true,
                 });
               }
             }}

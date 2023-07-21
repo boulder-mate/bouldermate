@@ -6,23 +6,102 @@ import {
   ImageBackground,
   Dimensions,
   TouchableHighlight,
+  Alert,
 } from "react-native";
-
+import { gql, useQuery } from "@apollo/client";
 import { useState } from "react";
 import { RoutePageHeader } from "./RoutePageHeader";
 import { RouteMetadata } from "./RouteMetadata";
 import { LinearGradient } from "expo-linear-gradient";
 import { RouteDiscussion } from "./RouteDiscussion";
+import * as Progress from "react-native-progress";
+
+const GET_ROUTE = gql`
+  query GetRouteById($id: String!) {
+    getRouteById(id: $id) {
+      _id
+      created
+      last_updated
+      type
+      grades {
+        routesetter {
+          type
+          value
+        }
+        user {
+          type
+          value
+        }
+      }
+      colors
+      name
+      routesetters
+      active
+      image
+      location
+    }
+  }
+`;
 
 let height = Dimensions.get("screen").height;
 
 // Input refers to page route, not the object
 export const RoutePage = ({ route }) => {
-  const [selected, updateSelected] = useState("Details");
-  var routeObj = route.params.route;
+  var routeObj = route.params.routeObj;
+  var routeId = route.params.id;
   var headerButton = route.params.headerButton;
-  console.log("Navigated to routepage with route");
+  var preview = route.params.isPreview || false;
 
+  // Can handle id or route input.
+  if (routeObj) {
+    console.log("Received RoutePage with object");
+    return (
+      <RoutePageByObject
+        routeObj={routeObj}
+        headerButton={headerButton}
+        isPreview={preview}
+      />
+    );
+  } else if (routeId) {
+    return <RoutePageById id={routeId} headerButton={headerButton} />;
+  }
+};
+
+const RoutePageById = ({ id, headerButton }) => {
+  // Use the id to query, then just return a RoutePageByObject
+  const { loading, data, error } = useQuery(GET_ROUTE, {
+    variables: {
+      id,
+    },
+  });
+
+  // Handle the possible query states
+  if (loading)
+    return (
+      <View style={styles.loadingPage}>
+        <Progress.Circle color={"white"} size={25} indeterminate />
+      </View>
+    );
+  if (error) {
+    console.log("GraphQL query error:", error);
+    Alert.alert(
+      "Error",
+      "An issue occurred loading this route. Please try again or notify BoulderMate support."
+    );
+    return <View />;
+  } else
+    return (
+      <RoutePageByObject
+        routeObj={data.getRouteById}
+        headerButton={headerButton}
+      />
+    );
+};
+
+const RoutePageByObject = ({ routeObj, headerButton, isPreview = false }) => {
+  const [selected, updateSelected] = useState("Details");
+
+  // Default page
   return (
     <View style={styles.container}>
       <LinearGradient start={{ x: 0.5, y: 0.5 }} colors={["#FFF", "#EEE"]}>
@@ -117,6 +196,11 @@ const styles = StyleSheet.create({
   selected: {
     width: "50%",
     height: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  loadingPage: {
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
   },

@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ImageBackground,
   TouchableHighlight,
+  Dimensions,
 } from "react-native";
 import Octicons from "react-native-vector-icons/Octicons";
 import AntDesign from "react-native-vector-icons/AntDesign";
@@ -15,18 +16,25 @@ var wallImage = require("../../assets/images/wall-image.jpg");
 
 export const EXPANDED_IMG_HEIGHT = 550;
 export const CARD_IMG_HEIGHT = 250;
+const width = Dimensions.get("screen").width;
 
 // Pass in the route and children, which will be an element apart of HeaderButtons
 export const RoutePageHeader = ({ route, children }) => {
   const [expanded, updateExpanded] = useState(false);
+  console.log("image:", route.image);
 
   return (
     <View>
       <TouchableHighlight onPress={() => updateExpanded(!expanded)}>
         <ImageBackground
-          source={{ uri: route.image }}
+          source={{
+            uri: route.image,
+          }}
           resizeMode="cover"
-          style={{ height: expanded ? EXPANDED_IMG_HEIGHT : CARD_IMG_HEIGHT }}
+          style={{
+            height: expanded ? EXPANDED_IMG_HEIGHT : CARD_IMG_HEIGHT,
+            width,
+          }}
           imageStyle={styles.imageContainer}
         >
           <View style={styles.expandButton}>

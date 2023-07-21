@@ -45,9 +45,9 @@ export const Upload = (routeObj) => {
             colors: routeObj.colors,
             name: routeObj.name,
             image: new ReactNativeFile({
-              name: `testimage.png`,
-              type: "image/png",
-              uri: routeObj.image.uri,
+              name: `testimage.jpeg`,
+              type: "image/jpeg",
+              uri: routeObj.image,
             }),
 
             location: routeObj.location,
@@ -57,7 +57,7 @@ export const Upload = (routeObj) => {
           };
 
           // Call the mutation
-          console.log("Sending route to GQL")
+          console.log("Sending route to GQL");
           var res: any = await createRoute({
             variables: {
               route,
@@ -71,17 +71,18 @@ export const Upload = (routeObj) => {
               "Uploaded route successfully with response",
               res?.data?.createRoute
             );
+
             // result.data should simply be the id of the route
             navigation.navigate("RoutePage", {
-              routeObj,
+              id: res?.data?.createRoute,
               headerButton: HeaderButtons.AddToProjects,
-            }); // Pass in the id and route for a faster page
+            });
           }
         } catch (err) {
           console.log("Graphql route upload (or navigation) error:", err);
           Alert.alert(
             "Error",
-            "An error occurred creating the route. Please notify BoulderMate support."
+            "An issue occurred creating this route. Please try again or notify BoulderMate support."
           );
           updateSubmitting(false);
         }
