@@ -36,15 +36,7 @@ export function RouteCamera({ height, onCapture }) {
   const takePicture = async () => {
     if (camera) {
       var data = await camera.takePictureAsync(null);
-      // Flip front facing photos, otherwise they look weird
-      const ops =
-        type === CameraType.front ? [{ flip: FlipType.Horizontal }] : [];
-      // Compress, and perform any necessary flipping
-      data = await manipulateAsync(data.uri, ops, {
-        format: SaveFormat.PNG,
-      });
-      // Save the image
-      onCapture(data);
+      compressAndSend(data);
     }
   };
 
@@ -53,12 +45,28 @@ export function RouteCamera({ height, onCapture }) {
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1,
     });
 
     if (!result.canceled) {
-      onCapture(result.assets[0]);
+      compressAndSend(result.assets[0], false);
     }
+  };
+
+  const compressAndSend = async (data, fromCamera = true) => {
+    // Flip front facing photos, otherwise they look weird
+    const ops =
+      fromCamera && type === CameraType.front
+        ? [{ flip: FlipType.Horizontal }]
+        : [];
+
+    // Compress, and perform any necessary flipping
+    data = await manipulateAsync(data.uri, ops, {
+      format: SaveFormat.JPEG,
+      compress: 0.5, // Half the file size - so much quicker
+    });
+
+    // Save the image
+    onCapture(data);
   };
 
   if (galleryPermission && cameraPermission.status)

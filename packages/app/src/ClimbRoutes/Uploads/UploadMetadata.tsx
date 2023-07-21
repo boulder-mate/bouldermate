@@ -83,8 +83,8 @@ export const UploadMetadata = ({ metadata, updateMetadata }) => {
               updateMetadata({
                 ...metadata,
                 type: value,
-                scale: undefined,
-                grade: undefined,
+                scale: null,
+                grade: null
               })
             }
           />

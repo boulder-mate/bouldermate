@@ -17,17 +17,20 @@ import {
   const gqlUrl = `${env.HTTP_PREFIX}://${env.GQL_HOSTNAME}`
   console.log("Initialising GQL at URL", gqlUrl)
   
-  const uploadsLink = createUploadLink({ uri: gqlUrl })
+  const uploadsLink = createUploadLink({ uri: gqlUrl, credentials: "same-origin" })
 
   const authLink = new ApolloLink((operation, forward) => {
-    if (tokenVar()) {
-      operation.setContext({
-        headers: {
-          Authorization: `Bearer ${tokenVar()}`,
-          'Apollo-Require-Preflight': true
-        },
-      });
+    var headers = {
+      'Apollo-Require-Preflight': true
     }
+
+    if (tokenVar()) {
+      headers['Authorization'] = `Bearer ${tokenVar()}`
+    }
+
+    operation.setContext({
+      headers
+    });
     return forward(operation);
   });
   

@@ -21,6 +21,7 @@ export const RoutePage = ({ route }) => {
   const [selected, updateSelected] = useState("Details");
   var routeObj = route.params.route;
   var headerButton = route.params.headerButton;
+  console.log("Navigated to routepage with route");
 
   return (
     <View style={styles.container}>

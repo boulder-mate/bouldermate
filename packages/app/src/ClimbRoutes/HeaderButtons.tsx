@@ -13,8 +13,8 @@ import { useState } from "react";
 import { ReactNativeFile } from "apollo-upload-client";
 
 const UPLOAD_ROUTE = gql`
-  mutation CreateRoute($image: Upload!) {
-    createRoute(image: $image)
+  mutation CreateRoute($route: RouteInput!) {
+    createRoute(route: $route)
   }
 `;
 
@@ -55,20 +55,22 @@ export const Upload = (routeObj) => {
             routesetter_grade: routeObj.grades?.routesetter, // Optional prop - can be null
             notes: routeObj.notes, // Optional prop - can be null
           };
-          console.log("Uploading object", route);
-
-          const image = route.image;
 
           // Call the mutation
-          await createRoute({
+          console.log("Sending route to GQL")
+          var res: any = await createRoute({
             variables: {
-              image,
+              route,
             },
           });
 
           // Handle the result if there were no issues calling the function
-          if (result.error) throw Error(`${result.error}`);
-          if (result.data) {
+          if (res?.error) throw Error(`${res?.error.graphQlErrors}`);
+          if (res?.data) {
+            console.log(
+              "Uploaded route successfully with response",
+              res?.data?.createRoute
+            );
             // result.data should simply be the id of the route
             navigation.navigate("RoutePage", {
               routeObj,
@@ -76,7 +78,7 @@ export const Upload = (routeObj) => {
             }); // Pass in the id and route for a faster page
           }
         } catch (err) {
-          console.log("Graphql route upload error:", err);
+          console.log("Graphql route upload (or navigation) error:", err);
           Alert.alert(
             "Error",
             "An error occurred creating the route. Please notify BoulderMate support."

@@ -98,7 +98,7 @@ export const UploadHeader = ({ header, updateHeader, onPreview }) => {
     var imageBody = (
       <TouchableHighlight onPress={() => updateExpanded(!expanded)}>
         <ImageBackground
-          source={{ uri: header.image.uri }}
+          source={{ uri: header.image }}
           resizeMode="cover"
           style={{ height: expanded ? EXPANDED_IMG_HEIGHT : CARD_IMG_HEIGHT }}
           imageStyle={styles.imageContainer}
@@ -130,7 +130,7 @@ export const UploadHeader = ({ header, updateHeader, onPreview }) => {
       <RouteCamera
         height={EXPANDED_IMG_HEIGHT}
         onCapture={(img) => {
-          updateHeader({ ...header, image: img });
+          updateHeader({ ...header, image: img.uri });
         }}
       />
     );

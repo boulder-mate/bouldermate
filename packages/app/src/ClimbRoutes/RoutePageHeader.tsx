@@ -24,7 +24,7 @@ export const RoutePageHeader = ({ route, children }) => {
     <View>
       <TouchableHighlight onPress={() => updateExpanded(!expanded)}>
         <ImageBackground
-          source={{ uri: route.image.uri }}
+          source={{ uri: route.image }}
           resizeMode="cover"
           style={{ height: expanded ? EXPANDED_IMG_HEIGHT : CARD_IMG_HEIGHT }}
           imageStyle={styles.imageContainer}
@@ -56,7 +56,7 @@ export const RoutePageHeader = ({ route, children }) => {
             )}
             {route.grades && (
               <Text style={styles.descText}>
-                {route.grades.routesetter.value}
+                {route.grades?.routesetter?.value}
               </Text>
             )}
           </View>

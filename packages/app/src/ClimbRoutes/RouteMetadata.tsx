@@ -102,7 +102,7 @@ export const RouteMetadata = ({ route }) => {
             />
           }
           label="Routesetter Grade"
-          value={route.grades.routesetter.value || "N/A"}
+          value={route.grades?.routesetter?.value || "N/A"}
         />
         <MetadataField
           icon={
@@ -113,7 +113,7 @@ export const RouteMetadata = ({ route }) => {
             />
           }
           label="Avg. User Grade"
-          value={(route.grades.user && route.grades.user[0]?.value) || "N/A"}
+          value={(route.grades?.user && route.grades.user[0]?.value) || "N/A"}
           // value={route.grades.user && route.grades.user[0]?.value} This will take some further care
         />
         <MetadataField
