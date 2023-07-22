@@ -29,7 +29,7 @@ const NavigationTab = ({ route, isFocused }) => {
       case "Gyms":
         return <MaterialIcons name={"location-pin"} size={30} />;
       case "Me":
-        return <FontAwesome5 name={"user-alt"} size={25} />;
+        return <FontAwesome5 name={"user-alt"} size={23} style={{paddingTop: 2}}/>;
       case "Settings":
         return <Ionicons name="settings-sharp" size={25} />;
       default:

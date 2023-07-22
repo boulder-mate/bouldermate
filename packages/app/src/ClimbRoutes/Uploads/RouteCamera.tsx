@@ -62,7 +62,7 @@ export function RouteCamera({ height, onCapture }) {
     // Compress, and perform any necessary flipping
     data = await manipulateAsync(data.uri, ops, {
       format: SaveFormat.JPEG,
-      compress: 0.1, // Quarter the file size - much quicker
+      compress: 0.1, // Reduce the file size - takes too long for a good UX otherwise
     });
 
     // Save the image
