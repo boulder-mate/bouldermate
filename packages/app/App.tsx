@@ -12,6 +12,7 @@ import { Settings } from "./src/Settings/Settings";
 import { Profile } from "./src/Profile/Profile";
 
 import { NavigationContainer, Theme } from "@react-navigation/native";
+import { AuthProvider } from "./src/Auth/auth";
 
 const appTheme: Theme = {
   dark: false,

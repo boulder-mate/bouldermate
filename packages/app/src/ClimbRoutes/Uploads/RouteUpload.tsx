@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   previewText: {
-    marginTop: 4,
+    marginTop: 3,
     fontSize: 15,
     fontFamily: "Lexend",
     color: "white",

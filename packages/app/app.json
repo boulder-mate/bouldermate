@@ -29,13 +29,17 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "bouldermate",
+      "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/logo-whitebg.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "bouldermate",
+      "versionCode": 100
     },
     "web": {
       "favicon": "./assets/images/logo-whitebg.png"

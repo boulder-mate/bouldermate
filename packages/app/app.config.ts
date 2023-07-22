@@ -3,7 +3,7 @@ import { ExpoConfig, ConfigContext } from 'expo/config';
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-    owner: "Ethan Husband",
+    owner: "ethanhusband",
     name: "BoulderMate",
     slug: "bouldermate",
     currentFullName: "@user/bouldermate",
@@ -30,6 +30,14 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     assetBundlePatterns: ["**/*"],
     web: {
       favicon: "./assets/favicon.png",
+    },
+    android: {
+      adaptiveIcon: {
+        foregroundImage: "./assets/images/logo-whitebg.png",
+        backgroundColor: "#ffffff"
+      },
+      package: "com.bouldermate",
+      versionCode: 100
     },
     plugins: [],
     extra: {

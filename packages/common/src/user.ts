@@ -4,7 +4,7 @@ export type User = ID & {
     username: string,
     first_name: string,
     last_name: string,
-    email?: string,
+    email: string,
     phone_number?: string,
     preferences: UserPreferences,
     locations: LinkedID[],
@@ -12,20 +12,21 @@ export type User = ID & {
     ratings: LinkedID[],
     comments: LinkedID[],
     verified?: boolean
+    
+    // Routesetters only
+    routes_created?: LinkedID[],
+    company?: LinkedID[],
+    experience?: number,
+
+    // Gym admin only
     company_admin?: boolean,
-    company?: LinkedID
+    
     // Activity for a user will be stored by their user ID in a different collection
 }
 
 export type UserPreferences = {
     // These will get fleshed out with the frontend
     private?: boolean
-}
-
-export type RouteSetter = User & {
-    routes: LinkedID[],
-    company: LinkedID,
-    experience: number,
 }
 
 // Activity related features will come later
