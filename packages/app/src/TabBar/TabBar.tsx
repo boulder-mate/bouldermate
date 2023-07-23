@@ -9,7 +9,6 @@ export const TabBar = ({ state, descriptors, navigation }: any) => {
   return (
     <View style={styles.mainContainer}>
       {state.routes.map((route: any, index: number) => {
-   
         const { options } = descriptors[route.key];
         const label = route.name;
 
@@ -44,12 +43,8 @@ export const TabBar = ({ state, descriptors, navigation }: any) => {
                 height: indexToHeight(index, isFocused),
                 alignItems: "center",
                 borderWidth: isFocused ? 0.7 : 0.5,
+                borderColor: index === ENLARGED_TAB || isFocused ? "#AAA" : "#FFF",
                 borderTopColor: "#AAA",
-                borderRightColor:
-                  isFocused || index === ENLARGED_TAB ? "#AAA" : "#FFF",
-                borderLeftColor:
-                  isFocused || index === ENLARGED_TAB ? "#AAA" : "#FFF",
-                borderBottomColor: "#FFF",
               }}
             >
               <View

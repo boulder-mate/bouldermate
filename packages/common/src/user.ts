@@ -4,22 +4,25 @@ export type User = ID & {
     username: string,
     first_name: string,
     last_name: string,
-    email: string,
-    phone_number?: string,
+    company_name: string, // Use this for Gym accounts instead of first + last
+    bio?: string,
+    email?: string, // Only excluded for Anon accounts!
+    phone_number?: string, // Optional - ideally included for Gyms
     preferences: UserPreferences,
     locations: LinkedID[],
     routes: LinkedID[],
     ratings: LinkedID[],
     comments: LinkedID[],
-    verified?: boolean
+    verified?: boolean,
+    anonymous?: boolean,
     
     // Routesetters only
     routes_created?: LinkedID[],
     company?: LinkedID[],
-    experience?: number,
+    years_experience?: number,
 
     // Gym admin only
-    company_admin?: boolean,
+    location_admin?: LinkedID[] // Gym the 
     
     // Activity for a user will be stored by their user ID in a different collection
 }

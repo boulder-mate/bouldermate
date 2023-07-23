@@ -45,6 +45,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       nodeEnv: process.env.APP_ENV,
       httpPrefix: process.env.APP_ENV === "local" ? "http" : "https",
       wsPrefix: process.env.APP_ENV === "local" ? "ws" : "wss",
+      mongoAppId: process.env.MONGO_APP_ID,
       eas: {
         projectId: process.env.EAS_PROJECT_ID,
       },

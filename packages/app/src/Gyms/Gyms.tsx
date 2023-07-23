@@ -1,7 +1,7 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { GymsLanding } from "./GymsLanding";
 import { stackHeader } from "../Header";
-import { RouteUpload } from "../ClimbRoutes/RouteUpload";
+import { RouteUpload } from "../ClimbRoutes/Uploads/RouteUpload";
 import { RoutePage } from "../ClimbRoutes/RoutePage";
 import { CommonScreens } from "../CommonStackScreens";
 

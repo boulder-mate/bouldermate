@@ -15,7 +15,8 @@ function envVar(varName: string) {
 enum env {
     GQL_HOSTNAME = envVar("gqlHostname"),
     HTTP_PREFIX = envVar("httpPrefix"),
-    WS_PREFIX = envVar("wsPrefix")
+    WS_PREFIX = envVar("wsPrefix"),
+    MONGO_APP_ID = envVar("mongoAppId")
 }
 
 export default env

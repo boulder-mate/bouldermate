@@ -1,32 +1,18 @@
 import React from "react";
-import { View, Text } from "react-native";
-import { useApp, UserProvider, AppProvider } from "@realm/react";
-import Realm from "realm";
+import { View, Text, StyleSheet } from "react-native";
+import { UserProvider, AppProvider } from "@realm/react";
+import { RegisterUser } from "./Register";
+
+import env from "../envManager";
 
 export const AuthProvider = ({ children }) => {
   return (
     <View>
-      <AppProvider id={process.env.MONGO_APP_ID}>
+      <AppProvider id={env.MONGO_APP_ID as any as string}>
         <UserProvider fallback={<RegisterUser />}>{children}</UserProvider>
       </AppProvider>
     </View>
   );
 };
 
-const RegisterUser = () => {
-  const app = useApp();
-  async function register(email: string, password: string) {
-    // Register new email/password user
-    await app.emailPasswordAuth.registerUser({ email, password });
-    // Log in the email/password user
-    await app.logIn(Realm.Credentials.emailPassword(email, password));
-  }
 
-  // UI for user registration
-
-  return (
-    <View>
-      <Text>REGISTER</Text>
-    </View>
-  );
-};
