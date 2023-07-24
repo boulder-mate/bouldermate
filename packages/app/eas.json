@@ -1,11 +1,25 @@
 {
     "build": {
         "development": {
-        "developmentClient": true,
-        "distribution": "internal"
+            "developmentClient": true,
+            "distribution": "internal",
+            "releaseChannel": "development",
+            "env": {
+                "APP_ENV": "local",
+                "GQL_HOSTNAME": ""
+            }
         },
         "preview": {
-        "distribution": "internal"
+            "distribution": "internal",
+            "ios": {
+                "enterpriseProvisioning": "universal"
+              },
+            "env": {
+                "APP_ENV": "local",
+                "GQL_HOSTNAME": "192.168.0.176:8080",
+                "EAS_PROJECT_ID": "29d7fe9c-c4f6-44ea-9d1d-e1c4c5aca522",
+                "MONGO_APP_ID": "data-kfdml"
+            } 
         },
         "production": {}
     }
