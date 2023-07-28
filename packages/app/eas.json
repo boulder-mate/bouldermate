@@ -20,6 +20,7 @@
                 "simulator": true
               },
             "distribution": "internal",
+            "channel": "local",
             "env": {
                 "APP_ENV": "local",
                 "GQL_HOSTNAME": "192.168.0.5:8000",

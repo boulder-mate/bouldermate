@@ -26,6 +26,10 @@ export default {
     },
     updates: {
       url: `https://u.expo.dev/${process.env.EAS_PROJECT_ID}`,
+      requestHeaders: {
+        "expo-runtime-version": "1.0.0",
+        "expo-channel-name": "local"
+      },
     },
     assetBundlePatterns: ["**/*"],
     web: {
