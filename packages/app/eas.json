@@ -1,5 +1,6 @@
 {
     "build": {
+        "production": {},
         "development": {
             "developmentClient": true,
             "distribution": "internal",
@@ -7,12 +8,24 @@
               "simulator": true
             },
             "env": {
-                "APP_ENV": "local",
+                "APP_ENV": "dev",
                 "GQL_HOSTNAME": "192.168.0.5:8000",
                 "EAS_PROJECT_ID": "29d7fe9c-c4f6-44ea-9d1d-e1c4c5aca522",
                 "MONGO_APP_ID": "data-kfdml"
             } 
         },
-        "production": {}
+        "preview": {
+            "developmentClient": true,
+            "ios": {
+                "simulator": true
+              },
+            "distribution": "internal",
+            "env": {
+                "APP_ENV": "local",
+                "GQL_HOSTNAME": "192.168.0.5:8000",
+                "EAS_PROJECT_ID": "29d7fe9c-c4f6-44ea-9d1d-e1c4c5aca522",
+                "MONGO_APP_ID": "data-kfdml"
+            } 
+        }
     }
 }
