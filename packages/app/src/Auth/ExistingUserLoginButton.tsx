@@ -9,8 +9,8 @@ import { useApp } from "@realm/react";
 export const BouldermateLoginButton = ({
   onPress,
 }: BouldermateLoginButtonProps) => {
-  const app = useApp()
-   async function register(email: string, password: string) {
+  const app = useApp();
+  async function register(email: string, password: string) {
     // Register new email/password user
     await app.emailPasswordAuth.registerUser({ email, password });
     // Log in the email/password user
@@ -19,8 +19,7 @@ export const BouldermateLoginButton = ({
 
   return (
     <TouchableHighlight
-      style={styles.bouldermateLoginButtonStyle
-      }
+      style={styles.bouldermateLoginButtonStyle}
       onPress={onPress}
     >
       <View style={styles.contentContainer}>
@@ -28,11 +27,9 @@ export const BouldermateLoginButton = ({
           width={40}
           height={40}
           transparent
-          style={{ position: "relative", right: 4 }}
+          style={{ position: "absolute", left: 5 }}
         />
-        <Text style={styles.text}>
-          BoulderMate Login
-        </Text>
+        <Text style={styles.text}>BoulderMate Login</Text>
       </View>
     </TouchableHighlight>
   );
@@ -48,33 +45,19 @@ const styles = StyleSheet.create({
     width: 350,
     maxWidth: "100%",
     height: 44,
-    borderRadius: 5,
-    marginBottom: 10,
+    borderRadius: 10,
     borderColor: "#AAA",
     borderWidth: 0.5,
-  },
-  bouldermateLoginButtonStylePressed: {
-    backgroundColor: "#EEE",
-    width: 350,
-    maxWidth: "100%",
-    height: 44,
-    borderRadius: 5,
-    marginBottom: 10,
   },
   text: {
     width: "100%",
     textAlign: "center",
-    flex: 2,
+    flex: 1,
     color: "black",
-    fontWeight: "bold",
-    fontSize: 16,
-  },
-  textPressed: {
-    width: "100%",
-    textAlign: "center",
-    flex: 2,
-    fontWeight: "bold",
-    fontSize: 16,
+    fontWeight: "600",
+    fontSize: 17,
+    position: "relative",
+    left: 5,
   },
   icon: {
     color: "black",

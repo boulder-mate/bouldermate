@@ -3,6 +3,7 @@
     "name": "BoulderMate",
     "slug": "bouldermate",
     "version": "1.0.0",
+    "runtimeVersion": "1.0.0",
     "orientation": "portrait",
     "icon": "/assets/images/logo-whitebg.png",
     "userInterfaceStyle": "light",

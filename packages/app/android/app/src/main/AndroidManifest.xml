@@ -28,6 +28,7 @@
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="bouldermate"/>
         <data android:scheme="com.bouldermate"/>
         <data android:scheme="exp+bouldermate"/>
       </intent-filter>

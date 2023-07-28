@@ -1,6 +1,6 @@
 # BoulderMate Documentation
 
-This document outlines the intended functionality of all features offered by the BoulderMate app. It should be adapted each time an update is pushed appropriately. Each section pertains to a different feature, and this document can be used as a guideline for testing each of those features respectively.
+This document outlines the intended functionality of all features offered by the BoulderMate app as a product itself. It should be adapted each time an update is pushed appropriately. Each section pertains to a different feature, and this document is intended to cover all features such that it could also be used as a guideline for testing each of these features respectively.
 
 ## <ins>Routes</ins>
 

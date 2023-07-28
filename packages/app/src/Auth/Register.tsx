@@ -20,21 +20,26 @@ export const RegisterUser = () => {
 
   return (
     <View style={styles.main}>
-      <Logo width={200} height={200} creambg />
+      <Logo width={200} height={200} transparent />
       <Text style={styles.welcome}>Welcome to BoulderMate!</Text>
       <Text>Choose your sign in method</Text>
       <View style={{ height: 20 }} />
 
-      <BouldermateLoginButton
-        onPress={() => console.log("BoulderMate selected!")}
-      />
-      <AppleLoginButton
-        setAppleResponse={undefined}
-        setLoading={undefined}
-        setErrorMessage={undefined}
-      />
-      <GoogleLoginButton onPress={() => console.log("Google selected!")} />
-      <FacebookLoginButton onPress={() => console.log("Facebook selected!")} />
+      <View style={styles.buttonContainer}>
+        <BouldermateLoginButton
+          onPress={() => console.log("BoulderMate selected!")}
+        />
+        <AppleLoginButton
+          setAppleResponse={undefined}
+          setLoading={undefined}
+          setErrorMessage={undefined}
+        />
+        <GoogleLoginButton onPress={() => console.log("Google selected!")} />
+
+        <FacebookLoginButton
+          onPress={() => console.log("Facebook selected!")}
+        />
+      </View>
       <Text style={{ fontFamily: "Lexend", marginBottom: 10 }}>- or -</Text>
       <AnonymousLoginButton />
     </View>
@@ -46,10 +51,14 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     marginVertical: "auto",
-    paddingTop: 100,
+    paddingTop: 40,
   },
   welcome: {
     fontFamily: "LexendSemibold",
     fontSize: 20,
+  },
+  buttonContainer: {
+    flexDirection: "column",
+    gap: 5,
   },
 });
