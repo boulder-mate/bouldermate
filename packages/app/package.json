@@ -2,7 +2,7 @@
   "name": "boulder-mate",
   "version": "1.0.0",
   "scripts": {
-    "start": "npx expo start --tunnel",
+    "start": "expo start --dev-client",
     "android": "npx expo run:android",
     "ios": "npx expo run:ios",
     "web": "npx expo start --web"
@@ -22,6 +22,7 @@
     "common": "file:../common",
     "dotenv": "^16.3.1",
     "expo": "~48.0.18",
+    "expo-apple-authentication": "~6.0.1",
     "expo-asset": "~8.9.1",
     "expo-camera": "~13.2.1",
     "expo-dev-client": "~2.2.1",
@@ -31,6 +32,7 @@
     "expo-linear-gradient": "~12.1.2",
     "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
+    "expo-updates": "^0.16.4",
     "firebase": "^9.22.1",
     "graphql-ws": "^5.13.1",
     "moment": "^2.29.4",
@@ -48,8 +50,7 @@
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "~0.18.11",
     "realm": "^11.10.1",
-    "typescript": "^4.9.4",
-    "expo-apple-authentication": "~6.0.1"
+    "typescript": "^4.9.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

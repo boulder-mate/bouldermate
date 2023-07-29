@@ -2,37 +2,25 @@ import React from "react";
 import { useState } from "react";
 import Icon from "@expo/vector-icons/Ionicons";
 
-import { View, StyleSheet, Text, Pressable } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  Pressable,
+  TouchableHighlight,
+} from "react-native";
 
 export const FacebookLoginButton = ({ onPress }: FacebookLoginButtonProps) => {
-  const [isPressed, setIsPressed] = useState<boolean>(false);
-
   return (
-    <Pressable
-      style={
-        isPressed
-          ? styles.facebookLoginButtonStylePressed
-          : styles.facebookLoginButtonStyle
-      }
+    <TouchableHighlight
+      style={styles.facebookLoginButtonStyle}
       onPress={onPress}
-      onPressIn={() => {
-        setIsPressed(true);
-      }}
-      onPressOut={() => {
-        setIsPressed(false);
-      }}
     >
       <View style={styles.contentContainer}>
-        <Icon
-          style={isPressed ? styles.iconPressed : styles.icon}
-          name="logo-facebook"
-          size={25}
-        />
-        <Text style={isPressed ? styles.textPressed : styles.text}>
-          Login With Facebook
-        </Text>
+        <Icon style={styles.icon} name="logo-facebook" size={25} />
+        <Text style={styles.text}>Login With Facebook</Text>
       </View>
-    </Pressable>
+    </TouchableHighlight>
   );
 };
 
@@ -46,15 +34,7 @@ const styles = StyleSheet.create({
     width: 350,
     maxWidth: "100%",
     height: 44,
-    borderRadius: 5,
-    marginBottom: 10,
-  },
-  facebookLoginButtonStylePressed: {
-    backgroundColor: "#20438c",
-    width: 350,
-    maxWidth: "100%",
-    height: 44,
-    borderRadius: 5,
+    borderRadius: 10,
     marginBottom: 10,
   },
   text: {

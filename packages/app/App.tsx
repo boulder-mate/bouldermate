@@ -1,4 +1,5 @@
 import React from "react";
+import "expo-dev-client";
 import { View, Dimensions } from "react-native";
 import { useFonts } from "expo-font";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
