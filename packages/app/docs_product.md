@@ -56,6 +56,10 @@ The details of the auth for gyms largely outlines the business model
   - Ensure this is stored with the app itself so it is not session-based
   - Use the presence of a token to determine if a user is anonymous
 
+#### Account Logout
+
+- Logout button belongs at bottom of profile tab
+
 #### Account Deletion
 
 - 'Me' section has a Delete Account button for all types of accounts

@@ -7,27 +7,40 @@ import { useNavigation } from "@react-navigation/native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 export function stackHeader(isLanding: boolean = false) {
-    const navigation = useNavigation<any>();
-    return {
-        title: "BoulderMate",
-        headerTitleStyle: headerStyles.title,
-        headerLeft: isLanding ? null : () => (
-        <MaterialIcons name="arrow-back-ios" size={25} style={headerStyles.back} onPress={() => navigation.goBack()}/>
+  const navigation = useNavigation<any>();
+  return {
+    title: "BoulderMate",
+    headerTitleAlign: "center" as "center" | "left",
+    headerTitleStyle: headerStyles.title,
+    headerStyle: headerStyles.header,
+    headerLeft: isLanding
+      ? null
+      : () => (
+          <MaterialIcons
+            name="arrow-back-ios"
+            size={25}
+            style={headerStyles.back}
+            onPress={() => navigation.goBack()}
+          />
         ),
-    };
+  };
 }
 
 const headerStyles = StyleSheet.create({
-    title: {
-      color: "#FF3131",
-      fontFamily: "LexendBold",
-      fontSize: 27,
-      marginBottom: 5,
-      textShadowColor: "rgba(0, 0, 0, 1)",
-      textShadowOffset: { width: -0.5, height: 0.5 },
-      textShadowRadius: 0,
-    },
-    back: {
-      marginLeft: 15,
-    },
-  });
+  header: {
+    borderBottomWidth: 0.5,
+    borderBottomColor: "#AAA",
+  },
+  title: {
+    color: "red",
+    fontFamily: "LexendBold",
+    fontSize: 27,
+    textAlign: "center",
+    textShadowColor: "rgba(0, 0, 0, 1)",
+    textShadowOffset: { width: -0.5, height: 0.5 },
+    textShadowRadius: 0,
+  },
+  back: {
+    marginLeft: 15,
+  },
+});

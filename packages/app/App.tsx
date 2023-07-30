@@ -18,7 +18,7 @@ import { AuthProvider } from "./src/Auth/Auth";
 
 const { width, height } = Dimensions.get("window");
 
-const appTheme: Theme = {
+export const appTheme: Theme = {
   dark: false,
   colors: {
     primary: "rgb(0, 122, 255)",
@@ -42,13 +42,13 @@ export default function App() {
 
   const Tab = createBottomTabNavigator();
   return (
-    <AuthProvider>
-      <ApolloProvider client={client}>
-        <NavigationContainer theme={appTheme}>
+    <NavigationContainer theme={appTheme}>
+      <AuthProvider>
+        <ApolloProvider client={client}>
           <View
             style={{
               width,
-              height,
+              height: height - 20,
             }}
           >
             <Tab.Navigator
@@ -87,8 +87,8 @@ export default function App() {
               />
             </Tab.Navigator>
           </View>
-        </NavigationContainer>
-      </ApolloProvider>
-    </AuthProvider>
+        </ApolloProvider>
+      </AuthProvider>
+    </NavigationContainer>
   );
 }

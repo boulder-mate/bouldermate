@@ -4,11 +4,11 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 
 import { View, StyleSheet, Text, TouchableHighlight } from "react-native";
 
-export const AnonymousLoginButton = () => {
+export const AnonymousLoginButton = ({ onPress }) => {
   return (
     <TouchableHighlight
       style={styles.anonLoginButtonStylePressed}
-      onPress={() => console.log("pressed")}
+      onPress={onPress}
     >
       <View style={styles.contentContainer}>
         <MaterialCommunityIcons

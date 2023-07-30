@@ -36,14 +36,15 @@ export const TabBar = ({ state, descriptors, navigation }: any) => {
             <Pressable
               onPress={onPress}
               style={{
-                backgroundColor: isFocused ? "#FF3131" : "#FFF",
+                backgroundColor: isFocused ? "red" : "#FFF",
                 borderTopLeftRadius: index === ENLARGED_TAB ? 25 : 0,
                 borderTopRightRadius: index === ENLARGED_TAB ? 25 : 0,
                 marginTop: "auto",
                 height: indexToHeight(index, isFocused),
                 alignItems: "center",
                 borderWidth: isFocused ? 0.7 : 0.5,
-                borderColor: index === ENLARGED_TAB || isFocused ? "#AAA" : "#FFF",
+                borderColor:
+                  index === ENLARGED_TAB || isFocused ? "#AAA" : "#FFF",
                 borderTopColor: "#AAA",
               }}
             >
