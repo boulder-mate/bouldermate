@@ -17,7 +17,7 @@ export default {
     },
     jsEngine: "hermes",
     splash: {
-      image: "./assets/images/logo-whitebg.png",
+      image: "./assets/images/logo-transparent.png",
       resizeMode: "contain",
       backgroundColor: "#fff",
     },

@@ -110,7 +110,6 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   desc: {
-    backgroundColor: "white",
     flexDirection: "row",
     alignItems: "center",
   },
