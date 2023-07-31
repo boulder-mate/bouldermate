@@ -20,7 +20,7 @@ web-build/
 .metro-health-check*
 
 # Env Related
-.env
+.env*
 .env.dev
 .env.prod
 /vars
