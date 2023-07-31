@@ -31,3 +31,5 @@ Env variables should be updated + considered in the following locations before c
 #### Common Issues
 
 - In iOS simulator, sometimes ```npm run use-build``` doesn't install properly. You want to run ```xcrun simctl shutdown all && xcrun simctl erase all``` to reset all your simulators - sometimes your computer has multiple.
+- Ensure you have run  ```npm install``` in all packages and have all the necessary packages running
+- Permissions issues are common on mac. If you encounter "Insufficient permissions to save", navigate to the root folder and run ```sudo chown -R <myuser> .```
