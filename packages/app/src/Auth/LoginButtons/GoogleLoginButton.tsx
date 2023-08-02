@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Image } from "react-native";
 import { View, StyleSheet, Pressable, Text } from "react-native";
-const logoGoogle = require("../../assets/images/logo-google-small.png");
+const logoGoogle = require("../../../assets/images/logo-google-small.png");
 
 export const GoogleLoginButton = ({ onPress }: GoogleLoginButtonProps) => {
   const [isPressed, setIsPressed] = useState<boolean>(false);

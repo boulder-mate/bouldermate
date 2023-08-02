@@ -1,29 +1,30 @@
 import React from "react";
-import { useState } from "react";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { Logo } from "../../Logo";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  Image,
+} from "react-native";
 
-import { View, StyleSheet, Text, TouchableHighlight } from "react-native";
+const climber = require("../../../assets/images/climber.png");
 
-export const AnonymousLoginButton = ({ onPress }) => {
+export const RegisterButton = ({ onPress }) => {
   return (
     <TouchableHighlight
       style={styles.anonLoginButtonStylePressed}
       onPress={onPress}
     >
       <View style={styles.contentContainer}>
-        <MaterialCommunityIcons
-          style={styles.icon}
-          name="incognito-circle"
-          size={25}
-        />
-        <Text style={styles.text}>Quick Login (Anonymous)</Text>
+        
+        <View style={styles.imageContainer}>
+          <Image source={climber} style={styles.image} />
+        </View>
+        <Text style={styles.text}>Create New Account</Text>
       </View>
     </TouchableHighlight>
   );
-};
-
-type AnonLoginButtonProps = {
-  onPress: any;
 };
 
 const styles = StyleSheet.create({
@@ -45,6 +46,22 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 10,
     borderColor: "#AAA",
+    borderWidth: 0.5,
+  },
+  image: {
+    width: 27,
+    height: 27,
+    alignSelf: "center",
+  },
+  imageContainer: {
+    height: 33,
+    width: 33,
+    position: "absolute",
+    left: 10,
+    borderRadius: 20,
+    padding: 2,
+    justifyContent: "center",
+    borderColor: "black",
     borderWidth: 0.5,
   },
   text: {

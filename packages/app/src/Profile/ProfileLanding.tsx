@@ -1,10 +1,12 @@
 import { useUser } from "@realm/react";
 import { View, StyleSheet, Text, TouchableHighlight } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { ProfileSummary } from "./ProfileSummary";
 
 export const ProfileLanding = () => {
   return (
     <View style={styles.landingContainer}>
+      <ProfileSummary />
       <LogoutButton />
     </View>
   );

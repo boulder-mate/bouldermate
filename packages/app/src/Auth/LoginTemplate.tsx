@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { Logo } from "../Logo";
 
 export const LoginTemplate = ({ text, children }) => {
@@ -19,8 +19,8 @@ const styles = StyleSheet.create({
   main: {
     flexDirection: "column",
     alignItems: "center",
-    marginVertical: "auto",
     paddingTop: 40,
+    flex: 1,
   },
   welcome: {
     fontFamily: "LexendSemibold",

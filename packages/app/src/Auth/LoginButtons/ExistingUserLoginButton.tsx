@@ -1,10 +1,15 @@
 import React from "react";
-import { useState } from "react";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-
-import { View, StyleSheet, Text, TouchableHighlight } from "react-native";
-import { Logo } from "../Logo";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  Image,
+} from "react-native";
 import { useApp } from "@realm/react";
+import { Logo } from "../../Logo";
+
+
 
 export const BouldermateLoginButton = ({
   onPress,
@@ -29,7 +34,7 @@ export const BouldermateLoginButton = ({
           transparent
           style={{ position: "absolute", left: 5 }}
         />
-        <Text style={styles.text}>BoulderMate Login</Text>
+        <Text style={styles.text}>BoulderMate Account</Text>
       </View>
     </TouchableHighlight>
   );
@@ -58,6 +63,22 @@ const styles = StyleSheet.create({
     fontSize: 17,
     position: "relative",
     left: 5,
+  },
+  image: {
+    width: 26,
+    height: 26,
+    alignSelf: "center",
+  },
+  imageContainer: {
+    height: 33,
+    width: 33,
+    position: "absolute",
+    left: 10,
+    borderRadius: 20,
+    padding: 2,
+    justifyContent: "center",
+    borderColor: "black",
+    borderWidth: 1,
   },
   icon: {
     color: "black",
