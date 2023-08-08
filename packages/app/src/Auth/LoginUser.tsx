@@ -86,8 +86,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     borderRadius: 10,
     padding: 5,
-    width: 290,
-    marginTop: "auto",
+    height: 40,
   },
   loginText: {
     fontSize: 18,
