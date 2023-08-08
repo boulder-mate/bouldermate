@@ -48,7 +48,7 @@ export default function App() {
           <View
             style={{
               width,
-              height: height - 20,
+              height: height,
             }}
           >
             <Tab.Navigator

@@ -36,8 +36,7 @@ export const ProjectsLanding = () => {
         ]}
         onPress={() => {
           setLastPress(ClimbPreference.Rope);
-          navigation.navigate("MyRopes")
-
+          navigation.navigate("MyRopes");
         }}
       >
         <ImageBackground
@@ -80,7 +79,7 @@ export const ProjectsLanding = () => {
         ]}
         onPress={() => {
           setLastPress(ClimbPreference.Boulder);
-          navigation.navigate("MyBoulders")
+          navigation.navigate("MyBoulders");
         }}
       >
         <ImageBackground
@@ -140,8 +139,8 @@ async function getClimbPreference(value) {
 
 const styles = StyleSheet.create({
   section: {
-    width: 380,
-    height: 200,
+    width: 370,
+    height: 175,
     backgroundColor: "white",
     borderWidth: 1,
     marginTop: 17,

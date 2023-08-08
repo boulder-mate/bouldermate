@@ -4,7 +4,7 @@ import { View, Image } from "react-native";
 const Climber = require("../../assets/images/climber.png");
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons"
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 const NavigationTab = ({ route, isFocused }) => {
   const renderIcon = (route: string, isFocused: boolean) => {
@@ -12,7 +12,6 @@ const NavigationTab = ({ route, isFocused }) => {
       case "Projects":
         return (
           <View
-          
             style={{ padding: 4.5, borderRadius: 25, backgroundColor: "#FFF" }}
           >
             <Image
@@ -29,7 +28,9 @@ const NavigationTab = ({ route, isFocused }) => {
       case "Gyms":
         return <MaterialIcons name={"location-pin"} size={30} />;
       case "Me":
-        return <FontAwesome5 name={"user-alt"} size={23} style={{paddingTop: 2}}/>;
+        return (
+          <FontAwesome5 name={"user-alt"} size={23} style={{ paddingTop: 2 }} />
+        );
       case "Settings":
         return <Ionicons name="settings-sharp" size={25} />;
       default:

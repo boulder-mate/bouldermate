@@ -69,7 +69,7 @@ export const TabBar = ({ state, descriptors, navigation }: any) => {
                 <Text
                   style={{
                     position: "relative",
-                    bottom: 27,
+                    bottom: 25,
                     fontSize: 12,
                     fontFamily: "Lexend",
                   }}

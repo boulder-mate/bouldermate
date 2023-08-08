@@ -9,7 +9,7 @@ export const AppleLoginButton = ({}: AppleLoginButtonProps) => {
     <View style={{ borderWidth: 0.5, borderColor: "#AAA", borderRadius: 10 }}>
       <AppleAuthentication.AppleAuthenticationButton
         buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
-        buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
+        buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.WHITE}
         cornerRadius={10}
         style={styles.loginWithText}
         onPress={async () => {

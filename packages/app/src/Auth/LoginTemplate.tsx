@@ -2,7 +2,6 @@ import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { Logo } from "../Logo";
 
 export const LoginTemplate = ({ text, children }) => {
-  console.log("rendered!");
   // UI for user login
   return (
     <View style={styles.main}>
@@ -17,10 +16,11 @@ export const LoginTemplate = ({ text, children }) => {
 
 const styles = StyleSheet.create({
   main: {
+    paddingVertical: 50,
     flexDirection: "column",
     alignItems: "center",
-    paddingTop: 40,
     flex: 1,
+    marginVertical: "auto",
   },
   welcome: {
     fontFamily: "LexendSemibold",

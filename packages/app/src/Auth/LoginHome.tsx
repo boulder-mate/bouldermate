@@ -14,6 +14,7 @@ import {
   createNavigationContainerRef,
   useNavigation,
 } from "@react-navigation/native";
+import { Register } from "./Register";
 
 export const AuthStack = () => {
   const AuthStack = createStackNavigator();
@@ -27,6 +28,7 @@ export const AuthStack = () => {
     >
       <AuthStack.Screen name="AuthLanding" component={AuthLanding} />
       <AuthStack.Screen name="LoginUser" component={UserLogin} />
+      <AuthStack.Screen name="Register" component={Register} />
     </AuthStack.Navigator>
   );
 };
@@ -55,19 +57,21 @@ const LoginSelection = () => {
         <BouldermateLoginButton
           onPress={() => navigation.navigate("LoginUser")}
         />
-        <AppleLoginButton
-          setAppleResponse={undefined}
-          setLoading={undefined}
-          setErrorMessage={undefined}
-        />
         <GoogleLoginButton onPress={() => console.log("Google selected!")} />
 
         <FacebookLoginButton
           onPress={() => console.log("Facebook selected!")}
         />
+        <AppleLoginButton
+          setAppleResponse={undefined}
+          setLoading={undefined}
+          setErrorMessage={undefined}
+        />
       </View>
-      <Text style={{ fontFamily: "Lexend", marginBottom: 10 }}>- or -</Text>
-      <RegisterButton onPress={() => anonymousLogin()} />
+      <Text style={{ fontFamily: "Lexend", marginVertical: 10, fontSize: 15 }}>
+        - or -
+      </Text>
+      <RegisterButton onPress={() => navigation.navigate("Register")} />
       <Text style={styles.registerGym}>I want to register a gym</Text>
     </View>
   );

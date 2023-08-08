@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
     maxWidth: "100%",
     height: 44,
     borderRadius: 10,
-    marginBottom: 10,
   },
   text: {
     width: "100%",
