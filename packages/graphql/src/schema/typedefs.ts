@@ -1,4 +1,4 @@
-import gql from "graphql-tag"
+import gql from "graphql-tag";
 
 const fs = require("fs");
 const path = require("path");
@@ -11,11 +11,13 @@ const importGraphQL = (file: any) => {
 const ROUTES_GQL = importGraphQL("../../schema/Routes.graphql");
 const FEEDBACK_GQL = importGraphQL("../../schema/Feedback.graphql");
 const SCALARS_GQL = importGraphQL("../../schema/Scalars.graphql");
+const USERS_GQL = importGraphQL("../../schema/Users.graphql");
 
 export const GQL_SCHEMA_FILES = [
   ROUTES_GQL,
   FEEDBACK_GQL,
-  SCALARS_GQL
+  SCALARS_GQL,
+  USERS_GQL,
 ];
 
 // Initialise typeDefs

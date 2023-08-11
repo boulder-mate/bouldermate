@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     textDecorationLine: "underline",
     opacity: 0.75,
     position: "absolute",
-    bottom: 50,
+    bottom: 10,
     marginTop: 10,
   },
 });

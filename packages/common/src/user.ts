@@ -1,29 +1,44 @@
-import { ID, LinkedID } from "./abstract";
+import { ID, Time, LinkedID } from "./abstract";
 
-export type User = ID & {
+export type User = ID & Time & {
   username: string;
   name: string;
-  company_name: string; // Use this for Gym accounts instead of first + last
-  bio?: string;
-  email?: string; // Only excluded for Anon accounts!
-  phone_number?: string; // Optional - ideally included for Gyms
-  preferences: UserPreferences;
+  email: string;
   locations: LinkedID[];
   routes: LinkedID[];
   ratings: LinkedID[];
   comments: LinkedID[];
-  verified?: boolean;
-  anonymous?: boolean;
+  verified: boolean;
+  preferences: UserPreferences;
+
+  // Additional info
+  bio?: string;
 
   // Routesetters only
-  routes_created?: LinkedID[];
-  company?: LinkedID[];
-  years_experience?: number;
-
+  routesetter?: RoutesetterDetails;
   // Gym admin only
-  location_admin?: LinkedID[]; // Gym the
+  gym_admin?: GymAdminDetails;
+  // Gym account only
+  gym_info?: GymDetails;
 
   // Activity for a user will be stored by their user ID in a different collection
+};
+
+export type RoutesetterDetails = {
+  routes_created: LinkedID[];
+  companies: LinkedID[];
+  routesetting_since?: String;
+};
+
+export type GymAdminDetails = {
+  companies: LinkedID[];
+  readonly?: boolean
+};
+
+export type GymDetails = {
+  company_name: string;
+  phone_number: string;
+  // Stripe stuff should go here as well
 };
 
 export type UserPreferences = {

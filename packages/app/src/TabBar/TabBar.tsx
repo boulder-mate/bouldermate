@@ -95,7 +95,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     position: "absolute",
     bottom: 0,
-    paddingBottom: 15,
   },
   mainItemContainer: {
     flex: 1,

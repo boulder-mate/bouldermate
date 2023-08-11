@@ -1,0 +1,48 @@
+type User {
+  _id: ObjectId!
+  created: String!
+  last_updated: String!
+  username: String!
+  name: String!
+  email: String!
+  locations: [ObjectId]!
+  routes: [ObjectId]!
+  ratings: [ObjectId]!
+  comments: [ObjectId]!
+  preferences: UserPreferences!
+  verified: Boolean!
+
+  bio: String
+
+  routesetter: RoutesetterDetails
+  gym_admin: GymAdminDetails
+  gym_info: GymDetails
+}
+
+type UserPreferences {
+  private: Boolean
+}
+
+type RoutesetterDetails {
+  routes_created: [ObjectId]!
+  companies: [ObjectId]!
+  routesetting_since: String!
+}
+
+type GymAdminDetails {
+  companies: [ObjectId]!
+  readonly: Boolean
+}
+
+type GymDetails {
+  company_name: String!
+  phone_number: String!
+}
+
+type Query {
+  getUser(id: ObjectId, username: String, email: String): User!
+}
+
+type Mutation {
+  createUser(name: String!, username: String!, email: String!): ObjectId!
+}

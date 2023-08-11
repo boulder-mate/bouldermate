@@ -43,8 +43,8 @@ export default function App() {
   const Tab = createBottomTabNavigator();
   return (
     <NavigationContainer theme={appTheme}>
-      <AuthProvider>
-        <ApolloProvider client={client}>
+      <ApolloProvider client={client}>
+        <AuthProvider>
           <View
             style={{
               width,
@@ -87,8 +87,8 @@ export default function App() {
               />
             </Tab.Navigator>
           </View>
-        </ApolloProvider>
-      </AuthProvider>
+        </AuthProvider>
+      </ApolloProvider>
     </NavigationContainer>
   );
 }

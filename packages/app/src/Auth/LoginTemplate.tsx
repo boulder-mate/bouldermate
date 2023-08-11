@@ -16,7 +16,8 @@ export const LoginTemplate = ({ text, children }) => {
 
 const styles = StyleSheet.create({
   main: {
-    paddingVertical: 50,
+    paddingVertical: "15%",
+    overflow: "scroll",
     flexDirection: "column",
     alignItems: "center",
     flex: 1,
