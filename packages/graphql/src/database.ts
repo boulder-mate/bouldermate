@@ -1,4 +1,5 @@
 import { MongoClient, ServerApiVersion, Collection } from "mongodb";
+import { Logger } from "./utils/logging";
 
 // Wrapper class so the database such that it can be switched out if necessary
 // If we ever want to do this, we would just change over the methods
@@ -23,7 +24,13 @@ export class MongoDatabase {
     this.databaseName = dbName;
 
     // Create a MongoClient with a MongoClientOptions object to set the Stable API version
-    const uri = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASS}@${process.env.MONGO_ID}.mongodb.net/?retryWrites=true&w=majority`;
+    var uri;
+    if (process.env.MONGO_URL) {
+      uri = process.env.MONGO_URL;
+    } else {
+      uri = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASS}@${process.env.MONGO_ID}.mongodb.net/?retryWrites=true&w=majority`;
+    }
+
     this.client = new MongoClient(uri, {
       serverApi: {
         version: ServerApiVersion.v1,
@@ -38,7 +45,7 @@ export class MongoDatabase {
    */
   public async connect() {
     // Establish client connection and database
-    console.log("Connecting to MongoDB...");
+    logger.info("Connecting...");
     try {
       await this.client.connect();
     } catch (err: any) {
@@ -52,7 +59,7 @@ export class MongoDatabase {
     this.usersCollection = db.collection("users");
 
     // All done!
-    console.log("MongoDB connected and initialised!");
+    logger.info("connected and initialised!");
     this.initialised = true;
   }
 }
@@ -66,3 +73,5 @@ export const db = new MongoDatabase("MongoDB", dbName);
 export async function initDb() {
   await db.connect();
 }
+
+const logger = Logger.of(MongoDatabase);
