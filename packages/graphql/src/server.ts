@@ -1,14 +1,14 @@
-import {schema} from "./schema/schema"
+import { schema } from "./schema/schema";
 
 import { useServer } from "graphql-ws/lib/use/ws";
 import { ApolloServer } from "@apollo/server";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 
 import {
-    AuthContext,
-    resolveContext,
-    resolveWSContext,
-  } from "./auth/ResolveAuthContext";
+  AuthContext,
+  resolveContext,
+  resolveWSContext,
+} from "./auth/ResolveAuthContext";
 
 import cors from "cors";
 import bodyParser from "body-parser";
@@ -16,9 +16,12 @@ import express from "express";
 import { Server } from "ws";
 import { createServer } from "http";
 import { graphqlUploadExpress } from "graphql-upload";
-import { expressMiddleware } from '@apollo/server/express4';
+import { expressMiddleware } from "@apollo/server/express4";
+import { Logger } from "./utils/logging";
 
 var Fingerprint = require("express-fingerprint");
+
+var logger = new Logger("Server");
 
 // Initialise Express App
 export const app = express();
@@ -64,21 +67,21 @@ export const server = new ApolloServer<AuthContext>({
 
 // Main function for the server
 export async function initApolloServer() {
-  console.log("Initialising Apollo server...")
+  logger.info("Initialising Apollo server...");
   const PORT = process.env.PORT || 8080;
   await server.start();
 
   httpServer.listen(PORT, () => {
-    console.log(`Listening on ${PORT}`);
+    logger.info(`Listening on ${PORT}`);
   });
 
   app.use(
-    '/',
+    "/",
     cors<cors.CorsRequest>(),
-    bodyParser.json({ limit: '50mb' }),
+    bodyParser.json({ limit: "50mb" }),
     expressMiddleware(server, {
       context: async ({ req }) => resolveContext(req),
-    }),
+    })
   );
-  console.log("Apollo Server initialised with auth middleware!")
+  logger.info("Apollo Server initialised with auth middleware!");
 }
