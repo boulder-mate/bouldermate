@@ -1,20 +1,17 @@
 {
     "build": {
         "production": {},
-        "development": {
+        "preview": {
             "developmentClient": true,
             "distribution": "internal",
-            "ios": {
-              "simulator": true
-            },
             "env": {
-                "APP_ENV": "dev",
-                "GQL_HOSTNAME": "<GQL HOSTNAME>:8000",
+                "APP_ENV": "local",
+                "GQL_LOCAL_PORT": "8000",
                 "EAS_PROJECT_ID": "29d7fe9c-c4f6-44ea-9d1d-e1c4c5aca522",
                 "MONGO_APP_ID": "data-kfdml"
             } 
         },
-        "preview": {
+        "sim-preview": {
             "developmentClient": true,
             "ios": {
                 "simulator": true
@@ -23,7 +20,7 @@
             "channel": "local",
             "env": {
                 "APP_ENV": "local",
-                "GQL_HOSTNAME": "localhost:8000",
+                "GQL_LOCAL_PORT": "8000",
                 "EAS_PROJECT_ID": "29d7fe9c-c4f6-44ea-9d1d-e1c4c5aca522",
                 "MONGO_APP_ID": "data-kfdml"
             } 
