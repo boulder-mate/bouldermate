@@ -1,6 +1,6 @@
 import React from "react";
 import "expo-dev-client";
-import { View, Dimensions } from "react-native";
+import { View, Dimensions, StatusBar } from "react-native";
 import { useFonts } from "expo-font";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ApolloProvider } from "@apollo/client";
@@ -39,6 +39,8 @@ export default function App() {
   });
 
   if (!loaded) return null;
+
+  StatusBar.setBarStyle("dark-content");
 
   const Tab = createBottomTabNavigator();
   return (

@@ -9,7 +9,7 @@ export default {
     currentFullName: "@user/bouldermate",
     originalFullName: "@user/bouldermate",
     version: "1.0.0",
-    icon: "./assets/images/logo-whitebg.png",
+    icon: "./assets/images/logo-white.png",
     orientation: "portrait",
     userInterfaceStyle: "light",
     runtimeVersion: {
@@ -17,7 +17,7 @@ export default {
     },
     jsEngine: "hermes",
     splash: {
-      image: "./assets/images/logo-transparent.png",
+      image: "./assets/images/logo-whitebg.png",
       resizeMode: "contain",
       backgroundColor: "#fff",
     },
