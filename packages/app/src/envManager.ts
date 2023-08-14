@@ -1,6 +1,4 @@
 import Constants from "expo-constants";
-import * as OS from "os";
-import * as DNS from "dns";
 
 // With expo constants, once Constants.manifest is null, Constants.manifest2 contains the env vars
 // Which of these contains data depends on environments
@@ -14,25 +12,11 @@ function envVar(varName: string) {
   throw new Error(`Constant ${varName} not found in expo manifest.`);
 }
 
-function parseGQLHostname() {
-  // Return a full hostname if in staging or prod
-  if (envVar("nodeEnv") !== "local") return envVar("gqlHostname");
-
-  // Must be local, return IP:PORT
-  var ipAddress: string;
-  DNS.lookup(OS.hostname(), (err, add, fam) => {
-    console.log("add", add);
-    ipAddress = add;
-  });
-
-  return ipAddress + ":" + envVar("gqlPort");
-}
-
 const parseHttpPrefix = () =>
   envVar("nodeEnv") === "local" ? "http" : "https";
 
 enum env {
-  GQL_HOSTNAME = parseGQLHostname() as any,
+  GQL_HOSTNAME = envVar("gqlHostname"),
   HTTP_PREFIX = parseHttpPrefix() as any,
   MONGO_APP_ID = envVar("mongoAppId"),
 }

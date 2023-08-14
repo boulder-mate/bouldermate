@@ -3,12 +3,10 @@
   "version": "1.0.0",
   "scripts": {
     "start": "npx expo start --dev-client",
-    "build-android": "eas build --platform android --profile preview",
-    "build-ios": "eas build --platform ios --profile preview",
-    "use-build": "eas build:run",
-    "web": "npx expo start --web",
-    "android": "expo run:android",
-    "ios": "expo run:ios"
+    "build:android-sim": "eas build --platform android --profile sim-preview",
+    "build:ios-sim": "eas build --platform ios --profile sim-preview",
+    "build:ios": "eas build --platform ios --profile preview",
+    "use-build": "eas build:run"
   },
   "dependencies": {
     "@apollo/client": "^3.7.16",

@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
 
   // Query user data on startup
   useEffect(() => {
-    getAsyncData("local_user_id").then((result) => {
+    getAsyncData("user_id").then((result) => {
       console.log("Retrieved user_id as", result);
       setUserId(result);
       setUserFetched(true);

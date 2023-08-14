@@ -1,5 +1,6 @@
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Dimensions, Keyboard } from "react-native";
 import { Logo } from "../Logo";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 export const LoginTemplate = ({ text, children }) => {
   // UI for user login

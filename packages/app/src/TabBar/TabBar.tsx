@@ -63,14 +63,14 @@ export const TabBar = ({ state, descriptors, navigation }: any) => {
                 <Octicons
                   name="dot-fill"
                   color="white"
-                  style={{ position: "relative", bottom: 25 }}
+                  style={{ position: "relative", bottom: 28 }}
                 />
               ) : (
                 <Text
                   style={{
                     position: "relative",
-                    bottom: 25,
-                    fontSize: 12,
+                    bottom: 30,
+                    fontSize: 10,
                     fontFamily: "Lexend",
                   }}
                 >

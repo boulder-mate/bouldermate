@@ -7,7 +7,7 @@ import {
   TouchableHighlight,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 const Boulder = require("../../assets/images/bouldering.jpg");
@@ -139,8 +139,9 @@ async function getClimbPreference(value) {
 
 const styles = StyleSheet.create({
   section: {
-    width: 370,
-    height: 175,
+    width: "95%",
+    maxWidth: 400,
+    height: 200,
     backgroundColor: "white",
     borderWidth: 1,
     marginTop: 17,
@@ -153,6 +154,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     alignSelf: "center",
+    alignItems: "center",
+    width: "100%",
   },
   imageFit: {
     borderRadius: 20,

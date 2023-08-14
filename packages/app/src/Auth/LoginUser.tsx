@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   TouchableHighlight,
+  Alert,
 } from "react-native";
 import { LoginTemplate } from "./LoginTemplate";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -24,26 +25,45 @@ const GET_EMAIL = gql`
 export const UserLogin = () => {
   const [user, updateUser] = useState(""); // This is email or username!
   const [password, updatePassword] = useState("");
-  const [getUser, result] = useLazyQuery(GET_EMAIL);
+  const [getUser, getUserResult] = useLazyQuery(GET_EMAIL, {
+    fetchPolicy: "no-cache",
+    // When email is queried, retry
+    onCompleted: (data) => login(password, undefined, data.getUser.email),
+  });
   const app = useApp();
 
-  console.log("Laods all components");
-
-  // BoulderMate register
-  async function login(email: string, password: string) {
+  async function login(
+    password: string,
+    email?: string,
+    queriedEmail?: string
+  ) {
     // Log in user - first try with email, then username
-    try {
-      await app.logIn(Realm.Credentials.emailPassword(email, password));
-    } catch {
-      await getUser({
-        variables: {
-          username: email,
-        },
-      });
 
-      if (result.data.getUser.email) {
-        email = result.data.getUser.email;
+    if (email) {
+      try {
         await app.logIn(Realm.Credentials.emailPassword(email, password));
+      } catch (err) {
+        // Retry, treating the supposed email as a username instead
+        // When getUser completes it will rerun this function
+        console.log("Failed. Trying to query email");
+        await getUser({
+          variables: {
+            username: email,
+          },
+        });
+      }
+    } else if (queriedEmail) {
+      try {
+        console.log("Retrying with queried email", queriedEmail);
+        await app.logIn(
+          Realm.Credentials.emailPassword(queriedEmail, password)
+        );
+      } catch (err) {
+        // Queried email failed. User must not exist
+        Alert.alert(
+          "Sorry!",
+          "We couldn't find a user with that email or username"
+        );
       }
     }
   }
@@ -71,7 +91,8 @@ export const UserLogin = () => {
             placeholderTextColor={"#999"}
           />
         </View>
-        <AuthoriseButton onPress={() => login(user, password)} />
+        {/* This needs to be updated so that the loading effect handles the recall of login */}
+        <AuthoriseButton onPress={() => login(password, user)} />
       </View>
     </LoginTemplate>
   );
