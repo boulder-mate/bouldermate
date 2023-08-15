@@ -41,9 +41,15 @@ type GymDetails {
 
 type Query {
   getUser(id: ObjectId, username: String, email: String): User
+  authenticate(username: String, email: String, password: String!): String!
   currentUser: User
 }
 
 type Mutation {
-  createUser(name: String!, username: String!, email: String!): ObjectId!
+  createUser(
+    name: String!
+    username: String!
+    email: String!
+    password: String!
+  ): ObjectId!
 }

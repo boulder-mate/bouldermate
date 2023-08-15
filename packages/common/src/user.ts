@@ -1,28 +1,30 @@
 import { ID, Time, LinkedID } from "./abstract";
 
-export type User = ID & Time & {
-  username: string;
-  name: string;
-  email: string;
-  locations: LinkedID[];
-  routes: LinkedID[];
-  ratings: LinkedID[];
-  comments: LinkedID[];
-  verified: boolean;
-  preferences: UserPreferences;
+export type User = ID &
+  Time & {
+    username: string;
+    name: string;
+    email: string;
+    pass_hash: string;
+    locations: LinkedID[];
+    routes: LinkedID[];
+    ratings: LinkedID[];
+    comments: LinkedID[];
+    verified: boolean;
+    preferences: UserPreferences;
 
-  // Additional info
-  bio?: string;
+    // Additional info
+    bio?: string;
 
-  // Routesetters only
-  routesetter?: RoutesetterDetails;
-  // Gym admin only
-  gym_admin?: GymAdminDetails;
-  // Gym account only
-  gym_info?: GymDetails;
+    // Routesetters only
+    routesetter?: RoutesetterDetails;
+    // Gym admin only
+    gym_admin?: GymAdminDetails;
+    // Gym account only
+    gym_info?: GymDetails;
 
-  // Activity for a user will be stored by their user ID in a different collection
-};
+    // Activity for a user will be stored by their user ID in a different collection
+  };
 
 export type RoutesetterDetails = {
   routes_created: LinkedID[];
@@ -32,7 +34,7 @@ export type RoutesetterDetails = {
 
 export type GymAdminDetails = {
   companies: LinkedID[];
-  readonly?: boolean
+  readonly?: boolean;
 };
 
 export type GymDetails = {

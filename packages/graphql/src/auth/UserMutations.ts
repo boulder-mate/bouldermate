@@ -2,6 +2,7 @@ import { ObjectId } from "mongodb";
 import { db } from "../database";
 import { newId, newTime } from "../utils/typeutils";
 import { AuthContext } from "./ResolveAuthContext";
+import { hash } from "bcrypt";
 
 async function createUser(
   obj: any,
@@ -21,11 +22,15 @@ async function createUser(
   });
   if (duplicates) throw Error("User with that email already exists");
 
+  // Hash the password
+  const pass_hash = await hash(args.password, 10);
+
   // Is unique, so create
   await db.usersCollection?.insertOne({
     _id,
-    ...args,
     ...newTime(),
+    ...args,
+    pass_hash,
     locations: [],
     routes: [],
     comments: [],

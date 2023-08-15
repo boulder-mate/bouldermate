@@ -20,7 +20,7 @@ async function decryptSymmetric(keyName: string, apiKey: string): Promise<any> {
 }
 
 export async function resolveContext(context: any): Promise<AuthContext> {
-  var xUserId = context.req?.headers["x-user-id"];
+  var xUserId = context.req?.headers["authorization"];
   //   var apiKey = context.req?.headers["x-api-key"];
   var userObject: User | null = null;
 

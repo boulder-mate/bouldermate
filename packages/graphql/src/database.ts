@@ -24,12 +24,7 @@ export class MongoDatabase {
     this.databaseName = dbName;
 
     // Create a MongoClient with a MongoClientOptions object to set the Stable API version
-    var uri;
-    if (process.env.MONGO_URL) {
-      uri = process.env.MONGO_URL;
-    } else {
-      uri = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASS}@${process.env.MONGO_ID}.mongodb.net/?retryWrites=true&w=majority`;
-    }
+    var uri = process.env.MONGO_URL as string;
 
     this.client = new MongoClient(uri, {
       serverApi: {
@@ -49,7 +44,7 @@ export class MongoDatabase {
     try {
       await this.client.connect();
     } catch (err: any) {
-      throw Error(`Unable to connect mongo - ${err.message}`);
+      throw Error(`Unable to connect Mongo - ${err.message}`);
     }
 
     const db = this.client.db(this.databaseName);
@@ -59,7 +54,7 @@ export class MongoDatabase {
     this.usersCollection = db.collection("users");
 
     // All done!
-    logger.info("connected and initialised!");
+    logger.info("Connected and initialised!");
     this.initialised = true;
   }
 }
