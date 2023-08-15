@@ -40,7 +40,8 @@ type GymDetails {
 }
 
 type Query {
-  getUser(id: ObjectId, username: String, email: String): User!
+  getUser(id: ObjectId, username: String, email: String): User
+  currentUser: User
 }
 
 type Mutation {

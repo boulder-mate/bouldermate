@@ -1,7 +1,7 @@
-import { View, Text, StyleSheet, Dimensions, Keyboard } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { Logo } from "../Logo";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
+// This ideally wraps all the pages in the AuthStack
 export const LoginTemplate = ({ text, children }) => {
   // UI for user login
   return (

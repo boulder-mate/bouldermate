@@ -6,7 +6,6 @@ import {
   TouchableHighlight,
   Image,
 } from "react-native";
-import { useApp } from "@realm/react";
 import { Logo } from "../../Logo";
 
 
@@ -14,14 +13,6 @@ import { Logo } from "../../Logo";
 export const BouldermateLoginButton = ({
   onPress,
 }: BouldermateLoginButtonProps) => {
-  const app = useApp();
-  async function register(email: string, password: string) {
-    // Register new email/password user
-    await app.emailPasswordAuth.registerUser({ email, password });
-    // Log in the email/password user
-    await app.logIn(Realm.Credentials.emailPassword(email, password));
-  }
-
   return (
     <TouchableHighlight
       style={styles.bouldermateLoginButtonStyle}

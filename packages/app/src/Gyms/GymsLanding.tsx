@@ -1,11 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
 import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
 import { RouteCard } from "../ClimbRoutes/RouteCard";
-import { useUser } from "@realm/react";
 
 export const GymsLanding = () => {
   const navigation = useNavigation<any>();
-  const user = useUser().customData
 
   return (
     <View style={styles.main}>

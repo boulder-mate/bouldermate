@@ -1,5 +1,3 @@
-import React from "react";
-import { Logo } from "../../Logo";
 import {
   View,
   StyleSheet,

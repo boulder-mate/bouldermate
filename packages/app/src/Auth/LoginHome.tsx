@@ -1,7 +1,4 @@
-import { useApp } from "@realm/react";
-import { useState } from "react";
-import { View, StyleSheet, Text, Dimensions } from "react-native";
-import { Logo } from "../Logo";
+import { View, StyleSheet, Text } from "react-native";
 import { FacebookLoginButton } from "./LoginButtons/FacebookLoginButton";
 import { RegisterButton } from "./LoginButtons/RegisterButton";
 import { GoogleLoginButton } from "./LoginButtons/GoogleLoginButton";
@@ -11,11 +8,11 @@ import { LoginTemplate } from "./LoginTemplate";
 import { createStackNavigator } from "@react-navigation/stack";
 import { UserLogin } from "./LoginUser";
 import {
-  createNavigationContainerRef,
   useNavigation,
 } from "@react-navigation/native";
 import { Register } from "./Register";
 
+// The unauthorised partition of the app necessitates its own navigation stack
 export const AuthStack = () => {
   const AuthStack = createStackNavigator();
 
@@ -36,20 +33,13 @@ export const AuthStack = () => {
 export const AuthLanding = () => {
   return (
     <LoginTemplate text={"Choose your sign in method"}>
-      <LoginSelection />
+      <LoginHome />
     </LoginTemplate>
   );
 };
 
-const LoginSelection = () => {
-  const app = useApp();
-
+const LoginHome = () => {
   const navigation = useNavigation<any>();
-
-  // Anonymous login
-  async function anonymousLogin() {
-    await app.logIn(Realm.Credentials.anonymous());
-  }
 
   return (
     <View style={styles.pageContainer}>

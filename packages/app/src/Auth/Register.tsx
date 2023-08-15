@@ -1,4 +1,3 @@
-import { useApp } from "@realm/react";
 import { useState } from "react";
 import {
   StyleSheet,
@@ -13,40 +12,24 @@ import { LoginTemplate } from "./LoginTemplate";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { AuthoriseButton } from "./LoginUser";
-import { gql, useMutation } from "@apollo/client";
-
-const CREATE_USER = gql`
-  mutation CreateUser($name: String!, $username: String!, $email: String!) {
-    createUser(name: $name, username: $username, email: $email)
-  }
-`;
 
 export const Register = () => {
   const [user, updateUser] = useState<any>({});
-  const [createUser, result] = useMutation(CREATE_USER);
-  const app = useApp();
-
-  if (result.error) Alert.alert(result.error.message);
+  const [loading, updateLoading] = useState(false);
 
   // BoulderMate account register function
   async function register() {
-    // Create the user in the backend
-    await createUser({
-      variables: {
-        email: user.email,
-        username: user.username.toLowerCase(),
-        name: user.name,
-      },
-    });
+    updateLoading(true);
 
-    // Register new email/password user
-    await app.emailPasswordAuth.registerUser({
-      email: user.email,
-      password: user.password,
-    });
+    try {
+      // Create the user in the backend - using the realm ID as their doc ID
 
-    // Log in the email/password user
-    await app.logIn(Realm.Credentials.emailPassword(user.email, user.password));
+      // Log in the email/password user
+
+    } catch (err) {
+      Alert.alert("Whoops!", err.message);
+    }
+    updateLoading(false);
   }
 
   return (
@@ -98,7 +81,7 @@ export const Register = () => {
               placeholder="Password"
             />
           </View>
-          <AuthoriseButton onPress={async () => await register()} />
+          <AuthoriseButton onPress={register} loading={loading} />
         </View>
       </TouchableWithoutFeedback>
     </LoginTemplate>

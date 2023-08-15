@@ -1,4 +1,3 @@
-import { useUser } from "@realm/react";
 import { View, StyleSheet, Text, TouchableHighlight } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { ProfileSummary } from "./ProfileSummary";
@@ -13,12 +12,10 @@ export const ProfileLanding = () => {
 };
 
 export const LogoutButton = () => {
-  const user = useUser();
-
   return (
     <TouchableHighlight
       style={styles.logoutContainer}
-      onPress={() => user.logOut()}
+      onPress={() => console.log("LOGOUT NEEDS IMPLEMENTATION")}
     >
       <>
         <Text style={styles.logoutText}>Logout</Text>

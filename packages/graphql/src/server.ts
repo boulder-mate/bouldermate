@@ -1,19 +1,16 @@
 import { schema } from "./schema/schema";
 
-import { useServer } from "graphql-ws/lib/use/ws";
 import { ApolloServer } from "@apollo/server";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 
 import {
   AuthContext,
   resolveContext,
-  resolveWSContext,
 } from "./auth/ResolveAuthContext";
 
 import cors from "cors";
 import bodyParser from "body-parser";
 import express from "express";
-import { Server } from "ws";
 import { createServer } from "http";
 import { graphqlUploadExpress } from "graphql-upload";
 import { expressMiddleware } from "@apollo/server/express4";
@@ -34,34 +31,11 @@ app.use(Fingerprint());
 // Initialise HTTP server
 export const httpServer = createServer(app);
 
-// Initialise WS server
-export const wsServer = new Server({
-  path: "/",
-  server: httpServer,
-});
-
-const serverCleanup = useServer(
-  {
-    schema,
-    context: resolveWSContext,
-  },
-  wsServer
-);
-
 // Initialise Apollo Server
 export const server = new ApolloServer<AuthContext>({
   schema,
   plugins: [
     ApolloServerPluginDrainHttpServer({ httpServer }),
-    {
-      async serverWillStart() {
-        return {
-          async drainServer() {
-            await serverCleanup.dispose();
-          },
-        };
-      },
-    },
   ],
 });
 
