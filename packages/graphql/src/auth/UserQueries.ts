@@ -18,6 +18,7 @@ async function getUser(obj: any, args: any, context: AuthContext, info: any) {
   }
 
   var user = await db.usersCollection?.findOne(query);
+  if (!user) throw new Error("User not found");
   return user;
 }
 

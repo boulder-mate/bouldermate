@@ -25,36 +25,40 @@ const GET_EMAIL = gql`
 export const UserLogin = () => {
   const [user, updateUser] = useState(""); // This is email or username!
   const [password, updatePassword] = useState("");
+  const [loading, updateLoading] = useState(false);
+
   const [getUser, getUserResult] = useLazyQuery(GET_EMAIL, {
     fetchPolicy: "no-cache",
-    // When email is queried, retry
+    // When email is queried, always retry logging in
     onCompleted: (data) => login(password, undefined, data.getUser.email),
   });
   const app = useApp();
 
+  // Login function supporting username or email login
   async function login(
     password: string,
     email?: string,
     queriedEmail?: string
   ) {
-    // Log in user - first try with email, then username
-
+    // First, try login by treating the input as an email
     if (email) {
+      updateLoading(true);
       try {
         await app.logIn(Realm.Credentials.emailPassword(email, password));
       } catch (err) {
-        // Retry, treating the supposed email as a username instead
-        // When getUser completes it will rerun this function
         console.log("Failed. Trying to query email");
-        await getUser({
+        // Retry, treating the supposed email input as a username instead - and using it to query an email
+        // When getUser completes it will rerun this function automatically!
+        getUser({
           variables: {
             username: email,
           },
         });
+        return;
       }
     } else if (queriedEmail) {
+      // getUser has queried the email and rerun the login function
       try {
-        console.log("Retrying with queried email", queriedEmail);
         await app.logIn(
           Realm.Credentials.emailPassword(queriedEmail, password)
         );
@@ -65,7 +69,16 @@ export const UserLogin = () => {
           "We couldn't find a user with that email or username"
         );
       }
+    } else {
+      // This case should never occur - we need at least one of these arguments.
+      // Tell the user to inform us if it ever happens.
+      Alert.alert(
+        "Whoops!",
+        "We appear to have a programming error with code 5001. Please notify BoulderMate ASAP."
+      );
     }
+
+    updateLoading(false); // Function calls are finished
   }
 
   return (
@@ -92,25 +105,19 @@ export const UserLogin = () => {
           />
         </View>
         {/* This needs to be updated so that the loading effect handles the recall of login */}
-        <AuthoriseButton onPress={() => login(password, user)} />
+        <AuthoriseButton
+          onPress={() => login(password, user)}
+          loading={loading}
+        />
       </View>
     </LoginTemplate>
   );
 };
 
-export const AuthoriseButton = ({ onPress }) => {
-  const [waiting, updateWaiting] = useState(false);
-
+export const AuthoriseButton = ({ onPress, loading }) => {
   return (
-    <TouchableHighlight
-      style={styles.loginButton}
-      onPress={async () => {
-        updateWaiting(true);
-        await onPress();
-        updateWaiting(false);
-      }}
-    >
-      {waiting ? (
+    <TouchableHighlight style={styles.loginButton} onPress={() => onPress()}>
+      {loading ? (
         <Progress.Circle color={"white"} size={25} indeterminate />
       ) : (
         <>
