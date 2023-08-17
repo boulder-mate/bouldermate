@@ -12,7 +12,7 @@ import {
 } from "@react-navigation/native";
 import { Register } from "./Register";
 
-// The unauthorised partition of the app necessitates its own navigation stack
+// The unauthorized partition of the app necessitates its own navigation stack
 export const AuthStack = () => {
   const AuthStack = createStackNavigator();
 

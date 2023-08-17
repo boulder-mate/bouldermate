@@ -11,7 +11,8 @@ import { TextInput } from "react-native-gesture-handler";
 import { LoginTemplate } from "./LoginTemplate";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { AuthoriseButton } from "./LoginUser";
+import { AuthorizeButton } from "./LoginUser";
+import { createAccount } from "./Utils";
 
 export const Register = () => {
   const [user, updateUser] = useState<any>({});
@@ -23,9 +24,7 @@ export const Register = () => {
 
     try {
       // Create the user in the backend - using the realm ID as their doc ID
-
-      // Log in the email/password user
-
+      await createAccount(user.name, user.username, user.email, user.password);
     } catch (err) {
       Alert.alert("Whoops!", err.message);
     }
@@ -81,7 +80,7 @@ export const Register = () => {
               placeholder="Password"
             />
           </View>
-          <AuthoriseButton onPress={register} loading={loading} />
+          <AuthorizeButton onPress={register} loading={loading} />
         </View>
       </TouchableWithoutFeedback>
     </LoginTemplate>

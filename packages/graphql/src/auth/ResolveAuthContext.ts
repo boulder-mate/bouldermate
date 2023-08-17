@@ -1,6 +1,8 @@
 import { User } from "common";
 import { searchUser } from "./Utils";
 import { Logger } from "../utils/logging";
+import * as jwt from "jsonwebtoken";
+import { ObjectId } from "mongodb";
 
 export type AuthContext = {
   user: User | null;
@@ -20,48 +22,52 @@ async function decryptSymmetric(keyName: string, apiKey: string): Promise<any> {
 }
 
 export async function resolveContext(context: any): Promise<AuthContext> {
-  var xUserId = context.req?.headers["authorization"];
+  var token = context.req?.headers?.authorization;
+  var userId =
+    process.env.NODE_ENV === "local" ? context.req?.headers["user-id"] : "";
   //   var apiKey = context.req?.headers["x-api-key"];
   var userObject: User | null = null;
 
-  if (xUserId) {
-    userObject = await searchUser({ id: xUserId });
+  if (token) {
+    try {
+      userObject = await resolveToken(token);
+    } catch (err) {}
   }
 
-  //   if (token) {
-  //     try {
-  //       userObject = await resolveToken(token);
-  //     } catch (err) {}
-  //   }
+  if (userId) {
+    try {
+      userObject = await searchUser({ id: new ObjectId(userId) });
+    } catch (err) {}
+  }
 
   //   if (apiKey) {
   //     try {
   //       userObject = await resolveApiKey(apiKey);
   //     } catch (err) {}
   //   }
-
-  logger.info(`Authorised as ${userObject}`);
   return {
     user: userObject,
   };
 }
 
 /*
- *  Resolve a firebase auth token into a user.
+ *  Decrypt a JWT token to retrieve user by ID
  */
-export async function resolveToken(token: string) /*: Promise<UserModel>*/ {
-  //   if (!token || token.length === 0) {
-  //     throw new AuthenticationError("Invalid token!");
-  //   }
-  //   var decodedToken;
-  //   token = token.replace("Bearer ", "");
-  //   try {
-  //     decodedToken = await admin.auth().verifyIdToken(token);
-  //   } catch (err) {
-  //     console.error(err);
-  //     throw new AuthenticationError(`Unauthorized`);
-  //   }
-  //   return await findUserByUID(decodedToken.uid);
+export async function resolveToken(token: string): Promise<User> {
+  try {
+    token = token.replace("Bearer ", "");
+    var decodedToken = jwt.verify(token, process.env.JWT_SECRET as string);
+    var userId = (decodedToken as jwt.JwtPayload).user_id;
+    console.log("Token implied user", decodedToken);
+  } catch (err) {
+    console.error(err);
+    throw new Error("Could not verify user authorization token");
+  }
+
+  var user = await searchUser({ id: new ObjectId(userId as string) });
+  if (!user)
+    throw new Error("User encoded in authorization token was not found");
+  return user;
 }
 
 export async function resolveApiKey(apiKey: string) {
@@ -79,51 +85,4 @@ export async function resolveApiKey(apiKey: string) {
   //     throw new AuthenticationError(`Unauthorized`);
   //   }
   //   return await findUserByUID(payload.uid);
-}
-
-/*s
- *  Resolve user from their UID.s
- */
-export async function findUserByUID(uid: string) /*: Promise<UserModel>*/ {
-  //   if (!uid) {
-  //     throw new Error(`User can't be found!`);
-  //   }
-  //   // Query uid from database, get db object
-  //   var user: DocumentSnapshot = await admin
-  //     .firestore()
-  //     .doc(`users/${uid}`)
-  //     .get();
-  //   if (!user.exists) {
-  //     throw new Error(`User doesn't exist in the database!`);
-  //   }
-  //   var userData = user.data() as any;
-  //   // Instantiate variables
-  //   var uam: UAM[] = getUAM(userData.uam);
-  //   var name = userData.name;
-  //   var email = userData.email;
-  //   var phone = userData.phone_number;
-  //   var party_id = userData.party_id;
-  //   var company = userData.company;
-  //   var locations = userData.locations;
-  //   var permissions = userData.permissions;
-  //   var mfaEnrolled = userData.mfaEnrolled || false;
-  //   var customer_id = userData.customer_id;
-  //   var session_id = userData.session_id || undefined;
-  //   var userModel = new UserModel(
-  //     permissions.role,
-  //     uid,
-  //     name,
-  //     email,
-  //     party_id,
-  //     phone,
-  //     company,
-  //     uam,
-  //     mfaEnrolled,
-  //     customer_id,
-  //     session_id
-  //   );
-  //   if (userModel.getRole() === Role.locationadmin) {
-  //     userModel.setAllowedLocations(locations);
-  //   }
-  //   return userModel;
 }

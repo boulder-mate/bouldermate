@@ -5,16 +5,31 @@ import {
   StyleSheet,
   Text,
   TouchableHighlight,
+  Alert,
 } from "react-native";
 import { LoginTemplate } from "./LoginTemplate";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import * as Progress from "react-native-progress";
+import { authorize } from "./Utils";
 
 export const UserLogin = () => {
   const [user, updateUser] = useState(""); // This is email or username!
   const [password, updatePassword] = useState("");
   const [loading, updateLoading] = useState(false);
+
+  async function login() {
+    // BoulderMate account register function
+    updateLoading(true);
+
+    try {
+      // Log in the email/password user
+      await authorize(user, password);
+    } catch (err) {
+      Alert.alert("Whoops!", err.message);
+    }
+    updateLoading(false);
+  }
 
   return (
     <LoginTemplate text="Enter your account details">
@@ -40,16 +55,13 @@ export const UserLogin = () => {
           />
         </View>
         {/* This needs to be updated so that the loading effect handles the recall of login */}
-        <AuthoriseButton
-          onPress={() => console.log("Login user!")}
-          loading={loading}
-        />
+        <AuthorizeButton onPress={login} loading={loading} />
       </View>
     </LoginTemplate>
   );
 };
 
-export const AuthoriseButton = ({ onPress, loading }) => {
+export const AuthorizeButton = ({ onPress, loading }) => {
   return (
     <TouchableHighlight style={styles.loginButton} onPress={() => onPress()}>
       {loading ? (

@@ -1,10 +1,14 @@
 import { useState, useEffect, createContext, useContext } from "react";
 import { AuthLanding, AuthStack } from "./LoginHome";
+import { tokenVar } from "../Apollo/apollo";
+import { fetchUser } from "./Utils";
 
 export const AuthProvider = ({ children }) => {
-  const [userToken, setToken] = useState("");
+  useEffect(() => {
+    console.log("Authorized with token:", tokenVar());
+  }, [tokenVar()]);
 
-  if (!userToken) return <AuthStack />;
+  if (!tokenVar()) return <AuthStack />;
   else
     return (
       <AuthContext.Provider value={useProvideAuth()}>
@@ -22,9 +26,13 @@ export const useAuthData = () => {
 export function useProvideAuth() {
   const [userData, updateUserData] = useState({});
 
+  const refreshData = async () => {
+    await fetchUser().then((user) => updateUserData(user));
+  };
+
   useEffect(() => {
-    // fetchUser();
+    refreshData();
   }, []);
 
-  return userData;
+  return { user: userData, refetch: refreshData };
 }
