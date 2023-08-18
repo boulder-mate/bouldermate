@@ -1,10 +1,6 @@
 import React from "react";
 import "expo-dev-client";
-import {
-  View,
-  Dimensions,
-  StatusBar,
-} from "react-native";
+import { View, Dimensions, StatusBar } from "react-native";
 import { useFonts } from "expo-font";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ApolloProvider } from "@apollo/client";
@@ -18,7 +14,7 @@ import { Settings } from "./src/Settings/Settings";
 import { Profile } from "./src/Profile/Profile";
 
 import { NavigationContainer, Theme } from "@react-navigation/native";
-import { AuthProvider } from "./src/Auth/Auth";
+import { AuthGateway } from "./src/Auth/Auth";
 
 const { width, height } = Dimensions.get("window");
 
@@ -49,52 +45,52 @@ export default function App() {
   const Tab = createBottomTabNavigator();
   return (
     <NavigationContainer theme={appTheme}>
-        <ApolloProvider client={client}>
-          <AuthProvider>
-            <View
-              style={{
-                width,
-                height: height,
+      <ApolloProvider client={client}>
+        <AuthGateway>
+          <View
+            style={{
+              width,
+              height: height,
+            }}
+          >
+            <Tab.Navigator
+              initialRouteName="Projects"
+              id="BottomTab"
+              screenOptions={{
+                tabBarHideOnKeyboard: true,
               }}
+              backBehavior="none"
+              tabBar={(props) => <TabBar {...props} />}
             >
-              <Tab.Navigator
-                initialRouteName="Projects"
-                id="BottomTab"
-                screenOptions={{
-                  tabBarHideOnKeyboard: true,
-                }}
-                backBehavior="none"
-                tabBar={(props) => <TabBar {...props} />}
-              >
-                <Tab.Screen
-                  name="Gyms"
-                  component={Gyms}
-                  options={{ headerShown: false }}
-                />
-                <Tab.Screen
-                  name="Friends"
-                  component={Friends}
-                  options={{ headerShown: false }}
-                />
-                <Tab.Screen
-                  name="Projects"
-                  component={Projects}
-                  options={{ headerShown: false }}
-                />
-                <Tab.Screen
-                  name="Me"
-                  component={Profile}
-                  options={{ headerShown: false }}
-                />
-                <Tab.Screen
-                  name="Settings"
-                  component={Settings}
-                  options={{ headerShown: false }}
-                />
-              </Tab.Navigator>
-            </View>
-          </AuthProvider>
-        </ApolloProvider>
+              <Tab.Screen
+                name="Gyms"
+                component={Gyms}
+                options={{ headerShown: false }}
+              />
+              <Tab.Screen
+                name="Friends"
+                component={Friends}
+                options={{ headerShown: false }}
+              />
+              <Tab.Screen
+                name="Projects"
+                component={Projects}
+                options={{ headerShown: false }}
+              />
+              <Tab.Screen
+                name="Me"
+                component={Profile}
+                options={{ headerShown: false }}
+              />
+              <Tab.Screen
+                name="Settings"
+                component={Settings}
+                options={{ headerShown: false }}
+              />
+            </Tab.Navigator>
+          </View>
+        </AuthGateway>
+      </ApolloProvider>
     </NavigationContainer>
   );
 }

@@ -1,9 +1,16 @@
-import { client, tokenVar } from "../Apollo/apollo";
+import { Alert } from "react-native";
+import { client } from "../Apollo/apollo";
 import { gql } from "@apollo/client";
 
 const AUTHORIZE = gql`
   query Authenticate($identifier: String!, $password: String!) {
     authenticate(identifier: $identifier, password: $password)
+  }
+`;
+
+const VERIFY = gql`
+  query Verify($token: String!) {
+    verifyToken(token: $token)
   }
 `;
 
@@ -61,22 +68,34 @@ const CURRENT_USER = gql`
 // Login function supporting username or email login
 export async function authorize(identifier: string, password: string) {
   // Query the backend
+  // Correct credentials will prompt GraphQL to return a token
+  try {
+    var res = await client.query({
+      query: AUTHORIZE,
+      variables: {
+        identifier,
+        password,
+      },
+      fetchPolicy: "no-cache",
+    });
+
+    // Return the auth token
+    return res.data.authenticate;
+  } catch (err) {
+    Alert.alert("Sorry!", err.message);
+  }
+}
+
+export async function verifyToken(token: string) {
+  if (!token) return false;
   var res = await client.query({
-    query: AUTHORIZE,
+    query: VERIFY,
     variables: {
-      identifier,
-      password,
+      token,
     },
     fetchPolicy: "no-cache",
   });
-
-  // Receive auth token
-  if (res.data.authenticate) tokenVar(res.data.authenticate);
-  else return res.errors;
-}
-
-export async function logout() {
-  tokenVar("");
+  return res.data.verifyToken;
 }
 
 // User creation function
@@ -87,26 +106,24 @@ export async function createAccount(
   password: string
 ) {
   // Query the backend
-  var res = await client.mutate({
-    mutation: REGISTER,
-    variables: {
-      name,
-      username,
-      email,
-      password,
-    },
-    fetchPolicy: "no-cache",
-  });
+  try {
+    var res = await client.mutate({
+      mutation: REGISTER,
+      variables: {
+        name,
+        username,
+        email,
+        password,
+      },
+      fetchPolicy: "no-cache",
+    });
 
-  // Receive auth token
-  if (res.data?.createUser) {
-    tokenVar(res.data.createUser);
-    console.log(
-      "Created user with authorization token",
-      res.data?.createUser,
-      tokenVar()
-    );
-  } else return res.errors;
+    // Return the auth token if successful
+    console.log("Created user with authorization token", res.data?.createUser);
+    return res.data.createUser;
+  } catch (err) {
+    Alert.alert("Whoops!", err.message);
+  }
 }
 
 export async function fetchUser() {

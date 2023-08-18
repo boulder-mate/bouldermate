@@ -1,6 +1,6 @@
 import { AuthContext } from "./ResolveAuthContext";
 import { searchUser } from "./Utils";
-import { authenticate } from "./Authentication";
+import { authenticate, verifyToken } from "./Authentication";
 
 async function getUser(obj: any, args: any, context: AuthContext, info: any) {
   var user = await searchUser(args);
@@ -17,4 +17,4 @@ async function currentUser(
   return context.user;
 }
 
-export const userQueries = { getUser, currentUser, authenticate };
+export const userQueries = { getUser, currentUser, authenticate, verifyToken };

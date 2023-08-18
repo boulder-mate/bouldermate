@@ -13,21 +13,23 @@ import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import * as Progress from "react-native-progress";
 import { authorize } from "./Utils";
 
-export const UserLogin = () => {
+export const UserLogin = (args) => {
   const [user, updateUser] = useState(""); // This is email or username!
   const [password, updatePassword] = useState("");
   const [loading, updateLoading] = useState(false);
+
+  const updateToken = args.route.params.updateToken;
 
   async function login() {
     // BoulderMate account register function
     updateLoading(true);
 
-    try {
-      // Log in the email/password user
-      await authorize(user, password);
-    } catch (err) {
-      Alert.alert("Whoops!", err.message);
-    }
+    // Log in the email/password user
+    var token = await authorize(user, password);
+
+    // Update the global token (will be null if authorization failed)
+    updateToken(token);
+
     updateLoading(false);
   }
 
@@ -43,7 +45,10 @@ export const UserLogin = () => {
           <TextInput
             onChangeText={(text) => updateUser(text)}
             placeholder="Email or Username"
+            style={styles.textField}
             placeholderTextColor={"#999"}
+            autoCapitalize="none"
+            autoComplete="email"
           />
         </View>
         <View style={styles.fieldContainer}>
@@ -51,7 +56,10 @@ export const UserLogin = () => {
           <TextInput
             onChangeText={(text) => updatePassword(text)}
             placeholder="Password"
+            style={styles.textField}
             placeholderTextColor={"#999"}
+            autoCapitalize="none"
+            autoComplete="password"
           />
         </View>
         {/* This needs to be updated so that the loading effect handles the recall of login */}
@@ -82,19 +90,9 @@ const styles = StyleSheet.create({
     gap: 15,
     width: 300,
   },
-  textFields: {
-    backgroundColor: "white",
-    borderColor: "#AAA",
-    borderWidth: 0.5,
-    borderRadius: 5,
-    width: 275,
-    paddingVertical: 2,
-    paddingHorizontal: 5,
-    fontSize: 16,
-  },
-  fieldLabel: {
-    color: "red",
-    fontFamily: "Lexend",
+  textField: {
+    fontSize: 15,
+    flex: 1,
   },
   fieldContainer: {
     flexDirection: "row",

@@ -1,20 +1,42 @@
 import { useState, useEffect, createContext, useContext } from "react";
 import { AuthLanding, AuthStack } from "./LoginHome";
 import { tokenVar } from "../Apollo/apollo";
-import { fetchUser } from "./Utils";
+import { fetchUser, verifyToken } from "./Utils";
+import { getAsyncData, storeAsyncData } from "../Utils/AsyncStorage";
+import { LoadingScreen } from "../Utils/MiscComponents";
 
-export const AuthProvider = ({ children }) => {
+export const AuthGateway = ({ children }) => {
+  const [token, updateToken] = useState("");
+  const [fetchingPrev, updateFetchingPrev] = useState(true);
+
+  const refreshToken = (x) => {
+    tokenVar(x);
+    updateToken(x);
+    storeAsyncData("token", x);
+  };
+
   useEffect(() => {
-    console.log("Authorized with token:", tokenVar());
-  }, [tokenVar()]);
-
-  if (!tokenVar()) return <AuthStack />;
-  else
-    return (
-      <AuthContext.Provider value={useProvideAuth()}>
-        {children}
-      </AuthContext.Provider>
+    // Check if we were logged in last time - ask backend if token is still valid
+    getAsyncData("token").then((result) =>
+      verifyToken(result)
+        .then((valid) => valid && refreshToken(result))
+        .then(() => updateFetchingPrev(false))
     );
+  }, []);
+
+  if (fetchingPrev)
+    return <LoadingScreen text={"Remembering who you are..."} />;
+  else if (!token) return <AuthStack updateToken={(x) => refreshToken(x)} />;
+  else
+    return <AuthProvider updateToken={refreshToken}>{children}</AuthProvider>;
+};
+
+const AuthProvider = ({ children, updateToken }) => {
+  return (
+    <AuthContext.Provider value={useProvideAuth(updateToken)}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 const AuthContext = createContext(null);
@@ -23,16 +45,23 @@ export const useAuthData = () => {
   return useContext(AuthContext);
 };
 
-export function useProvideAuth() {
+export function useProvideAuth(updateToken) {
   const [userData, updateUserData] = useState({});
 
   const refreshData = async () => {
-    await fetchUser().then((user) => updateUserData(user));
+    await fetchUser().then((user) => {
+      updateUserData(user);
+    });
   };
 
   useEffect(() => {
     refreshData();
   }, []);
 
-  return { user: userData, refetch: refreshData };
+  // Provide these as return values to the useAuthData hook throughout the nested code
+  return {
+    user: userData,
+    refetch: refreshData,
+    logout: () => updateToken(""),
+  };
 }

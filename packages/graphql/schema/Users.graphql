@@ -42,6 +42,7 @@ type GymDetails {
 type Query {
   getUser(id: ObjectId, username: String, email: String): User
   authenticate(identifier: String!, password: String!): String!
+  verifyToken(token: String!): Boolean!
   currentUser: User
 }
 

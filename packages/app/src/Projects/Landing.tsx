@@ -25,9 +25,6 @@ export const ProjectsLanding = () => {
   var [lastPress, setLastPress] = useState(ClimbPreference.Boulder);
   const navigation = useNavigation<any>();
 
-  const auth = useAuthData();
-  console.log("Auth Provider gave", auth);
-
   return (
     <View style={styles.container}>
       <TouchableHighlight

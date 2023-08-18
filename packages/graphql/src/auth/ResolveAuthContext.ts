@@ -56,17 +56,21 @@ export async function resolveContext(context: any): Promise<AuthContext> {
 export async function resolveToken(token: string): Promise<User> {
   try {
     token = token.replace("Bearer ", "");
+    // The following returns an object which looks like { user_id: string }
     var decodedToken = jwt.verify(token, process.env.JWT_SECRET as string);
     var userId = (decodedToken as jwt.JwtPayload).user_id;
-    console.log("Token implied user", decodedToken);
+    logger.info(`Token implied user ${userId}`);
   } catch (err) {
-    console.error(err);
+    logger.error(err);
     throw new Error("Could not verify user authorization token");
   }
 
   var user = await searchUser({ id: new ObjectId(userId as string) });
-  if (!user)
+  if (!user) {
+    logger.error("User encoded in authorization token was not found");
     throw new Error("User encoded in authorization token was not found");
+  }
+
   return user;
 }
 

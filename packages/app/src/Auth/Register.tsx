@@ -14,20 +14,27 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { AuthorizeButton } from "./LoginUser";
 import { createAccount } from "./Utils";
 
-export const Register = () => {
+export const Register = (args) => {
   const [user, updateUser] = useState<any>({});
   const [loading, updateLoading] = useState(false);
+
+  const updateToken = args.route.params.updateToken;
 
   // BoulderMate account register function
   async function register() {
     updateLoading(true);
 
-    try {
-      // Create the user in the backend - using the realm ID as their doc ID
-      await createAccount(user.name, user.username, user.email, user.password);
-    } catch (err) {
-      Alert.alert("Whoops!", err.message);
-    }
+    // Create the user in the backend - using the realm ID as their doc ID
+    var token = await createAccount(
+      user.name,
+      user.username,
+      user.email,
+      user.password
+    );
+
+    // Update the global token (will be null if authorization failed)
+    updateToken(token);
+
     updateLoading(false);
   }
 

@@ -4,6 +4,9 @@ import { newId, newTime } from "../utils/typeutils";
 import { AuthContext } from "./ResolveAuthContext";
 import { hash } from "bcrypt";
 import { authenticate } from "./Authentication";
+import { Logger } from "../utils/logging";
+
+const logger = new Logger("User Mutations");
 
 async function createUser(
   obj: any,
@@ -11,6 +14,7 @@ async function createUser(
   context: AuthContext,
   info: any
 ) {
+  logger.info(`Received request to create new user ${args.username}`);
   const id = newId();
 
   // Check for duplicate usernames
@@ -39,7 +43,7 @@ async function createUser(
     locations: [],
     routes: [],
     comments: [],
-    reviews: [],
+    ratings: [],
     verified: false,
     preferences: {},
   });

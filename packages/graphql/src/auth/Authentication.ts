@@ -3,6 +3,9 @@ import { AuthContext } from "./ResolveAuthContext";
 import { searchUser } from "./Utils";
 import * as jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
+import { Logger } from "../utils/logging";
+
+const logger = new Logger("Authorize");
 
 export async function authenticate(
   obj: any,
@@ -10,6 +13,8 @@ export async function authenticate(
   context: AuthContext,
   info: any
 ) {
+  // logger.debug(`Received authentication request from ${args.identifer}`);
+
   // Users enter with their username or email, but we don't know which one they chose
   // Hence we search using both - first assume it was an email, then a username
   var user = await searchUser({ email: args.identifier });
@@ -24,8 +29,25 @@ export async function authenticate(
     { user_id: (user._id as ObjectId).toString() },
     process.env.JWT_SECRET as string,
     {
-      expiresIn: "2 days",
+      // Caution: Setting an expiry will only work if we encode an object
+      // Don't change it back to a string!
+      expiresIn: "60d",  
     }
   );
   return token;
+}
+
+export async function verifyToken(
+  obj: any,
+  args: any,
+  context: AuthContext,
+  info: any
+) {
+  try {
+    jwt.verify(args.token, process.env.JWT_SECRET as string);
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+  return true;
 }

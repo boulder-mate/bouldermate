@@ -7,13 +7,11 @@ import { BouldermateLoginButton } from "./LoginButtons/ExistingUserLoginButton";
 import { LoginTemplate } from "./LoginTemplate";
 import { createStackNavigator } from "@react-navigation/stack";
 import { UserLogin } from "./LoginUser";
-import {
-  useNavigation,
-} from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { Register } from "./Register";
 
 // The unauthorized partition of the app necessitates its own navigation stack
-export const AuthStack = () => {
+export const AuthStack = ({ updateToken }) => {
   const AuthStack = createStackNavigator();
 
   return (
@@ -24,8 +22,16 @@ export const AuthStack = () => {
       }}
     >
       <AuthStack.Screen name="AuthLanding" component={AuthLanding} />
-      <AuthStack.Screen name="LoginUser" component={UserLogin} />
-      <AuthStack.Screen name="Register" component={Register} />
+      <AuthStack.Screen
+        name="LoginUser"
+        component={UserLogin}
+        initialParams={{ updateToken }}
+      />
+      <AuthStack.Screen
+        name="Register"
+        component={Register}
+        initialParams={{ updateToken }}
+      />
     </AuthStack.Navigator>
   );
 };

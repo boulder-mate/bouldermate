@@ -3,10 +3,7 @@ import { schema } from "./schema/schema";
 import { ApolloServer } from "@apollo/server";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 
-import {
-  AuthContext,
-  resolveContext,
-} from "./auth/ResolveAuthContext";
+import { AuthContext, resolveContext } from "./auth/ResolveAuthContext";
 
 import cors from "cors";
 import bodyParser from "body-parser";
@@ -34,9 +31,7 @@ export const httpServer = createServer(app);
 // Initialise Apollo Server
 export const server = new ApolloServer<AuthContext>({
   schema,
-  plugins: [
-    ApolloServerPluginDrainHttpServer({ httpServer }),
-  ],
+  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
 
 // Main function for the server
@@ -54,7 +49,7 @@ export async function initApolloServer() {
     cors<cors.CorsRequest>(),
     bodyParser.json({ limit: "50mb" }),
     expressMiddleware(server, {
-      context: async ({ req }) => resolveContext(req),
+      context: async (args) => resolveContext(args),
     })
   );
   logger.info("Apollo Server initialised with auth middleware!");
