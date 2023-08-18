@@ -15,11 +15,12 @@ export async function authenticate(
 ) {
   // logger.debug(`Received authentication request from ${args.identifer}`);
 
-  // Users enter with their username or email, but we don't know which one they chose
-  // Hence we search using both - first assume it was an email, then a username
-  var user = await searchUser({ email: args.identifier });
-  if (!user) user = await searchUser({ username: args.identifier });
-  // Neither the email or username matched a known user
+  // If they identify via email, will include @
+  if (args.identifier.includes("@"))
+    var user = await searchUser({ email: args.identifier });
+  else var user = await searchUser({ username: args.identifier });
+
+  // Search user returned null
   if (!user) throw new Error("User not found");
 
   const res = await compare(args.password, user.pass_hash);
@@ -31,7 +32,7 @@ export async function authenticate(
     {
       // Caution: Setting an expiry will only work if we encode an object
       // Don't change it back to a string!
-      expiresIn: "60d",  
+      expiresIn: "60d",
     }
   );
   return token;
