@@ -6,15 +6,15 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ApolloProvider } from "@apollo/client";
 import { client } from "./src/Apollo/apollo";
 
-import { Friends } from "./src/Friends/FriendsStack";
-import { Projects } from "./src/Projects/ProjectsStack";
+import { Friends } from "./src/Groups/FriendsStack";
+import { HomeNavigator } from "./src/Home/HomeNavigator";
 import { Gyms } from "./src/Gyms/Gyms";
 import { TabBar } from "./src/TabBar/TabBar";
-import { Settings } from "./src/Settings/Settings";
-import { Profile } from "./src/Profile/Profile";
+import { Profile } from "./src/Settings/Profile";
 
 import { NavigationContainer, Theme } from "@react-navigation/native";
 import { AuthGateway } from "./src/Auth/Auth";
+import { stackHeader } from "./src/Header";
 
 const { width, height } = Dimensions.get("window");
 
@@ -54,40 +54,20 @@ export default function App() {
             }}
           >
             <Tab.Navigator
-              initialRouteName="Home"
+              initialRouteName="You"
               id="BottomTab"
               screenOptions={{
                 tabBarHideOnKeyboard: true,
+                headerShown: false,
               }}
               backBehavior="none"
               tabBar={(props) => <TabBar {...props} />}
             >
-              <Tab.Screen
-                name="Gyms"
-                component={Gyms}
-                options={{ headerShown: false }}
-              />
-              <Tab.Screen
-                name="Routes"
-                component={Gyms}
-                options={{ headerShown: false }}
-              />
-              <Tab.Screen
-                name="You"
-                component={Projects}
-                options={{ headerShown: false }}
-              />
-
-              <Tab.Screen
-                name="Groups"
-                component={Friends}
-                options={{ headerShown: false }}
-              />
-              <Tab.Screen
-                name="Settings"
-                component={Profile}
-                options={{ headerShown: false }}
-              />
+              <Tab.Screen name="Gyms" component={Gyms} />
+              <Tab.Screen name="Routes" component={Gyms} />
+              <Tab.Screen name="You" component={HomeNavigator} />
+              <Tab.Screen name="Groups" component={Friends} />
+              <Tab.Screen name="Settings" component={Profile} />
             </Tab.Navigator>
           </View>
         </AuthGateway>

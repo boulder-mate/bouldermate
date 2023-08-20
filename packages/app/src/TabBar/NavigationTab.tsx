@@ -17,7 +17,7 @@ const NavigationTab = ({ route, isFocused }) => {
       case "You":
         return (
           <View
-            style={{ padding: 7, borderRadius: 15, backgroundColor: "#FFF" }}
+            style={{ padding: 8, borderRadius: 20, backgroundColor: "#FFF" }}
           >
             <FontAwesome5 name={"user-alt"} size={25} />
           </View>

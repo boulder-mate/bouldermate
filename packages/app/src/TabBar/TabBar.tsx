@@ -37,8 +37,8 @@ export const TabBar = ({ state, descriptors, navigation }: any) => {
               onPress={onPress}
               style={{
                 backgroundColor: isFocused ? "red" : "#FFF",
-                borderTopLeftRadius: index === ENLARGED_TAB ? 25 : 0,
-                borderTopRightRadius: index === ENLARGED_TAB ? 25 : 0,
+                borderTopLeftRadius: index === ENLARGED_TAB ? 15 : 0,
+                borderTopRightRadius: index === ENLARGED_TAB ? 15 : 0,
                 marginTop: "auto",
                 height: indexToHeight(index, isFocused),
                 alignItems: "center",

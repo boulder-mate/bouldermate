@@ -10,9 +10,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
-import { useAuthData } from "../Auth/Auth";
-const Boulder = require("../../assets/images/bouldering.jpg");
-const Rope = require("../../assets/images/lead.jpg");
+const Boulder = require("../../../assets/images/bouldering.jpg");
+const Rope = require("../../../assets/images/lead.jpg");
 
 const MUTUAL_BR = 20;
 
@@ -21,9 +20,9 @@ enum ClimbPreference {
   Boulder,
 }
 
-export const ProjectsLanding = () => {
-  var [lastPress, setLastPress] = useState(ClimbPreference.Boulder);
+export const ProjectsLanding = ({ updateGoBack }) => {
   const navigation = useNavigation<any>();
+  const [lastPress, setLastPress] = useState(ClimbPreference.Boulder);
 
   return (
     <View style={styles.container}>

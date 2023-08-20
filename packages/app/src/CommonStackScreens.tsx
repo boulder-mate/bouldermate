@@ -1,21 +1,21 @@
 import { TypedNavigator } from "@react-navigation/native";
-import { RoutePage } from "./ClimbRoutes/RoutePage";
-import { RouteUpload } from "./ClimbRoutes/Uploads/RouteUpload";
+import { RoutePage } from "./Routes/RoutePage";
+import { RouteUpload } from "./Routes/Uploads/RouteUpload";
 import { stackHeader } from "./Header";
 
-export const CommonScreens = (stack) => {
+export const CommonScreens = (stack, includeHeader = true) => {
   return [
     <stack.Screen
       name="RoutePage"
       key="RoutePage"
       component={RoutePage}
-      options={{ ...stackHeader() }}
+      options={includeHeader ? { ...stackHeader() } : { headerShown: false }}
     />,
     <stack.Screen
       name="RouteUpload"
       key="RouteUpload"
       component={RouteUpload}
-      options={{ ...stackHeader() }}
+      options={includeHeader ? { ...stackHeader() } : { headerShown: false }}
     />,
   ];
 };

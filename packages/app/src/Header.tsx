@@ -34,7 +34,7 @@ const headerStyles = StyleSheet.create({
   title: {
     color: "red",
     fontFamily: "LexendBold",
-    fontSize: 27,
+    fontSize: 25,
     textAlign: "center",
     textShadowColor: "rgba(0, 0, 0, 1)",
     textShadowOffset: { width: -0.5, height: 0.5 },
