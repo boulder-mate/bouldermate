@@ -70,7 +70,7 @@ export const TabBar = ({ state, descriptors, navigation }: any) => {
                   style={{
                     position: "relative",
                     bottom: 30,
-                    fontSize: 10,
+                    fontSize: 11,
                     fontFamily: "Lexend",
                   }}
                 >
@@ -86,7 +86,7 @@ export const TabBar = ({ state, descriptors, navigation }: any) => {
 };
 
 function indexToHeight(index: any, isFocused: any) {
-  if (index === ENLARGED_TAB) return 110;
+  if (index === ENLARGED_TAB) return 100;
   else return 85;
 }
 
@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     flexDirection: "row",
     position: "absolute",
+    paddingBottom: 10,
     bottom: 0,
   },
   mainItemContainer: {

@@ -54,7 +54,7 @@ export default function App() {
             }}
           >
             <Tab.Navigator
-              initialRouteName="Projects"
+              initialRouteName="Home"
               id="BottomTab"
               screenOptions={{
                 tabBarHideOnKeyboard: true,
@@ -68,23 +68,24 @@ export default function App() {
                 options={{ headerShown: false }}
               />
               <Tab.Screen
-                name="Friends"
+                name="Routes"
+                component={Gyms}
+                options={{ headerShown: false }}
+              />
+              <Tab.Screen
+                name="You"
+                component={Projects}
+                options={{ headerShown: false }}
+              />
+
+              <Tab.Screen
+                name="Groups"
                 component={Friends}
                 options={{ headerShown: false }}
               />
               <Tab.Screen
-                name="Projects"
-                component={Projects}
-                options={{ headerShown: false }}
-              />
-              <Tab.Screen
-                name="Me"
-                component={Profile}
-                options={{ headerShown: false }}
-              />
-              <Tab.Screen
                 name="Settings"
-                component={Settings}
+                component={Profile}
                 options={{ headerShown: false }}
               />
             </Tab.Navigator>
