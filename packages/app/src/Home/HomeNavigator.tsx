@@ -1,31 +1,32 @@
-import { ProjectsStack } from "./Projects/ProjectsStack";
-import { ActivityStack } from "./Activity/ActivityStack";
+import { stackHeader } from "../Header";
 
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { ProgressStack } from "./Progress/ProgressStack";
-import { TopTabBar } from "./TopTabBar";
-import { useState } from "react";
+import { createStackNavigator } from "@react-navigation/stack";
+import { HomeLanding } from "./Select/SelectClimbType";
+import { ClimbingStack } from "./Select/ClimbTypeStack";
+import { RouteTypes } from "common";
 
 export const HomeNavigator = () => {
-  const Tab = createMaterialTopTabNavigator();
+  const Stack = createStackNavigator();
 
   return (
-    <Tab.Navigator
-      initialRouteName="Projects"
-      tabBar={(props) => <TopTabBar {...props} onBack={undefined} />}
-    >
-      <Tab.Screen
-        name="Progress"
-        component={ProgressStack}
+    <Stack.Navigator initialRouteName="Landing">
+      <Stack.Screen
+        name="Landing"
+        component={HomeLanding}
+        options={stackHeader(true)}
       />
-      <Tab.Screen
-        name="Projects"
-        component={ProjectsStack}
+      <Stack.Screen
+        name="MyRopes"
+        component={ClimbingStack}
+        options={stackHeader()}
+        initialParams={{ type: RouteTypes.Rope }}
       />
-      <Tab.Screen
-        name="Activity"
-        component={ActivityStack}
+      <Stack.Screen
+        name="MyBoulders"
+        component={ClimbingStack}
+        options={stackHeader()}
+        initialParams={{ type: RouteTypes.Rope }}
       />
-    </Tab.Navigator>
+    </Stack.Navigator>
   );
 };

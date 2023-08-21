@@ -4,59 +4,53 @@ import { EmulateHeader } from "./EmulatedHeader";
 
 export const TopTabBar = ({ state, descriptors, navigation, onBack }: any) => {
   return (
-    <View style={styles.container}>
-      <EmulateHeader onBack={onBack} headerRight={undefined} />
-      <View style={styles.main}>
-        {state.routes.map((route: any, index: number) => {
-          const { options } = descriptors[route.key];
-          const label = route.name;
+    <View style={styles.main}>
+      {state.routes.map((route: any, index: number) => {
+        const { options } = descriptors[route.key];
+        const label = route.name;
 
-          const isFocused = state.index === index;
+        const isFocused = state.index === index;
 
-          const onPress = () => {
-            const event = navigation.emit({
-              type: "tabPress",
-              target: route.key,
-            });
+        const onPress = () => {
+          const event = navigation.emit({
+            type: "tabPress",
+            target: route.key,
+          });
 
-            if (!isFocused && !event.defaultPrevented) {
-              navigation.navigate(route.name);
-            }
-          };
+          if (!isFocused && !event.defaultPrevented) {
+            navigation.navigate(route.name);
+          }
+        };
 
-          return (
-            <Pressable
-              onPress={onPress}
-              key={label}
+        return (
+          <Pressable
+            onPress={onPress}
+            key={label}
+            style={[
+              styles.section,
+              {
+                backgroundColor: isFocused ? "red" : "#FFF",
+                borderBottomWidth: isFocused ? 1 : 0.5,
+                borderBottomColor: isFocused ? "black" : "#AAA",
+              },
+            ]}
+          >
+            <Text
               style={[
-                styles.section,
-                {
-                  backgroundColor: isFocused ? "red" : "#FFF",
-                  borderBottomWidth: isFocused ? 1 : 0.5,
-                  borderBottomColor: isFocused ? "black" : "#AAA",
-                },
+                styles.sectionText,
+                { color: isFocused ? "white" : "black" },
               ]}
             >
-              <Text
-                style={[
-                  styles.sectionText,
-                  { color: isFocused ? "white" : "black" },
-                ]}
-              >
-                {label}
-              </Text>
-            </Pressable>
-          );
-        })}
-      </View>
+              {label}
+            </Text>
+          </Pressable>
+        );
+      })}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: "column",
-  },
   main: {
     flexDirection: "row",
   },

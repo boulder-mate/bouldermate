@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Pressable, Text, StyleSheet } from "react-native";
+import { View, Pressable, Text, StyleSheet, Platform } from "react-native";
 import NavigationTab from "./NavigationTab";
 import Octicons from "react-native-vector-icons/Octicons";
 
@@ -7,7 +7,12 @@ const ENLARGED_TAB = 2;
 
 export const TabBar = ({ state, descriptors, navigation }: any) => {
   return (
-    <View style={styles.mainContainer}>
+    <View
+      style={[
+        styles.mainContainer,
+        { paddingBottom: Platform.OS === "ios" ? 0 : 10 },
+      ]}
+    >
       {state.routes.map((route: any, index: number) => {
         const { options } = descriptors[route.key];
         const label = route.name;
@@ -94,7 +99,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     flexDirection: "row",
     position: "absolute",
-    paddingBottom: 10,
+
     bottom: 0,
   },
   mainItemContainer: {
