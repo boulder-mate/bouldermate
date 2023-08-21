@@ -1,15 +1,8 @@
-enum ReviewTarget {
-    Location,
-    Route,
-}
-
 type Rating {
     id: String!
     created: String!
     last_updated: String!
     user_id: String!
-    target_id: String!
-    target_type: ReviewTarget!
     value: Int!
 }
 
@@ -18,18 +11,7 @@ type Comment {
     created: String!
     last_updated: String!
     user_id: String!
-    target_id: String!
-    target_type: ReviewTarget!
     text: String!
     votes: Int!
-    replies: [Reply]!
-}
-
-type Reply {
-    created: String!
-    last_updated: String!
-    user_id: String!
-    reply_to: String!
-    text: String!
-    votes: Int!
+    replies: [Comment]!
 }

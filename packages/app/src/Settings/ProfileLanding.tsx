@@ -1,7 +1,7 @@
 import { View, StyleSheet, Text, TouchableHighlight } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { ProfileSummary } from "./ProfileSummary";
-import { useAuthData } from "../Auth/Auth";
+import { useAuthData } from "../Auth/AuthProvider";
 
 export const ProfileLanding = () => {
   return (

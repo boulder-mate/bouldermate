@@ -55,10 +55,6 @@ export const RouteUpload = () => {
     return outRoute;
   };
 
-  console.log("\n");
-  console.log("Header:", header);
-  console.log("Metadata:", metadata);
-
   return (
     <View style={styles.mainContainer}>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>

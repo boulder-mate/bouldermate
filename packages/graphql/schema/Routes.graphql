@@ -49,7 +49,7 @@ input GradeInput {
 }
 
 type Query {
-    getRouteById(id: String!): Route!
+    getRoutesById(id: [String]!): Route!
 }
 
 type Mutation {

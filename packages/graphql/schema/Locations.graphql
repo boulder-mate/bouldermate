@@ -1,0 +1,52 @@
+type Location {
+    _id: ObjectId!
+    created: String!
+    last_updated: String!
+    name: String!
+    # In the rest of the code this is actually a typescript map!
+    routes: {
+        Boulders: [String]!,
+        Ropes: [String]!
+    },
+    metadata: LocationMetadata,
+    indoor: Boolean,
+    # This equivalently is a user id - companies treated as users
+    company: String!
+    ratings: Rating[]
+    comments: Comment[]
+}
+
+type LocationMetadata {
+    address: String!
+    suburb: String!
+    state: String!
+    country: Sring!
+    coordinates: Coordinates!
+    gmaps_link: String
+    gmaps_rating: String
+}
+
+type Coordinates {
+    lat: Float!
+    lng: Float!
+}
+
+# Infer whether creation is valid by verifying user is a company account in context!
+input LocationInput {
+    name: String!
+    metadata: {
+        address: String!
+        suburb: String!
+        state: String!
+        country: Sring!
+    }
+    indoor: Boolean!
+}
+
+type Query {
+    getLocationsById(id: [String]!): Route!
+}
+
+type Mutation {
+    createLocation(location: LocationInput!): String!
+}

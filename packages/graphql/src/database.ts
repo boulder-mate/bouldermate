@@ -13,6 +13,7 @@ export class MongoDatabase {
 
   public routesCollection?: Collection;
   public usersCollection?: Collection;
+  public locationsCollection?: Collection;
 
   /**
    * This establishes the wrapper class for a database within <provider> (MongoDB)
@@ -52,6 +53,7 @@ export class MongoDatabase {
     // Establish collections
     this.routesCollection = db.collection("routes");
     this.usersCollection = db.collection("users");
+    this.locationsCollection = db.collection("locations");
 
     // All done!
     logger.info("Connected and initialised!");

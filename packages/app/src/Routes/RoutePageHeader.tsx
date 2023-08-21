@@ -21,7 +21,6 @@ const width = Dimensions.get("screen").width;
 // Pass in the route and children, which will be an element apart of HeaderButtons
 export const RoutePageHeader = ({ route, children }) => {
   const [expanded, updateExpanded] = useState(false);
-  console.log("image:", route.image);
 
   return (
     <View>

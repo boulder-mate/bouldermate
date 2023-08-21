@@ -13,8 +13,7 @@ import { TabBar } from "./src/TabBar/TabBar";
 import { Profile } from "./src/Settings/Profile";
 
 import { NavigationContainer, Theme } from "@react-navigation/native";
-import { AuthGateway } from "./src/Auth/Auth";
-import { stackHeader } from "./src/Header";
+import { AuthGateway } from "./src/Auth/AuthProvider";
 
 const { width, height } = Dimensions.get("window");
 

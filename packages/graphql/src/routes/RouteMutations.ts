@@ -36,6 +36,8 @@ export async function createRoute(
     routesetters: input.routesetters,
     location: input.location,
     image: imageUrl,
+    ratings: [],
+    comments: [],
   };
 
   // Upload to database
