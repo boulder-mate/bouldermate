@@ -49,7 +49,6 @@ const parseHttpPrefix = () =>
 enum env {
   GQL_HOSTNAME = parseGqlHostname() as any,
   HTTP_PREFIX = parseHttpPrefix() as any,
-  MONGO_APP_ID = envVar("mongoAppId"),
 }
 
 export default env;

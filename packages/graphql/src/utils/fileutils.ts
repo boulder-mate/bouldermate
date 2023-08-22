@@ -2,6 +2,7 @@ import { ReadStream } from "fs";
 import { s3 } from "../aws";
 import { PutObjectCommand, PutObjectCommandInput } from "@aws-sdk/client-s3";
 import { Logger } from "./logging";
+import env from "../envManager";
 
 const logger = new Logger("FileUtils");
 
@@ -11,13 +12,11 @@ export const uploadImage = async (file: any, keyName: string) => {
   const stream: ReadStream = file.createReadStream();
   const buffer = await streamToBuffer(stream);
 
-  logger.debug(`image has buffer ${buffer}`);
-
   logger.debug(`Uploading image to AWS: ${keyName}`);
   try {
     // First upload the object to AWS
     const uploadParams: PutObjectCommandInput = {
-      Bucket: process.env.S3_BUCKET,
+      Bucket: env.AWS_IMAGES_BUCKET as any,
       Key: keyName,
       ContentType: "image",
       Body: buffer,
@@ -28,7 +27,7 @@ export const uploadImage = async (file: any, keyName: string) => {
     logger.debug("[AWS] Image uploaded successfully");
 
     // Then we need to return it's public URL
-    return `https://${process.env.S3_BUCKET}.s3.${process.env.S3_REGION}.amazonaws.com/${keyName}`;
+    return `https://${env.AWS_IMAGES_BUCKET}.s3.${env.AWS_REGION}.amazonaws.com/${keyName}`;
   } catch (err: any) {
     logger.error(`Error uploading image ${err}`);
     throw Error(`Error uploading to AWS - ${err}`);

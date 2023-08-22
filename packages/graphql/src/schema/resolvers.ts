@@ -3,6 +3,7 @@ import { routeMutations } from "../routes/RouteMutations";
 import { routeQueries } from "../routes/RouteQueries";
 import { userMutations } from "../auth/UserMutations";
 import { userQueries } from "../auth/UserQueries";
+import { locationMutations } from "../locations/LocationMutations";
 
 export const resolvers = {
   Upload: GraphQLUpload,
@@ -13,6 +14,7 @@ export const resolvers = {
   Mutation: {
     ...routeMutations,
     ...userMutations,
+    ...locationMutations
   },
   //Subscription: {},
 };

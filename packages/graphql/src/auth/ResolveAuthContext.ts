@@ -3,6 +3,7 @@ import { searchUser } from "./Utils";
 import { Logger } from "../utils/logging";
 import * as jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
+import env from "../envManager";
 
 export type AuthContext = {
   user: User | null;
@@ -23,8 +24,8 @@ async function decryptSymmetric(keyName: string, apiKey: string): Promise<any> {
 
 export async function resolveContext(context: any): Promise<AuthContext> {
   var token = context.req?.headers?.authorization;
-  var userId =
-    process.env.NODE_ENV === "local" ? context.req?.headers["user-id"] : "";
+  // If we are developing locally, allow x-user-id to be set in Apollo for easier mocking
+  var userId = env.NODE_ENV as any === "local" ? context.req?.headers["user-id"] : "";
   //   var apiKey = context.req?.headers["x-api-key"];
   var userObject: User | null = null;
 
@@ -57,7 +58,7 @@ export async function resolveToken(token: string): Promise<User> {
   try {
     token = token.replace("Bearer ", "");
     // The following returns an object which looks like { user_id: string }
-    var decodedToken = jwt.verify(token, process.env.JWT_SECRET as string);
+    var decodedToken = jwt.verify(token, env.JWT_SECRET as any);
     var userId = (decodedToken as jwt.JwtPayload).user_id;
     logger.info(`Token implied user ${userId}`);
   } catch (err) {

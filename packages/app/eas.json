@@ -6,8 +6,7 @@
             "distribution": "internal",
             "env": {
                 "APP_ENV": "local",
-                "EAS_PROJECT_ID": "29d7fe9c-c4f6-44ea-9d1d-e1c4c5aca522",
-                "MONGO_APP_ID": "data-kfdml"
+                "EAS_PROJECT_ID": "29d7fe9c-c4f6-44ea-9d1d-e1c4c5aca522"
             } 
         },
         "sim-preview": {
@@ -19,8 +18,7 @@
             "channel": "local",
             "env": {
                 "APP_ENV": "local",
-                "EAS_PROJECT_ID": "29d7fe9c-c4f6-44ea-9d1d-e1c4c5aca522",
-                "MONGO_APP_ID": "data-kfdml"
+                "EAS_PROJECT_ID": "29d7fe9c-c4f6-44ea-9d1d-e1c4c5aca522"
             } 
         }
     }

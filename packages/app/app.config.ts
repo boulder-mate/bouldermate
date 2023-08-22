@@ -59,7 +59,6 @@ export default {
     extra: {
       gqlHostname: process.env.GQL_HOSTNAME,
       nodeEnv: process.env.APP_ENV,
-      mongoAppId: process.env.MONGO_APP_ID,
       eas: {
         projectId: process.env.EAS_PROJECT_ID,
       },

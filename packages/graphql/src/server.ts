@@ -12,6 +12,7 @@ import { createServer } from "http";
 import { graphqlUploadExpress } from "graphql-upload";
 import { expressMiddleware } from "@apollo/server/express4";
 import { Logger } from "./utils/logging";
+import env from "./envManager";
 
 var Fingerprint = require("express-fingerprint");
 
@@ -37,7 +38,7 @@ export const server = new ApolloServer<AuthContext>({
 // Main function for the server
 export async function initApolloServer() {
   logger.info("Initialising Apollo server...");
-  const PORT = process.env.PORT || 8080;
+  const PORT = env.PORT || 8080;
   await server.start();
 
   httpServer.listen(PORT, () => {

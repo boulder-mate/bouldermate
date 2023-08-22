@@ -1,5 +1,6 @@
 import { MongoClient, ServerApiVersion, Collection } from "mongodb";
 import { Logger } from "./utils/logging";
+import env from "./envManager";
 
 // Wrapper class so the database such that it can be switched out if necessary
 // If we ever want to do this, we would just change over the methods
@@ -25,7 +26,7 @@ export class MongoDatabase {
     this.databaseName = dbName;
 
     // Create a MongoClient with a MongoClientOptions object to set the Stable API version
-    var uri = process.env.MONGO_URL as string;
+    var uri = env.MONGO_URL as any;
 
     this.client = new MongoClient(uri, {
       serverApi: {
@@ -61,10 +62,8 @@ export class MongoDatabase {
   }
 }
 
-const dbName = process.env.NODE_ENV === "prod" ? "bm-prod" : "bm-dev";
-
 // Initialise MongoDB
-export const db = new MongoDatabase("MongoDB", dbName);
+export const db = new MongoDatabase("MongoDB", env.MONGO_DB_NAME as any);
 
 // Main function for the database
 export async function initDb() {

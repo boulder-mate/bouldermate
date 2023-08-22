@@ -1,52 +1,57 @@
 type Location {
-    _id: ObjectId!
-    created: String!
-    last_updated: String!
-    name: String!
-    # In the rest of the code this is actually a typescript map!
-    routes: {
-        Boulders: [String]!,
-        Ropes: [String]!
-    },
-    metadata: LocationMetadata,
-    indoor: Boolean,
-    # This equivalently is a user id - companies treated as users
-    company: String!
-    ratings: Rating[]
-    comments: Comment[]
+  _id: ObjectId!
+  created: String!
+  last_updated: String!
+  name: String!
+  # In the rest of the code this is actually a typescript map!
+  routes: LocationRoutes!
+  metadata: LocationMetadata!
+  indoor: Boolean!
+  # This equivalently is a user id - companies treated as users
+  company: String!
+  ratings: [Rating]
+  comments: [Comment]
+}
+
+type LocationRoutes {
+  Boulders: [String]!
+  Ropes: [String]!
 }
 
 type LocationMetadata {
-    address: String!
-    suburb: String!
-    state: String!
-    country: Sring!
-    coordinates: Coordinates!
-    gmaps_link: String
-    gmaps_rating: String
+  address: String!
+  suburb: String!
+  state: String!
+  postcode: String!
+  country: String!
+  coordinates: Coordinates!
 }
 
 type Coordinates {
-    lat: Float!
-    lng: Float!
+  lat: Float!
+  lng: Float!
 }
 
 # Infer whether creation is valid by verifying user is a company account in context!
 input LocationInput {
-    name: String!
-    metadata: {
-        address: String!
-        suburb: String!
-        state: String!
-        country: Sring!
-    }
-    indoor: Boolean!
+  name: String!
+  metadata: LocationMetadataInput!
+  indoor: Boolean!
+  company: String # Add the company if BM admins create manually
+}
+
+input LocationMetadataInput {
+  address: String!
+  suburb: String!
+  postcode: String!
+  state: String!
+  country: String!
 }
 
 type Query {
-    getLocationsById(id: [String]!): Route!
+  getLocationsById(id: [String]!): Route!
 }
 
 type Mutation {
-    createLocation(location: LocationInput!): String!
+  createLocation(location: LocationInput!): String!
 }

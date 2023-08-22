@@ -6,7 +6,7 @@ import { Logger } from "../utils/logging";
 
 const logger = new Logger("RouteQueries");
 
-export async function getRouteById(
+export async function getRoutesById(
   obj: any,
   args: any,
   context: AuthContext,
@@ -21,5 +21,5 @@ export async function getRouteById(
 }
 
 export const routeQueries = {
-  getRouteById,
+  getRoutesById,
 };

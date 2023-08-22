@@ -19,10 +19,9 @@ export type LocationMetadata = {
   address: string;
   suburb: string;
   state: string;
+  postcode: string;
   country: string;
-  coordinates: string;
-  gmaps_link?: string;
-  gmaps_rating?: number;
+  coordinates: Coordinates;
 };
 
 export type Coordinates = {

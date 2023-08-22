@@ -4,6 +4,7 @@ import { searchUser } from "./Utils";
 import * as jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 import { Logger } from "../utils/logging";
+import env from "../envManager";
 
 const logger = new Logger("Authorize");
 
@@ -28,7 +29,7 @@ export async function authenticate(
 
   const token = jwt.sign(
     { user_id: (user._id as ObjectId).toString() },
-    process.env.JWT_SECRET as string,
+    env.JWT_SECRET as any,
     {
       // Caution: Setting an expiry will only work if we encode an object
       // Don't change it back to a string!
@@ -45,9 +46,9 @@ export async function verifyToken(
   info: any
 ) {
   try {
-    jwt.verify(args.token, process.env.JWT_SECRET as string);
+    jwt.verify(args.token, env.JWT_SECRET as any);
   } catch (err) {
-    console.log(err);
+    logger.error(err);
     return false;
   }
   return true;

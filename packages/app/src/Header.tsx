@@ -2,7 +2,7 @@
 // This is to enable stack based use of the back button
 // Hence this file contains functions which return a header dynamic to each stack
 
-import { StyleSheet } from "react-native";
+import { Pressable, StyleSheet, TouchableHighlight } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
@@ -19,8 +19,8 @@ export function stackHeader(isLanding: boolean = false) {
           <MaterialIcons
             name="arrow-back-ios"
             size={25}
-            style={headerStyles.back}
             onPress={() => navigation.goBack()}
+            style={headerStyles.back}
           />
         ),
   };
@@ -41,6 +41,11 @@ const headerStyles = StyleSheet.create({
     textShadowRadius: 0,
   },
   back: {
-    marginLeft: 15,
+    marginLeft: 20,
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    padding: 1,
   },
 });
