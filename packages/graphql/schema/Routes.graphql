@@ -1,57 +1,58 @@
-type Route  {
-    _id: ObjectId!
-    created: String!
-    last_updated: String!
-    type: RouteTypes!
-    grades: Grades!
-    colors: [String]!
-    name: String!
-    routesetters: [String]!
-    active: Boolean!
-    image: String!
-    location: String!
-    ratings: [Rating]
-    comments: [Comment] 
+type Route {
+  _id: ObjectId!
+  created: String!
+  last_updated: String!
+  type: RouteTypes!
+  grades: Grades!
+  colors: [String]!
+  name: String!
+  routesetters: [String]!
+  active: Boolean!
+  image: String!
+  location: String!
+  ratings: [Rating]
+  comments: [Comment]
 }
 
 enum RouteTypes {
-    Boulder,
-    Lead,
-    TopRope,
-    Trad,
-    Ice
+  Boulder
+  Lead
+  TopRope
+  Trad
+  Ice
 }
 
 type Grade {
-    type: String!
-    value: String!
+  type: String!
+  value: String!
 }
 
 type Grades {
-    routesetter: Grade
-    user: [Grade]!
+  routesetter: Grade
+  user: [Grade]!
 }
 
 input RouteInput {
-    type: RouteTypes!
-    colors: [String]!
-    name: String!
-    image: Upload!
-    location: String!
-    routesetters: [String]!
-    routesetter_grade: GradeInput
-    notes: String
+  type: RouteTypes!
+  colors: [String]!
+  name: String!
+  image: Upload!
+  location: String!
+  routesetters: [String]!
+  routesetter_grade: GradeInput
+  notes: String
 }
 
 input GradeInput {
-    type: String!
-    value: String!
+  type: String!
+  value: String!
 }
 
 type Query {
-    getRoutesById(ids: [String]!): [Route]!
+  getRoutesById(ids: [String]!): [Route]!
+  getUserRoutes(page: Int): [Route]!
 }
 
 type Mutation {
-    createRoute(route: RouteInput!): String!
+  createRoute(route: RouteInput!): String!
 }
