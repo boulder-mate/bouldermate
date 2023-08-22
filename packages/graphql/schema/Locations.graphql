@@ -49,7 +49,7 @@ input LocationMetadataInput {
 }
 
 type Query {
-  getLocationsById(id: [String]!): Route!
+  getLocationsById(ids: [String]!): [Location]!
 }
 
 type Mutation {

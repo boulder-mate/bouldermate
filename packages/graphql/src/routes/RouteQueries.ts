@@ -12,12 +12,17 @@ export async function getRoutesById(
   context: AuthContext,
   info: any
 ) {
-  logger.info(`Received route query for ID ${args.id}`);
+  logger.info(`Received route query for IDs ${args.ids}`);
 
-  var id = new ObjectId(args.id);
-  var route = await db.routesCollection?.findOne({ _id: id });
-  logger.info(`Retrieved route ${route}`);
-  return route;
+  var routes = [];
+  for (var id of args.ids) {
+    var _id = new ObjectId(args.id);
+    var route = (await db.routesCollection?.findOne({ _id })) as Route;
+    logger.info(`Retrieved location ${route.name}`);
+    routes.push(route);
+  }
+
+  return routes;
 }
 
 export const routeQueries = {
