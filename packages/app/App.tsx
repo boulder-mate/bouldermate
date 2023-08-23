@@ -8,7 +8,8 @@ import { client } from "./src/Apollo/apollo";
 
 import { Friends } from "./src/Groups/FriendsStack";
 import { HomeNavigator } from "./src/Home/HomeNavigator";
-import { Gyms } from "./src/Gyms/Gyms";
+import { GymsStack } from "./src/Gyms/GymsStack";
+import { RoutesStack } from "./src/Routes/RoutesStack";
 import { TabBar } from "./src/TabBar/TabBar";
 import { Profile } from "./src/Settings/Profile";
 
@@ -62,8 +63,8 @@ export default function App() {
               backBehavior="none"
               tabBar={(props) => <TabBar {...props} />}
             >
-              <Tab.Screen name="Gyms" component={Gyms} />
-              <Tab.Screen name="Routes" component={Gyms} />
+              <Tab.Screen name="Gyms" component={GymsStack} />
+              <Tab.Screen name="Routes" component={RoutesStack} />
               <Tab.Screen name="You" component={HomeNavigator} />
               <Tab.Screen name="Groups" component={Friends} />
               <Tab.Screen name="Settings" component={Profile} />

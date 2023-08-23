@@ -25,7 +25,7 @@ export const HomeNavigator = () => {
         name="MyBoulders"
         component={ClimbingStack}
         options={stackHeader()}
-        initialParams={{ type: RouteTypes.Rope }}
+        initialParams={{ type: RouteTypes.Boulder }}
       />
     </Stack.Navigator>
   );
