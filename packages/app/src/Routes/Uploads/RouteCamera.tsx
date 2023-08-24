@@ -6,7 +6,7 @@ import { manipulateAsync, FlipType, SaveFormat } from "expo-image-manipulator";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { CARD_IMG_HEIGHT, EXPANDED_IMG_HEIGHT } from "../RoutePageHeader";
+import { CARD_IMG_HEIGHT, EXPANDED_IMG_HEIGHT } from "../RoutePage/RoutePageHeader";
 
 // Kind of heuristic
 const CARD_OUTLINE_LOWER = (EXPANDED_IMG_HEIGHT + CARD_IMG_HEIGHT) / 2 - 25;

@@ -3,7 +3,7 @@ import { GymsLanding } from "./GymsLanding";
 import { stackHeader } from "../Header";
 import { CommonScreens } from "../CommonStackScreens";
 
-export const Gyms = () => {
+export const GymsStack = () => {
   const GymsStack = createStackNavigator();
 
   return (

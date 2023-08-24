@@ -10,9 +10,9 @@ import {
 import Octicons from "react-native-vector-icons/Octicons";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { useState } from "react";
-import { ColorDisplay } from "./Uploads/UploadMetadata";
+import { ColorDisplay } from "../Uploads/UploadMetadata";
 
-var wallImage = require("../../assets/images/wall-image.jpg");
+var wallImage = require("../../../assets/images/wall-image.jpg");
 
 export const EXPANDED_IMG_HEIGHT = 550;
 export const CARD_IMG_HEIGHT = 250;

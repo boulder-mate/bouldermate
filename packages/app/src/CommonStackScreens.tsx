@@ -1,5 +1,4 @@
-import { TypedNavigator } from "@react-navigation/native";
-import { RoutePage } from "./Routes/RoutePage";
+import { RoutePage } from "./Routes/RoutePage/RoutePage";
 import { RouteUpload } from "./Routes/Uploads/RouteUpload";
 import { stackHeader } from "./Header";
 

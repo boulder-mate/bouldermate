@@ -19,7 +19,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import AntDesign from "react-native-vector-icons/AntDesign";
 
 import { RouteCamera } from "./RouteCamera";
-import { EXPANDED_IMG_HEIGHT, CARD_IMG_HEIGHT } from "../RoutePageHeader";
+import { EXPANDED_IMG_HEIGHT, CARD_IMG_HEIGHT } from "../RoutePage/RoutePageHeader";
 import { UploadMetadata } from "./UploadMetadata";
 import { HeaderButtons } from "../HeaderButtons";
 

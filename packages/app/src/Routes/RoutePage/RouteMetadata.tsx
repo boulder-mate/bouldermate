@@ -14,7 +14,7 @@ import Entypo from "react-native-vector-icons/Entypo";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
-const Climber = require("../../assets/images/climber.png");
+const Climber = require("../../../assets/images/climber.png");
 let height = Dimensions.get("screen").height;
 
 export const RouteMetadata = ({ route }) => {

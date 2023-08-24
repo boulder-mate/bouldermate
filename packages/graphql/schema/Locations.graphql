@@ -50,6 +50,7 @@ input LocationMetadataInput {
 
 type Query {
   getLocationsById(ids: [String]!): [Location]!
+  getAllLocations(): [Location]!
 }
 
 type Mutation {
