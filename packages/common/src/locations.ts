@@ -9,6 +9,8 @@ export type Location = ID &
       inactive: string[];
     };
     metadata: LocationMetadata;
+    image: string;
+
     indoor?: Boolean;
     company?: LinkedID;
     // ratings?: Rating[];

@@ -7,15 +7,18 @@ type Location {
   routes: LocationRoutes!
   metadata: LocationMetadata!
   indoor: Boolean!
-  # This equivalently is a user id - companies treated as users
-  company: String!
+  image: String! # Image URL
+
+  # This equivalently is a user id - companies treated as users. May not have one!
+  company: String
+  
   # ratings: LinkedID
   # comments: LinkedID
 }
 
 type LocationRoutes {
-  boulders: [String]!
-  ropes: [String]!
+  active: [String]!
+  inactive: [String]!
 }
 
 type LocationMetadata {
@@ -49,8 +52,8 @@ input LocationMetadataInput {
 }
 
 type Query {
-  getLocationsById(ids: [String]!): [Location]!
-  getAllLocations: [Location]!
+  getLocationsById(ids: [String]!): [Location]
+  getAllLocations: [Location]
 }
 
 type Mutation {

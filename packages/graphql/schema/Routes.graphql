@@ -54,8 +54,8 @@ input GradeInput {
 }
 
 type Query {
-  getRoutesById(ids: [String]!): [Route]!
-  getUserRoutes(page: Int): [Route]!
+  getRoutesById(ids: [String]!): [Route]
+  getUserRoutes(page: Int): [Route]
 }
 
 type Mutation {

@@ -26,7 +26,7 @@ export const HomeLanding = ({ updateGoBack }) => {
   const [lastPress, setLastPress] = useState(ClimbPreference.Boulder);
 
   return (
-    <ScrollView>
+    <ScrollView style={{ flex: 1 }}>
       <View style={styles.container}>
         <TouchableHighlight
           style={[
@@ -145,13 +145,15 @@ const styles = StyleSheet.create({
     width: "95%",
     maxWidth: 400,
     height: 200,
-    backgroundColor: "white",
     borderWidth: 1,
     marginTop: 17,
     borderRadius: 20,
     shadowColor: "black",
     shadowOffset: { width: 5, height: 5 },
     shadowOpacity: 0.5,
+    elevation: 10,
+    // background color must be set
+    backgroundColor: "#0000", // invisible color
   },
   container: {
     flex: 1,
@@ -159,6 +161,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     alignItems: "center",
     width: "100%",
+    height: 120000,
   },
   imageFit: {
     borderRadius: 20,

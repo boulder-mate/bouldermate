@@ -8,13 +8,14 @@ import { client } from "./src/Apollo/apollo";
 
 import { Friends } from "./src/Groups/FriendsStack";
 import { HomeNavigator } from "./src/Home/HomeNavigator";
-import { GymsStack } from "./src/Locations/GymsStack";
+import { CragMapRoot } from "./src/Locations/CragMap";
 import { RoutesStack } from "./src/Routes/RoutesStack";
 import { TabBar } from "./src/TabBar/TabBar";
 import { Profile } from "./src/Settings/Profile";
 
 import { NavigationContainer, Theme } from "@react-navigation/native";
 import { AuthGateway } from "./src/Auth/AuthProvider";
+import { stackHeader } from "./src/Header";
 
 const { width, height } = Dimensions.get("window");
 
@@ -63,7 +64,7 @@ export default function App() {
               backBehavior="none"
               tabBar={(props) => <TabBar {...props} />}
             >
-              <Tab.Screen name="Gyms" component={GymsStack} />
+              <Tab.Screen name="Gyms" component={CragMapRoot} />
               <Tab.Screen name="Routes" component={RoutesStack} />
               <Tab.Screen name="You" component={HomeNavigator} />
               <Tab.Screen name="Groups" component={Friends} />

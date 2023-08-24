@@ -4,7 +4,7 @@ import { db } from "../database";
 import { ObjectId } from "mongodb";
 import { Logger } from "../utils/logging";
 
-const logger = new Logger("RouteQueries");
+const logger = new Logger("LocationQueries");
 
 export async function getLocationsById(
   obj: any,
@@ -31,9 +31,8 @@ export async function getAllLocations(
   context: AuthContext,
   info: any
 ) {
-  logger.info(`Received location collection query`);
+  logger.debug(`Received location collection query`);
 
-  var locations = [];
   var cursor = db.locationsCollection?.find();
   var docArray = await cursor?.toArray();
   // Let's hope this doesn't happen..
