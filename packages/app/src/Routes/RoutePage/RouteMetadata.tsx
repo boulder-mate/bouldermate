@@ -17,7 +17,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 const Climber = require("../../../assets/images/climber.png");
 let height = Dimensions.get("screen").height;
 
-export const RouteMetadata = ({ route }) => {
+export const RouteMetadata = ({ route }: { route: Route }) => {
   return (
     <ScrollView style={{ height, overflow: "scroll" }} persistentScrollbar>
       <View style={styles.container}>

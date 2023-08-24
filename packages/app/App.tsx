@@ -8,7 +8,7 @@ import { client } from "./src/Apollo/apollo";
 
 import { Friends } from "./src/Groups/FriendsStack";
 import { HomeNavigator } from "./src/Home/HomeNavigator";
-import { GymsStack } from "./src/Gyms/GymsStack";
+import { GymsStack } from "./src/Locations/GymsStack";
 import { RoutesStack } from "./src/Routes/RoutesStack";
 import { TabBar } from "./src/TabBar/TabBar";
 import { Profile } from "./src/Settings/Profile";
