@@ -40,8 +40,8 @@ export async function createLocation(
     },
     indoor: input.indoor,
     company: context.user?._id,
-    ratings: [],
-    comments: [],
+    // ratings: [],
+    // comments: [],
   };
 
   // Upload to database

@@ -10,18 +10,21 @@ export type Route = Time &
       user: Grade[];
     };
     colors: string[];
-    name: string; // Set by the Route Setters on creation
+    name: string;
     routesetters: ID[];
-    notes?: string;
-    active: boolean; // Is the route still there and useable
-    decomissioned?: string; // The time the route was taken down, if it was
     image: string; // image url
     location: ID;
-    ratings?: Rating[];
-    comments?: Comment[];
-    ascents?: number; // Derived
-    projects?: number; // Derived
-    average_rating?: number; // Derived
+
+    active: boolean; // Is the route still there and useable
+    decomissioned?: string; // The time the route was taken down, if it was
+    notes?: string;
+    
+    ascents: number; // Derived per update
+    projects: number; // Derived per update
+    // average_rating: number; // Derived per update
+
+    // ratings: LinkedID; // Stored in their own collection!
+    // comments: LinkedID; // Stored in their own collection!
   };
 
 export enum RouteTypes {

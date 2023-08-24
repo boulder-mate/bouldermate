@@ -1,0 +1,5 @@
+type Project {
+    route: Route!
+    user_id: LinkedID!
+    user_rating: Int!
+}

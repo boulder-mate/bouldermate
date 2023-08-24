@@ -11,8 +11,8 @@ export type Location = ID &
     metadata: LocationMetadata;
     indoor?: Boolean;
     company?: LinkedID;
-    ratings?: Rating[];
-    comments?: Comment[];
+    // ratings?: Rating[];
+    // comments?: Comment[];
   };
 
 export type LocationMetadata = {

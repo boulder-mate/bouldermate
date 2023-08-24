@@ -10,8 +10,13 @@ type Route {
   active: Boolean!
   image: String!
   location: String!
-  ratings: [Rating]
-  comments: [Comment]
+
+  # average_rating: Float!
+  ascents: Int!
+  projects: Int!
+
+  # ratings: String!
+  # comments: String!
 }
 
 enum RouteTypes {

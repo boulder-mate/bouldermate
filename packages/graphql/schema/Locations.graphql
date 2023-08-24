@@ -9,8 +9,8 @@ type Location {
   indoor: Boolean!
   # This equivalently is a user id - companies treated as users
   company: String!
-  ratings: [Rating]
-  comments: [Comment]
+  # ratings: LinkedID
+  # comments: LinkedID
 }
 
 type LocationRoutes {
