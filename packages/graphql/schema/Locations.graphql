@@ -14,8 +14,8 @@ type Location {
 }
 
 type LocationRoutes {
-  Boulders: [String]!
-  Ropes: [String]!
+  boulders: [String]!
+  ropes: [String]!
 }
 
 type LocationMetadata {
@@ -50,7 +50,7 @@ input LocationMetadataInput {
 
 type Query {
   getLocationsById(ids: [String]!): [Location]!
-  getAllLocations(): [Location]!
+  getAllLocations: [Location]!
 }
 
 type Mutation {
