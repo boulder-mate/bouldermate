@@ -6,7 +6,8 @@
             "distribution": "internal",
             "env": {
                 "APP_ENV": "local",
-                "EAS_PROJECT_ID": "29d7fe9c-c4f6-44ea-9d1d-e1c4c5aca522"
+                "EAS_PROJECT_ID": "29d7fe9c-c4f6-44ea-9d1d-e1c4c5aca522",
+                "GMAPS_API_KEY": "AIzaSyBOCgrILiWCfOr4XZnoelY2yOpBNuCa-Xc"
             } 
         },
         "sim-preview": {

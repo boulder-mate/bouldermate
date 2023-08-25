@@ -26,6 +26,15 @@ export function stackHeader(isLanding: boolean = false) {
   };
 }
 
+export function mapHeader() {
+  return {
+    title: "BoulderMate",
+    headerTitleAlign: "center" as "center" | "left",
+    headerTitleStyle: headerStyles.title,
+    headerStyle: headerStyles.header,
+  };
+}
+
 const headerStyles = StyleSheet.create({
   header: {
     borderBottomWidth: 0.5,

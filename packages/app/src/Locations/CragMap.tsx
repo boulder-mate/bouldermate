@@ -5,7 +5,12 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import MapView, { Marker, Camera, PROVIDER_DEFAULT, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, {
+  Marker,
+  Camera,
+  PROVIDER_DEFAULT,
+  PROVIDER_GOOGLE,
+} from "react-native-maps";
 import {
   View,
   Text,
@@ -23,6 +28,8 @@ import {
 } from "@gorhom/bottom-sheet";
 import { LoadingScreen } from "../Utils/MiscComponents";
 import { useAuthData } from "../Auth/AuthProvider";
+import * as Location from "expo-location";
+import { getAsyncData, storeAsyncData } from "../Utils/AsyncStorage";
 
 const GET_LOCATIONS = gql`
   query getLocations {
@@ -60,6 +67,7 @@ const DEFAULT_COORDINATES = {
 
 export const CragMapRoot = () => {
   const [locations, setLocations] = useState<Array<any>>([]);
+  const [coordinates, setCoordinates] = useState<any>();
   const [selectedLocation, setSelectedLocation] = useState<any | undefined>(
     undefined
   );
@@ -67,7 +75,7 @@ export const CragMapRoot = () => {
     fetchPolicy: "no-cache",
   });
 
-  // Auth data
+  // Auth data - includes user preferred region
   const user = useAuthData();
 
   // Drawer setup stuff
@@ -82,31 +90,42 @@ export const CragMapRoot = () => {
 
   // Mapmarker press handler
   const handlePresentModalPress = useCallback((location: any) => {
+    // Store this as the preferred user location
+    storeAsyncData(
+      "coordinates",
+      JSON.stringify(location.metadata.coordinates)
+    );
     setSelectedLocation(location);
-    bottomSheetModalRef.current?.present();
+    //bottomSheetModalRef.current?.present();
   }, []);
 
   // Set the state according to GQL response
   useEffect(() => {
-    if (data && data.locationsApi.length > 0) {
-      setLocations(data.locationsApi);
-    } else {
-      refetch({ fetchPolicy: "no-cache" });
+    if (!!data && data.getAllLocations.length > 0) {
+      setLocations(data.getAllLocations);
     }
   }, [data]);
+
+  // Get the users most recently visited location to set as an initial focus point
+  // This subverts the need for location services
+  useEffect(() => {
+    getAsyncData("coordinates").then((coords) => {
+      console.log("Recalled most recent location at", coords);
+      coords && setCoordinates(JSON.parse(coords));
+    });
+  }, []);
 
   // Handle the GraphQL response
   if (loading || !locations) {
     return <LoadingScreen text={"Finding crags..."} />;
   }
 
-  if (locations.length === 0 || error) {
+  if (error) {
     console.error("Error:", error);
     Alert.alert(
       "Whoops!",
       "We couldn't find any climbing spots.. please try again or notify BoulderMate"
     );
-    refetch();
   }
 
   return (
@@ -114,6 +133,7 @@ export const CragMapRoot = () => {
       <View style={styles.container}>
         <CragMap
           data={locations}
+          coordinates={coordinates}
           onSelectedLocation={(location) => handlePresentModalPress(location)}
         />
         <BottomSheetModal
@@ -134,35 +154,50 @@ export const CragMapRoot = () => {
 };
 
 // The actual map itself
-const CragMap = ({ data, onSelectedLocation }) => {
+const CragMap = ({ data, coordinates, onSelectedLocation }) => {
   const mapRef = useRef<MapView>(null);
+  console.log("Should have", data?.length, "mapmarkers");
 
   return (
     <MapView
       ref={mapRef}
       style={{ left: 0, right: 0, top: 0, bottom: 0, position: "absolute" }}
-      initialRegion={DEFAULT_COORDINATES}
-      provider={PROVIDER_GOOGLE}
+      initialRegion={coordinates}
     >
-      {data.map((x: any) => {
-        return (
-          <Marker
-            key={x._id}
-            coordinate={{
-              latitude: x.coordinates.lat,
-              longitude: x.coordinates.lng,
-            }}
-            onPress={() => onSelectedLocation(x)}
-          >
-            <Fontisto
-              name="map-marker"
-              color="#2fdce1"
-              size={40}
-              style={styles.markerShadow}
-            />
-          </Marker>
-        );
-      })}
+      <Marker
+        key={"YOLO"}
+        title={"YOLO"}
+        coordinate={{
+          latitude: -35,
+          longitude: 145,
+        }}
+        onPress={() => onSelectedLocation("bdhv")}
+      >
+        <Fontisto
+          name="map-marker"
+          color="#2fdce1"
+          size={40}
+          style={styles.markerShadow}
+        />
+      </Marker>
+      {data.map((x: any) => (
+        <Marker
+          key={x.name}
+          title={x.name}
+          coordinate={{
+            latitude: x.metadata.coordinates.lat,
+            longitude: x.metadata.coordinates.lng,
+          }}
+          onPress={() => onSelectedLocation(x)}
+        >
+          <Fontisto
+            name="map-marker"
+            color="#2fdce1"
+            size={40}
+            style={styles.markerShadow}
+          />
+        </Marker>
+      ))}
     </MapView>
   );
 };
@@ -184,6 +219,5 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0.5, height: 0.5 },
     shadowOpacity: 1,
     elevation: 1,
-    backgroundColor: "#000",
   },
 });

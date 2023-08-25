@@ -15,7 +15,8 @@ import { Profile } from "./src/Settings/Profile";
 
 import { NavigationContainer, Theme } from "@react-navigation/native";
 import { AuthGateway } from "./src/Auth/AuthProvider";
-import { stackHeader } from "./src/Header";
+import { mapHeader } from "./src/Header";
+import { ProvideLocation } from "./src/Locations/CurrentLocation";
 
 const { width, height } = Dimensions.get("window");
 
@@ -48,29 +49,35 @@ export default function App() {
     <NavigationContainer theme={appTheme}>
       <ApolloProvider client={client}>
         <AuthGateway>
-          <View
-            style={{
-              width,
-              height: height,
-            }}
-          >
-            <Tab.Navigator
-              initialRouteName="You"
-              id="BottomTab"
-              screenOptions={{
-                tabBarHideOnKeyboard: true,
-                headerShown: false,
+          <ProvideLocation>
+            <View
+              style={{
+                width,
+                height: height,
               }}
-              backBehavior="none"
-              tabBar={(props) => <TabBar {...props} />}
             >
-              <Tab.Screen name="Gyms" component={CragMapRoot} />
-              <Tab.Screen name="Routes" component={RoutesStack} />
-              <Tab.Screen name="You" component={HomeNavigator} />
-              <Tab.Screen name="Groups" component={Friends} />
-              <Tab.Screen name="Settings" component={Profile} />
-            </Tab.Navigator>
-          </View>
+              <Tab.Navigator
+                initialRouteName="You"
+                id="BottomTab"
+                screenOptions={{
+                  tabBarHideOnKeyboard: true,
+                  headerShown: false,
+                }}
+                backBehavior="none"
+                tabBar={(props) => <TabBar {...props} />}
+              >
+                <Tab.Screen
+                  name="Gyms"
+                  component={CragMapRoot}
+                  options={mapHeader()}
+                />
+                <Tab.Screen name="Routes" component={RoutesStack} />
+                <Tab.Screen name="You" component={HomeNavigator} />
+                <Tab.Screen name="Groups" component={Friends} />
+                <Tab.Screen name="Settings" component={Profile} />
+              </Tab.Navigator>
+            </View>
+          </ProvideLocation>
         </AuthGateway>
       </ApolloProvider>
     </NavigationContainer>
