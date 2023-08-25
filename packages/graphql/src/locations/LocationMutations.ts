@@ -38,6 +38,7 @@ export async function createLocation(
       ...input.metadata,
       coordinates,
     },
+    image: "string",
     indoor: input.indoor,
     company: context.user?._id,
     // ratings: [],
