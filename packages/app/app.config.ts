@@ -1,5 +1,7 @@
 import "dotenv/config";
 
+// Keep secrets such as API keys seperate for visibility sake
+
 export default {
   expo: {
     owner: "ethanhusband",
@@ -28,7 +30,7 @@ export default {
       url: `https://u.expo.dev/${process.env.EAS_PROJECT_ID}`,
       requestHeaders: {
         "expo-runtime-version": "1.0.0",
-        "expo-channel-name": "local"
+        "expo-channel-name": "local",
       },
     },
     assetBundlePatterns: ["**/*"],
@@ -39,6 +41,11 @@ export default {
       adaptiveIcon: {
         foregroundImage: "./assets/images/logo-whitebg.png",
         backgroundColor: "#ffffff",
+      },
+      config: {
+        googleMaps: {
+          apiKey: process.env.GMAPS_API_KEY,
+        },
       },
       package: "com.bouldermate",
       versionCode: 100,
@@ -53,7 +60,6 @@ export default {
           "This app uses the photo library to upload climbs and route images.",
       },
       usesAppleSignIn: true,
-
     },
     plugins: [],
     extra: {

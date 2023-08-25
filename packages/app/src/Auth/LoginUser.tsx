@@ -62,7 +62,6 @@ export const UserLogin = (args) => {
             autoComplete="password"
           />
         </View>
-        {/* This needs to be updated so that the loading effect handles the recall of login */}
         <AuthorizeButton onPress={login} loading={loading} />
       </View>
     </LoginTemplate>

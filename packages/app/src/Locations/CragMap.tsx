@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import MapView, { Marker, Camera } from "react-native-maps";
+import MapView, { Marker, Camera, PROVIDER_DEFAULT, PROVIDER_GOOGLE } from "react-native-maps";
 import {
   View,
   Text,
@@ -142,6 +142,7 @@ const CragMap = ({ data, onSelectedLocation }) => {
       ref={mapRef}
       style={{ left: 0, right: 0, top: 0, bottom: 0, position: "absolute" }}
       initialRegion={DEFAULT_COORDINATES}
+      provider={PROVIDER_GOOGLE}
     >
       {data.map((x: any) => {
         return (
