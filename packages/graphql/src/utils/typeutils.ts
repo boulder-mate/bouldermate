@@ -17,7 +17,7 @@ export const coordinatesFromAwsLocation = (location: Place) => {
   const coordArray = location.Geometry?.Point;
   if (!coordArray) throw new Error("AWS location has no coordinates!");
   return {
-    lat: coordArray[0],
-    lng: coordArray[1],
+    lat: coordArray[1],
+    lng: coordArray[0],
   } as Coordinates;
 };
