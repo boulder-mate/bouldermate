@@ -35,6 +35,13 @@ export function mapHeader() {
   };
 }
 
+export function defaultTabHeader() {
+  return {
+    headerShown: false,
+    tabBarHideOnKeyboard: true,
+  };
+}
+
 const headerStyles = StyleSheet.create({
   header: {
     borderBottomWidth: 0.5,

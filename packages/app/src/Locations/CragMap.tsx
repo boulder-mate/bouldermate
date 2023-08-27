@@ -5,12 +5,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import MapView, {
-  Marker,
-  Camera,
-  PROVIDER_DEFAULT,
-  PROVIDER_GOOGLE,
-} from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import {
   View,
   Text,
@@ -155,14 +150,30 @@ export const CragMapRoot = () => {
 
 // The actual map itself
 const CragMap = ({ data, coordinates, onSelectedLocation }) => {
+  const initRegion = {
+    latitude: coordinates.lat,
+    longitude: coordinates.lng,
+    latitudeDelta: 1,
+    longitudeDelta: 1,
+  };
   const mapRef = useRef<MapView>(null);
   console.log("Should have", data?.length, "mapmarkers");
+
+  const handleMarkerPress = (location) => {
+    mapRef.current.animateToRegion({
+      latitude: location.metadata.coordinates.lat,
+      longitude: location.metadata.coordinates.lng,
+      latitudeDelta: 0.25,
+      longitudeDelta: 0.25,
+    });
+    onSelectedLocation(location);
+  };
 
   return (
     <MapView
       ref={mapRef}
       style={{ left: 0, right: 0, top: 0, bottom: 0, position: "absolute" }}
-      initialRegion={coordinates}
+      initialRegion={initRegion}
     >
       <Marker
         key={"YOLO"}
@@ -171,11 +182,11 @@ const CragMap = ({ data, coordinates, onSelectedLocation }) => {
           latitude: -35,
           longitude: 145,
         }}
-        onPress={() => onSelectedLocation("bdhv")}
+        onPress={() => handleMarkerPress("bdhv")}
       >
         <Fontisto
           name="map-marker"
-          color="#2fdce1"
+          color="#FF3131"
           size={40}
           style={styles.markerShadow}
         />
@@ -188,11 +199,11 @@ const CragMap = ({ data, coordinates, onSelectedLocation }) => {
             latitude: x.metadata.coordinates.lat,
             longitude: x.metadata.coordinates.lng,
           }}
-          onPress={() => onSelectedLocation(x)}
+          onPress={() => handleMarkerPress(x)}
         >
           <Fontisto
             name="map-marker"
-            color="#2fdce1"
+            color="#FF3131"
             size={40}
             style={styles.markerShadow}
           />

@@ -15,8 +15,7 @@ import { Profile } from "./src/Settings/Profile";
 
 import { NavigationContainer, Theme } from "@react-navigation/native";
 import { AuthGateway } from "./src/Auth/AuthProvider";
-import { mapHeader } from "./src/Header";
-import { ProvideLocation } from "./src/Locations/CurrentLocation";
+import { defaultTabHeader, mapHeader } from "./src/Header";
 
 const { width, height } = Dimensions.get("window");
 
@@ -49,7 +48,6 @@ export default function App() {
     <NavigationContainer theme={appTheme}>
       <ApolloProvider client={client}>
         <AuthGateway>
-          <ProvideLocation>
             <View
               style={{
                 width,
@@ -59,10 +57,6 @@ export default function App() {
               <Tab.Navigator
                 initialRouteName="You"
                 id="BottomTab"
-                screenOptions={{
-                  tabBarHideOnKeyboard: true,
-                  headerShown: false,
-                }}
                 backBehavior="none"
                 tabBar={(props) => <TabBar {...props} />}
               >
@@ -71,13 +65,28 @@ export default function App() {
                   component={CragMapRoot}
                   options={mapHeader()}
                 />
-                <Tab.Screen name="Routes" component={RoutesStack} />
-                <Tab.Screen name="You" component={HomeNavigator} />
-                <Tab.Screen name="Groups" component={Friends} />
-                <Tab.Screen name="Settings" component={Profile} />
+                <Tab.Screen
+                  name="Routes"
+                  component={RoutesStack}
+                  options={defaultTabHeader()}
+                />
+                <Tab.Screen
+                  name="You"
+                  component={HomeNavigator}
+                  options={defaultTabHeader()}
+                />
+                <Tab.Screen
+                  name="Groups"
+                  component={Friends}
+                  options={defaultTabHeader()}
+                />
+                <Tab.Screen
+                  name="Settings"
+                  component={Profile}
+                  options={defaultTabHeader()}
+                />
               </Tab.Navigator>
             </View>
-          </ProvideLocation>
         </AuthGateway>
       </ApolloProvider>
     </NavigationContainer>
