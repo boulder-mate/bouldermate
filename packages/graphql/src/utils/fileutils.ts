@@ -3,10 +3,16 @@ import { s3 } from "../aws";
 import { PutObjectCommand, PutObjectCommandInput } from "@aws-sdk/client-s3";
 import { Logger } from "./logging";
 import env from "../envManager";
+import { v4 as uuid } from "uuid";
 
 const logger = new Logger("FileUtils");
 
 export const uploadImage = async (file: any, keyName: string) => {
+  // Anything coming in through the GraphQL Upload field needs to be awaited
+  file = await file;
+  // Add a UUID to the keyName to ensure uniqueness
+  keyName += "_" + uuid();
+
   // Convert file stream to buffer inpreparation for AWS upload
   logger.info("Creating read stream and buffer for uploaded image");
   const stream: ReadStream = file.createReadStream();

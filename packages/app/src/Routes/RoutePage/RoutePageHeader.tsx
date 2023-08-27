@@ -1,4 +1,3 @@
-import { Route } from "common";
 import {
   View,
   Text,

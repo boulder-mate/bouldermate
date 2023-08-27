@@ -4,6 +4,7 @@ import { AuthContext } from "../auth/ResolveAuthContext";
 import { db } from "../database";
 import { Logger } from "../utils/logging";
 import { searchAwsLocations } from "../aws";
+import { uploadImage } from "../utils/fileutils";
 
 export const AMAZON_API_URL = `https://console.aws.amazon.com/apigateway`;
 const logger = new Logger("LocationMutations");
@@ -25,11 +26,15 @@ export async function createLocation(
   var coordinates = coordinatesFromAwsLocation(place);
   logger.debug(`Retrieved new location coordinates ${coordinates}`);
 
+  // Upload the image
+  var imageUrl = await uploadImage(input.image, input.name);
+
   // Create object
   var location: Location = {
     ...newId(),
     ...newTime(),
     name: input.name,
+    image: imageUrl,
     routes: {
       active: [],
       inactive: [],
@@ -38,7 +43,6 @@ export async function createLocation(
       ...input.metadata,
       coordinates,
     },
-    image: "string",
     indoor: input.indoor,
     company: context.user?._id,
     // ratings: [],

@@ -2,7 +2,6 @@ import { Route } from "common";
 import { newId, newTime } from "../utils/typeutils";
 import { AuthContext } from "../auth/ResolveAuthContext";
 import { uploadImage } from "../utils/fileutils";
-import { v4 as uuid } from "uuid";
 import { db } from "../database";
 import { Logger } from "../utils/logging";
 
@@ -18,8 +17,7 @@ export async function createRoute(
   logger.info("Received route creation request");
 
   // Need to handle the image upload first
-  var image = await input.image;
-  var imageUrl = await uploadImage(image, "testfile_" + uuid());
+  var imageUrl = await uploadImage(input.image, "testfile");
 
   // Create object
   var route: Route = {

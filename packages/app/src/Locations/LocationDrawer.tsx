@@ -9,6 +9,7 @@ import {
   Linking,
   Pressable,
   useWindowDimensions,
+  ImageBackground,
 } from "react-native";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -24,21 +25,23 @@ export const LocationSummary = ({ location, bottomSheetModalRef }: any) => {
 
   const navigation = useNavigation() as any;
 
-  const locationImage = (
-    <Image
-      source={{
-        uri: location.image ?? DEFAULT_IMAGE,
-        // Default image shouldnt really be a thing. We want to enforce images for all locs
-      }}
-      style={styles.image}
-    />
-  );
-
   return (
     <View key="container" style={styles.container}>
-      {locationImage}
+      <View style={styles.locationTitle}>
+        <Text style={styles.locationTitleText}>{location.name}</Text>
+      </View>
+      <View style={styles.summary}>
+        <Image
+          source={{
+            uri: location.image ?? DEFAULT_IMAGE,
+            // Default image shouldnt really be a thing. We want to enforce images for all locs
+          }}
+          style={styles.imageBackground}
+          resizeMode="cover"
+        />
+      </View>
       <View>
-        <Text>{location.name}</Text>
+        <Text>{location.metadata.address}</Text>
       </View>
     </View>
   );
@@ -78,16 +81,48 @@ export const LocationSummary = ({ location, bottomSheetModalRef }: any) => {
 // };
 
 const styles = StyleSheet.create({
-  image: { width: "100%", height: 200, overflow: "hidden" },
   container: {
-    backgroundColor: "#2fdce1",
+    backgroundColor: "black",
     height: "100%",
-    shadowColor: "#333",
+    shadowColor: "#FF3131",
     shadowOffset: { width: 0.5, height: 0.1 },
     shadowOpacity: 1,
-    zIndex: 1,
     flex: 1,
     flexDirection: "column",
+    borderLeftWidth: 0.5,
+    borderRightWidth: 0.5,
+    padding: 5,
+  },
+  imageBackground: {
+    width: "100%",
+    height: 200,
+    overflow: "hidden",
+    alignSelf: "center",
+    borderRadius: 10,
+    borderTopLeftRadius: 0,
+  },
+  summary: {
+    backgroundColor: "black",
+    borderRadius: 10,
+    borderTopLeftRadius: 0,
+    borderColor: "white",
+    borderWidth: 1,
+  },
+  locationTitle: {
+    backgroundColor: "white",
+    paddingVertical: 8,
+    paddingHorizontal: 15,
+    alignSelf: "flex-start",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  locationTitleText: {
+    fontFamily: "LexendBold",
+    fontSize: 18,
+    color: "#FF3131",
+    textShadowColor: "rgba(0, 0, 0, 1)",
+    textShadowOffset: { width: -0.5, height: 0.5 },
+    textShadowRadius: 0,
   },
 
   directionsButton: {

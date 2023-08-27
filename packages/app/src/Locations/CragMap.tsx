@@ -33,6 +33,7 @@ const GET_LOCATIONS = gql`
       created
       last_updated
       name
+      image
       routes {
         active
         inactive
@@ -91,7 +92,7 @@ export const CragMapRoot = () => {
       JSON.stringify(location.metadata.coordinates)
     );
     setSelectedLocation(location);
-    //bottomSheetModalRef.current?.present();
+    bottomSheetModalRef.current?.present();
   }, []);
 
   // Set the state according to GQL response
@@ -133,6 +134,7 @@ export const CragMapRoot = () => {
         />
         <BottomSheetModal
           handleIndicatorStyle={styles.handleIndicatorStyle}
+          enablePanDownToClose
           backgroundStyle={styles.bottomSheetModalStyle}
           ref={bottomSheetModalRef}
           index={1}
@@ -161,10 +163,10 @@ const CragMap = ({ data, coordinates, onSelectedLocation }) => {
 
   const handleMarkerPress = (location) => {
     mapRef.current.animateToRegion({
-      latitude: location.metadata.coordinates.lat,
+      latitude: location.metadata.coordinates.lat - 0.05,
       longitude: location.metadata.coordinates.lng,
-      latitudeDelta: 0.25,
-      longitudeDelta: 0.25,
+      latitudeDelta: 0.15,
+      longitudeDelta: 0.15,
     });
     onSelectedLocation(location);
   };
@@ -175,22 +177,6 @@ const CragMap = ({ data, coordinates, onSelectedLocation }) => {
       style={{ left: 0, right: 0, top: 0, bottom: 0, position: "absolute" }}
       initialRegion={initRegion}
     >
-      <Marker
-        key={"YOLO"}
-        title={"YOLO"}
-        coordinate={{
-          latitude: -35,
-          longitude: 145,
-        }}
-        onPress={() => handleMarkerPress("bdhv")}
-      >
-        <Fontisto
-          name="map-marker"
-          color="#FF3131"
-          size={40}
-          style={styles.markerShadow}
-        />
-      </Marker>
       {data.map((x: any) => (
         <Marker
           key={x.name}
@@ -219,10 +205,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   bottomSheetModalStyle: {
-    backgroundColor: "white",
+    backgroundColor: "black",
+    borderWidth: 0.5,
+    borderColor: "black",
   },
   handleIndicatorStyle: {
-    backgroundColor: "red",
+    backgroundColor: "white",
   },
 
   markerShadow: {
