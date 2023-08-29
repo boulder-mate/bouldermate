@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, Callout } from "react-native-maps";
 import {
   View,
   Text,
@@ -15,7 +15,7 @@ import {
   Alert,
 } from "react-native";
 import { gql, useQuery } from "@apollo/client";
-import { LocationSummary } from "./LocationDrawer";
+import { DrawerHandle, LocationSummary } from "./LocationDrawer";
 import Fontisto from "react-native-vector-icons/Fontisto";
 import {
   BottomSheetModal,
@@ -23,7 +23,6 @@ import {
 } from "@gorhom/bottom-sheet";
 import { LoadingScreen } from "../Utils/MiscComponents";
 import { useAuthData } from "../Auth/AuthProvider";
-import * as Location from "expo-location";
 import { getAsyncData, storeAsyncData } from "../Utils/AsyncStorage";
 
 const GET_LOCATIONS = gql`
@@ -76,7 +75,7 @@ export const CragMapRoot = () => {
 
   // Drawer setup stuff
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const snapPoints = ["20%", "60%"];
+  const snapPoints = ["41%", "60%"];
   const drawerContent = (
     <LocationSummary
       location={selectedLocation}
@@ -134,6 +133,9 @@ export const CragMapRoot = () => {
         />
         <BottomSheetModal
           handleIndicatorStyle={styles.handleIndicatorStyle}
+          handleComponent={(props) => (
+            <DrawerHandle title={selectedLocation.name} />
+          )}
           enablePanDownToClose
           backgroundStyle={styles.bottomSheetModalStyle}
           ref={bottomSheetModalRef}
@@ -172,30 +174,34 @@ const CragMap = ({ data, coordinates, onSelectedLocation }) => {
   };
 
   return (
-    <MapView
-      ref={mapRef}
+    <View
       style={{ left: 0, right: 0, top: 0, bottom: 0, position: "absolute" }}
-      initialRegion={initRegion}
     >
-      {data.map((x: any) => (
-        <Marker
-          key={x.name}
-          title={x.name}
-          coordinate={{
-            latitude: x.metadata.coordinates.lat,
-            longitude: x.metadata.coordinates.lng,
-          }}
-          onPress={() => handleMarkerPress(x)}
-        >
-          <Fontisto
-            name="map-marker"
-            color="#FF3131"
-            size={40}
-            style={styles.markerShadow}
-          />
-        </Marker>
-      ))}
-    </MapView>
+      <MapView
+        ref={mapRef}
+        style={{ left: 0, right: 0, top: 0, bottom: 0, position: "absolute" }}
+        initialRegion={initRegion}
+      >
+        {data.map((x: any) => (
+          <Marker
+            title={x.name}
+            description={x.metadata.address + ", " + x.metadata.suburb}
+            coordinate={{
+              latitude: x.metadata.coordinates.lat,
+              longitude: x.metadata.coordinates.lng,
+            }}
+            onPress={() => handleMarkerPress(x)}
+          >
+            <Fontisto
+              name="map-marker"
+              color="#FF3131"
+              size={40}
+              style={styles.markerShadow}
+            />
+          </Marker>
+        ))}
+      </MapView>
+    </View>
   );
 };
 
@@ -205,9 +211,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   bottomSheetModalStyle: {
-    backgroundColor: "black",
-    borderWidth: 0.5,
-    borderColor: "black",
+    backgroundColor: "rgba(0,0,0,0)",
   },
   handleIndicatorStyle: {
     backgroundColor: "white",

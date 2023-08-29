@@ -1,8 +1,8 @@
 import { stackHeader } from "../Header";
 
 import { createStackNavigator } from "@react-navigation/stack";
-import { HomeLanding } from "./Select/SelectClimbType";
-import { ClimbingStack } from "./Select/ClimbTypeStack";
+import { HomeLanding } from "./HomeLanding";
+import { TabNavigator } from "./TabNavigator";
 import { RouteTypes } from "common";
 
 export const HomeNavigator = () => {
@@ -17,13 +17,13 @@ export const HomeNavigator = () => {
       />
       <Stack.Screen
         name="MyRopes"
-        component={ClimbingStack}
+        component={TabNavigator}
         options={stackHeader()}
         initialParams={{ type: RouteTypes.Rope }}
       />
       <Stack.Screen
         name="MyBoulders"
-        component={ClimbingStack}
+        component={TabNavigator}
         options={stackHeader()}
         initialParams={{ type: RouteTypes.Boulder }}
       />

@@ -1,9 +1,9 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { Progress } from "../Progress/Progress";
-import { Projects } from "../Projects/Projects";
+import { Progress } from "./Progress/Progress";
+import { Projects } from "./Projects/Projects";
 
 // This stack is used as an overview by all climbing types
-export const ClimbingStack = ({ routes, type }) => {
+export const TabNavigator = ({ routes, type }) => {
   // Query user type projects!
   const Tab = createMaterialTopTabNavigator();
 

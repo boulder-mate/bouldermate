@@ -11,7 +11,7 @@ export default {
     currentFullName: "@user/bouldermate",
     originalFullName: "@user/bouldermate",
     version: "1.0.0",
-    icon: "./assets/images/logo-white.png",
+    icon: "./assets/images/logo-whitebg.png",
     orientation: "portrait",
     userInterfaceStyle: "light",
     runtimeVersion: {
