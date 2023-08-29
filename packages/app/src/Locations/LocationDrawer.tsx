@@ -31,6 +31,19 @@ export const LocationSummary = ({ location, bottomSheetModalRef }) => {
         location={location}
         onClose={() => bottomSheetModalRef.current?.close()}
       />
+      <View>
+        {/* What to include for the user?
+      - Climbing types at the gym
+      - Average boulder rating
+      - Min/max difficulty?
+      - # Active Routes
+      - # Total users */}
+      </View>
+      <View>
+        {/* User button options?
+          Community
+          Routes */}
+      </View>
     </View>
   );
 };
