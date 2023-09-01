@@ -15,9 +15,10 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import AntDesign from "react-native-vector-icons/AntDesign";
-import { BottomSheetModalRef } from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheetModalProvider/types";
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 
 const DEFAULT_IMAGE = require("../../assets/images/wall-image.jpg");
+const CLIMBER = require("../../assets/images/climber.png");
 
 export const LocationSummary = ({ location, bottomSheetModalRef }) => {
   // Close Modal if locationData is undefined
@@ -25,13 +26,17 @@ export const LocationSummary = ({ location, bottomSheetModalRef }) => {
     bottomSheetModalRef.current?.close();
   }
 
+  const navigation = useNavigation<any>();
+
   return (
     <View key="container" style={styles.container}>
       <LocHeader
         location={location}
         onClose={() => bottomSheetModalRef.current?.close()}
       />
-      <View>
+      <View style={{ paddingHorizontal: 3, flexDirection: "row", height: 50 }}>
+        <LocTab metric={location.routes.active.length} desc={"Routes"} />
+        <LocTab metric={location.routes.active.length} desc={"Routes"} />
         {/* What to include for the user?
       - Climbing types at the gym
       - Average boulder rating
@@ -39,12 +44,87 @@ export const LocationSummary = ({ location, bottomSheetModalRef }) => {
       - # Active Routes
       - # Total users */}
       </View>
-      <View>
+      <View style={styles.detailsContainer}>
+        <LocButton
+          text={"Routes"}
+          icon={<Image source={CLIMBER} style={styles.climberIcon} />}
+          onPress={() => navigation.navigate("Routes")}
+        />
+        <LocButton
+          text={"Group"}
+          icon={<FontAwesome5 name="users" color="white" size={20} />}
+          onPress={() => navigation.navigate("Groups")}
+        />
+
         {/* User button options?
           Community
           Routes */}
       </View>
     </View>
+  );
+};
+
+export const LocTab = ({ metric, desc }) => {
+  return (
+    <View
+      style={{
+        backgroundColor: "#FF3131",
+        paddingHorizontal: 10,
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
+        borderWidth: 0.5,
+        borderColor: "rgba(0,0,0,0.3)",
+        borderTopWidth: 0,
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Text style={{ fontSize: 18, color: "white" }}>{metric}</Text>
+      <Text style={{ fontSize: 12, fontFamily: "Lexend" }}>{desc}</Text>
+    </View>
+  );
+};
+
+export const LocButton = ({ text, icon, onPress }) => {
+  return (
+    <TouchableHighlight
+      style={{
+        backgroundColor: "#FF3131",
+        borderColor: "black",
+        borderWidth: 1,
+        borderRadius: 10,
+        height: 50,
+        maxWidth: 500,
+        flex: 1,
+        alignItems: "center",
+      }}
+      onPress={onPress}
+    >
+      <View
+        style={{
+          justifyContent: "center",
+          padding: 5,
+          flex: 1,
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 5,
+        }}
+      >
+        {icon}
+        <Text
+          style={{
+            textAlign: "center",
+            textAlignVertical: "center",
+            fontSize: 18,
+            color: "white",
+            fontFamily: "LexendBold",
+          }}
+        >
+          {text}
+        </Text>
+      </View>
+    </TouchableHighlight>
   );
 };
 
@@ -61,14 +141,22 @@ export const LocHeader = ({ location, onClose }) => {
           </Text>
         </View>
 
-        <Image
-          source={{
-            uri: location.image ?? DEFAULT_IMAGE,
-            // Default image shouldnt really be a thing. We want to enforce images for all locs
+        <View
+          style={{
+            borderWidth: 0.5,
+            borderTopLeftRadius: 10,
+            borderTopRightRadius: 10,
           }}
-          style={styles.imageBackground}
-          resizeMode="cover"
-        />
+        >
+          <Image
+            source={{
+              uri: location.image ?? DEFAULT_IMAGE,
+              // Default image shouldnt really be a thing. We want to enforce images for all locs
+            }}
+            style={styles.imageBackground}
+            resizeMode="cover"
+          />
+        </View>
       </View>
     </View>
   );
@@ -120,7 +208,6 @@ const styles = StyleSheet.create({
   },
   imageBackground: {
     width: "100%",
-    backgroundColor: "white",
     height: 200,
     overflow: "hidden",
     alignSelf: "center",
@@ -132,7 +219,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 0,
     borderTopRightRadius: 10,
-    padding: 3,
+    paddingHorizontal: 3,
+    paddingTop: 3,
     borderTopWidth: 0.5,
     borderRightWidth: 0.5,
   },
@@ -182,15 +270,20 @@ const styles = StyleSheet.create({
   address: {
     position: "absolute",
     backgroundColor: "#FF3131",
-    bottom: 3,
+    bottom: 0,
     left: 3,
     zIndex: 1,
     padding: 10,
     borderTopRightRadius: 10,
-    borderTopWidth: 0.5,
-    borderRightWidth: 0.5,
+    borderColor: "rgba(0,0,0,0.2)",
+    borderWidth: 0.5,
   },
-  addressText: { fontFamily: "Lexend", color: "white" },
+  addressText: {
+    fontWeight: "500",
+    color: "white",
+    fontSize: 15,
+    fontFamily: "Lexend",
+  },
   directionsButton: {
     marginLeft: "auto",
     backgroundColor: "#FF3131",
@@ -211,6 +304,20 @@ const styles = StyleSheet.create({
 
   detailsContainer: {
     backgroundColor: "white",
-    height: "100%",
+    width: "90%",
+    justifyContent: "center",
+    flexDirection: "row",
+    flex: 1,
+    alignContent: "center",
+    alignSelf: "center",
+    gap: 10,
+    marginTop: 15,
+  },
+
+  climberIcon: {
+    height: 30,
+    width: 30,
+    tintColor: "white",
+    margin: -5,
   },
 });
