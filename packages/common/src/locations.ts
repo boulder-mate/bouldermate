@@ -12,7 +12,6 @@ export type Location = ID &
     image: string;
 
     indoor?: Boolean;
-    
     company?: LinkedID;
     // ratings?: Rating[];
     // comments?: Comment[];

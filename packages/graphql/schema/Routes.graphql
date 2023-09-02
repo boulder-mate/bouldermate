@@ -2,7 +2,7 @@ type Route {
   _id: ObjectId!
   created: String!
   last_updated: String!
-  type: RouteTypes!
+  type: [RouteTypes]!
   grades: Grades!
   colors: [String]!
   name: String!
@@ -23,6 +23,7 @@ enum RouteTypes {
   Boulder
   Lead
   TopRope
+  AutoBelay
   Trad
   Ice
 }
@@ -38,7 +39,7 @@ type Grades {
 }
 
 input RouteInput {
-  type: RouteTypes!
+  type: [RouteTypes]!
   colors: [String]!
   name: String!
   image: Upload!

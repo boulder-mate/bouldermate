@@ -1,9 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
 import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
 import { RouteCard } from "./RouteCard";
+import { useAuthData } from "../Auth/AuthProvider";
 
 export const RoutesLanding = () => {
   const navigation = useNavigation<any>();
+  const user = useAuthData();
 
   return (
     <View style={styles.main}>

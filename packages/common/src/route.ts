@@ -4,7 +4,7 @@ import { Rating } from "./feedback";
 
 export type Route = Time &
   ID & {
-    type: RouteTypes;
+    type: RouteTypes[];
     grades: {
       routesetter?: Grade;
       user: Grade[];
@@ -18,7 +18,7 @@ export type Route = Time &
     active: boolean; // Is the route still there and useable
     decomissioned?: string; // The time the route was taken down, if it was
     notes?: string;
-    
+
     ascents: number; // Derived per update
     projects: number; // Derived per update
     // average_rating: number; // Derived per update
@@ -29,7 +29,9 @@ export type Route = Time &
 
 export enum RouteTypes {
   Boulder = "Boulder",
-  Rope = "Rope",
+  TopRope = "Top Rope",
+  Lead = "Lead",
+  AutoBelay = "AutoBelay",
   // Trad = "Trad", OUTDOORS NOT SUPPORTED YET
   // Ice = "Ice"
 }
