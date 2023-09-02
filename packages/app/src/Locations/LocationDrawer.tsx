@@ -18,7 +18,7 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 
 const DEFAULT_IMAGE = require("../../assets/images/wall-image.jpg");
-const CLIMBER = require("../../assets/images/climber.png");
+const CLIMBER = require("../../assets/images/bouldering.png");
 
 export const LocationSummary = ({ location, bottomSheetModalRef }) => {
   // Close Modal if locationData is undefined
@@ -28,15 +28,35 @@ export const LocationSummary = ({ location, bottomSheetModalRef }) => {
 
   const navigation = useNavigation<any>();
 
+  const getDirections = async () => {
+    var directionsAddress = `https://www.google.com/maps/dir/${location.metadata.address},${location.metadata.suburb},${location.metadata.postcode}`;
+    Linking.canOpenURL(directionsAddress).then((supported) => {
+      if (supported) {
+        Linking.openURL(directionsAddress);
+      } else {
+        console.log("Don't know how to open URI: " + directionsAddress);
+      }
+    });
+  };
+
   return (
     <View key="container" style={styles.container}>
       <LocHeader
         location={location}
         onClose={() => bottomSheetModalRef.current?.close()}
       />
-      <View style={{ paddingHorizontal: 3, flexDirection: "row", height: 50 }}>
-        <LocTab metric={location.routes.active.length} desc={"Routes"} />
-        <LocTab metric={location.routes.active.length} desc={"Routes"} />
+      <View style={styles.tabsSection}>
+        <LocTab metric={4.7} desc={"Avg. ★"} />
+        <LocTab metric={147} desc={"Routes"} />
+        <LocTab metric={452} desc={"Climbers"} />
+
+        <LocTab
+          metric={
+            <MaterialCommunityIcons name="directions" color="black" size={20} />
+          }
+          desc={"Directions"}
+          onPress={() => getDirections()}
+        />
         {/* What to include for the user?
       - Climbing types at the gym
       - Average boulder rating
@@ -64,25 +84,14 @@ export const LocationSummary = ({ location, bottomSheetModalRef }) => {
   );
 };
 
-export const LocTab = ({ metric, desc }) => {
+export const LocTab = ({ metric, desc = undefined, onPress = undefined }) => {
   return (
-    <View
-      style={{
-        backgroundColor: "#FF3131",
-        paddingHorizontal: 10,
-        borderBottomLeftRadius: 10,
-        borderBottomRightRadius: 10,
-        borderWidth: 0.5,
-        borderColor: "rgba(0,0,0,0.3)",
-        borderTopWidth: 0,
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <Text style={{ fontSize: 18, color: "white" }}>{metric}</Text>
-      <Text style={{ fontSize: 12, fontFamily: "Lexend" }}>{desc}</Text>
-    </View>
+    <Pressable style={styles.tabContainer} onPress={onPress}>
+      <Text style={{ fontSize: 18, color: "black", fontWeight: "700" }}>
+        {metric}
+      </Text>
+      {desc && <Text style={{ fontSize: 12, color: "#333" }}>{desc}</Text>}
+    </Pressable>
   );
 };
 
@@ -91,8 +100,8 @@ export const LocButton = ({ text, icon, onPress }) => {
     <TouchableHighlight
       style={{
         backgroundColor: "#FF3131",
-        borderColor: "black",
-        borderWidth: 1,
+        borderColor: "white",
+        borderWidth: 0.5,
         borderRadius: 10,
         height: 50,
         maxWidth: 500,
@@ -131,23 +140,19 @@ export const LocButton = ({ text, icon, onPress }) => {
 export const LocHeader = ({ location, onClose }) => {
   return (
     <View>
-      <View style={styles.summary}>
+      <View style={styles.headerContainer}>
         <Pressable style={styles.closeButton} onPress={onClose}>
           <AntDesign name="down" color={"black"} size={20} />
         </Pressable>
         <View style={styles.address}>
           <Text style={styles.addressText}>
-            {location.metadata.address + ", " + location.metadata.suburb}
+            {location.metadata.address +
+              " - " +
+              location.metadata.suburb}
           </Text>
         </View>
 
-        <View
-          style={{
-            borderWidth: 0.5,
-            borderTopLeftRadius: 10,
-            borderTopRightRadius: 10,
-          }}
-        >
+        <View style={styles.imageBorder}>
           <Image
             source={{
               uri: location.image ?? DEFAULT_IMAGE,
@@ -170,41 +175,32 @@ export const DrawerHandle = ({ title }) => {
   );
 };
 
-const DirectionsButton = ({ locationCoords }: any) => {
-  return (
-    <TouchableHighlight
-      style={styles.directionsButton}
-      onPress={async () => {
-        var directionsAddress = `https://www.google.com/maps/dir/${locationCoords.lat},${locationCoords.lng}`;
-        Linking.canOpenURL(directionsAddress).then((supported) => {
-          if (supported) {
-            Linking.openURL(directionsAddress);
-          } else {
-            console.log("Don't know how to open URI: " + directionsAddress);
-          }
-        });
-      }}
-    >
-      <View style={styles.directionsButtonInner}>
-        <MaterialCommunityIcons
-          name="directions"
-          color="white"
-          size={45}
-          style={styles.directionsButtonInner}
-        />
-      </View>
-    </TouchableHighlight>
-  );
-};
-
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
+    backgroundColor: "rgba(0,0,0,0.7)",
     height: "100%",
     flex: 1,
     flexDirection: "column",
     borderLeftWidth: 0.5,
     borderRightWidth: 0.5,
+    borderTopRightRadius: 10,
+  },
+
+  headerContainer: {
+    borderRadius: 0,
+    padding: 1,
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
+    backgroundColor: "white",
+    borderColor: "black",
+    borderWidth: 0.5,
+    borderLeftWidth: 0,
+  },
+  imageBorder: {
+    borderWidth: 0.5,
+    borderColor: "white",
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
   },
   imageBackground: {
     width: "100%",
@@ -213,17 +209,9 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     borderRadius: 0,
     borderTopRightRadius: 10,
-    borderTopLeftRadius: 10,
+    borderBottomRightRadius: 10,
   },
-  summary: {
-    backgroundColor: "white",
-    borderRadius: 0,
-    borderTopRightRadius: 10,
-    paddingHorizontal: 3,
-    paddingTop: 3,
-    borderTopWidth: 0.5,
-    borderRightWidth: 0.5,
-  },
+
   locationTitle: {
     backgroundColor: "white",
     paddingVertical: 8,
@@ -245,8 +233,8 @@ const styles = StyleSheet.create({
   locationTitleText: {
     fontFamily: "LexendBold",
     fontSize: 19,
-    color: "#FF3131",
-    textShadowColor: "rgba(0, 0, 0, 1)",
+    color: "red",
+    textShadowColor: "black",
     textShadowOffset: { width: -0.5, height: 0.5 },
     textShadowRadius: 0,
   },
@@ -269,41 +257,23 @@ const styles = StyleSheet.create({
 
   address: {
     position: "absolute",
-    backgroundColor: "#FF3131",
+    backgroundColor: "white",
     bottom: 0,
-    left: 3,
     zIndex: 1,
     padding: 10,
     borderTopRightRadius: 10,
-    borderColor: "rgba(0,0,0,0.2)",
+    borderColor: "white",
+    borderBottomWidth: 0,
     borderWidth: 0.5,
   },
   addressText: {
     fontWeight: "500",
-    color: "white",
+    color: "#FF3131",
     fontSize: 15,
-    fontFamily: "Lexend",
-  },
-  directionsButton: {
-    marginLeft: "auto",
-    backgroundColor: "#FF3131",
-    borderTopLeftRadius: 10,
-    padding: 5,
-    borderTopWidth: 0.5,
-    borderLeftWidth: 0.5,
-    borderRightWidth: 0.5,
-  },
-  directionsButtonInner: {
-    alignItems: "center",
-    borderTopLeftRadius: 10,
-  },
-  directionText: {
-    color: "white",
-    fontSize: 10,
+    fontFamily: "LexendBold",
   },
 
   detailsContainer: {
-    backgroundColor: "white",
     width: "90%",
     justifyContent: "center",
     flexDirection: "row",
@@ -311,13 +281,36 @@ const styles = StyleSheet.create({
     alignContent: "center",
     alignSelf: "center",
     gap: 10,
-    marginTop: 15,
+    position: "absolute",
+    bottom: 120,
+  },
+  climberIcon: {
+    height: 25,
+    width: 25,
+    tintColor: "white",
   },
 
-  climberIcon: {
-    height: 30,
-    width: 30,
-    tintColor: "white",
-    margin: -5,
+  tabsSection: {
+    flexDirection: "row",
+    height: 50,
+    position: "relative",
+    bottom: 0.5,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+  },
+  tabContainer: {
+    paddingTop: 0.5,
+    backgroundColor: "white",
+    paddingHorizontal: 20,
+
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 20,
+    borderWidth: 0.5,
+    borderTopWidth: 0,
+    borderColor: "rgba(255,255,255,0.5)",
+    flexDirection: "column",
+    gap: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

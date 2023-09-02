@@ -53,16 +53,15 @@ const GET_LOCATIONS = gql`
   }
 `;
 
-const DEFAULT_COORDINATES = {
-  latitude: -35,
-  longitude: 140,
-  latitudeDelta: 0.5,
-  longitudeDelta: 0.5,
+const DEFAULT_REGION = {
+  latitude: -27.374481586572028,
+  latitudeDelta: 67.86163255988238,
+  longitude: 134.03028721301726,
+  longitudeDelta: 43.079187046147524,
 };
 
 export const CragMapRoot = () => {
   const [locations, setLocations] = useState<Array<any>>([]);
-  const [coordinates, setCoordinates] = useState<any>();
   const [selectedLocation, setSelectedLocation] = useState<any | undefined>(
     undefined
   );
@@ -86,10 +85,7 @@ export const CragMapRoot = () => {
   // Mapmarker press handler
   const handlePresentModalPress = useCallback((location: any) => {
     // Store this as the preferred user location
-    storeAsyncData(
-      "coordinates",
-      JSON.stringify(location.metadata.coordinates)
-    );
+    storeAsyncData("location", JSON.stringify(location));
     setSelectedLocation(location);
     bottomSheetModalRef.current?.present();
   }, []);
@@ -104,14 +100,14 @@ export const CragMapRoot = () => {
   // Get the users most recently visited location to set as an initial focus point
   // This subverts the need for location services
   useEffect(() => {
-    getAsyncData("coordinates").then((coords) => {
-      console.log("Recalled most recent location at", coords);
-      coords && setCoordinates(JSON.parse(coords));
+    getAsyncData("location").then((location) => {
+      console.log("Recalled most recent location at", location);
+      location && setSelectedLocation(JSON.parse(location));
     });
   }, []);
 
   // Handle the GraphQL response
-  if (loading || !locations) {
+  if (loading || !locations || locations.length === 0) {
     return <LoadingScreen text={"Finding crags..."} />;
   }
 
@@ -128,8 +124,8 @@ export const CragMapRoot = () => {
       <View style={styles.container}>
         <CragMap
           data={locations}
-          coordinates={coordinates}
           onSelectedLocation={(location) => handlePresentModalPress(location)}
+          selectedLocation={selectedLocation}
         />
         <BottomSheetModal
           handleIndicatorStyle={styles.handleIndicatorStyle}
@@ -153,13 +149,18 @@ export const CragMapRoot = () => {
 };
 
 // The actual map itself
-const CragMap = ({ data, coordinates, onSelectedLocation }) => {
-  const initRegion = {
-    latitude: coordinates.lat,
-    longitude: coordinates.lng,
-    latitudeDelta: 1,
-    longitudeDelta: 1,
-  };
+const CragMap = ({ data, onSelectedLocation, selectedLocation }) => {
+  console.log("selected loc is", selectedLocation);
+  const initRegion = selectedLocation
+    ? {
+        latitude: selectedLocation?.metadata?.coordinates?.lat,
+        longitude: selectedLocation?.metadata?.coordinates?.lng,
+        latitudeDelta: 1,
+        longitudeDelta: 1,
+      }
+    : DEFAULT_REGION;
+
+  console.log("init region is", initRegion);
   const mapRef = useRef<MapView>(null);
   console.log("Should have", data?.length, "mapmarkers");
 
@@ -184,8 +185,6 @@ const CragMap = ({ data, coordinates, onSelectedLocation }) => {
       >
         {data.map((x: any) => (
           <Marker
-            title={x.name}
-            description={x.metadata.address + ", " + x.metadata.suburb}
             coordinate={{
               latitude: x.metadata.coordinates.lat,
               longitude: x.metadata.coordinates.lng,
@@ -198,6 +197,9 @@ const CragMap = ({ data, coordinates, onSelectedLocation }) => {
               size={40}
               style={styles.markerShadow}
             />
+            {x._id === selectedLocation?._id && (
+              <View style={styles.markerLabel} />
+            )}
           </Marker>
         ))}
       </MapView>
@@ -214,7 +216,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0)",
   },
   handleIndicatorStyle: {
-    backgroundColor: "white",
+    backgroundColor: "#333",
   },
 
   markerShadow: {
@@ -222,5 +224,14 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0.5, height: 0.5 },
     shadowOpacity: 1,
     elevation: 1,
+  },
+  markerLabel: {
+    position: "absolute",
+    backgroundColor: "#000",
+    width: 24,
+    height: 24,
+    borderRadius: 26 / 2,
+    marginLeft: 3,
+    marginTop: 4,
   },
 });
