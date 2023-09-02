@@ -5,15 +5,8 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import MapView, { Marker, Callout } from "react-native-maps";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Dimensions,
-  Platform,
-  Alert,
-} from "react-native";
+import MapView, { Marker } from "react-native-maps";
+import { View, StyleSheet, Alert } from "react-native";
 import { gql, useQuery } from "@apollo/client";
 import { DrawerHandle, LocationSummary } from "./LocationDrawer";
 import Fontisto from "react-native-vector-icons/Fontisto";
@@ -24,6 +17,7 @@ import {
 import { LoadingScreen } from "../Utils/MiscComponents";
 import { useAuthData } from "../Auth/AuthProvider";
 import { getAsyncData, storeAsyncData } from "../Utils/AsyncStorage";
+import { min } from "math";
 
 const GET_LOCATIONS = gql`
   query getLocations {
@@ -137,9 +131,6 @@ export const CragMapRoot = () => {
           ref={bottomSheetModalRef}
           index={1}
           snapPoints={snapPoints}
-          onAnimate={() =>
-            console.log("Selected location", selectedLocation.name)
-          }
         >
           {drawerContent}
         </BottomSheetModal>
@@ -150,7 +141,6 @@ export const CragMapRoot = () => {
 
 // The actual map itself
 const CragMap = ({ data, onSelectedLocation, selectedLocation }) => {
-  console.log("selected loc is", selectedLocation);
   const initRegion = selectedLocation
     ? {
         latitude: selectedLocation?.metadata?.coordinates?.lat,
@@ -160,7 +150,6 @@ const CragMap = ({ data, onSelectedLocation, selectedLocation }) => {
       }
     : DEFAULT_REGION;
 
-  console.log("init region is", initRegion);
   const mapRef = useRef<MapView>(null);
   console.log("Should have", data?.length, "mapmarkers");
 
@@ -190,6 +179,7 @@ const CragMap = ({ data, onSelectedLocation, selectedLocation }) => {
               longitude: x.metadata.coordinates.lng,
             }}
             onPress={() => handleMarkerPress(x)}
+            key={x._id}
           >
             <Fontisto
               name="map-marker"

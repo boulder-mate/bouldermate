@@ -5,13 +5,9 @@ import {
   Image,
   StyleSheet,
   TouchableHighlight,
-  Alert,
   Linking,
   Pressable,
-  useWindowDimensions,
-  ImageBackground,
 } from "react-native";
-
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import AntDesign from "react-native-vector-icons/AntDesign";
@@ -146,9 +142,7 @@ export const LocHeader = ({ location, onClose }) => {
         </Pressable>
         <View style={styles.address}>
           <Text style={styles.addressText}>
-            {location.metadata.address +
-              " - " +
-              location.metadata.suburb}
+            {location.metadata.address + " - " + location.metadata.suburb}
           </Text>
         </View>
 
