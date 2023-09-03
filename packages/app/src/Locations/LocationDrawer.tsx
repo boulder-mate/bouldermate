@@ -104,7 +104,7 @@ export const LocButton = ({ text, icon, onPress }) => {
         flex: 1,
         alignItems: "center",
       }}
-      onPress={onPress}
+      onPress={() => onPress()}
     >
       <View
         style={{

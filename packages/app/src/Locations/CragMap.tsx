@@ -95,7 +95,6 @@ export const CragMapRoot = () => {
   // This subverts the need for location services
   useEffect(() => {
     getAsyncData("location").then((location) => {
-      console.log("Recalled most recent location at", location);
       location && setSelectedLocation(JSON.parse(location));
     });
   }, []);

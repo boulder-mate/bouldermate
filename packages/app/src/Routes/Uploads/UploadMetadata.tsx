@@ -60,7 +60,9 @@ export const UploadMetadata = ({ metadata, updateMetadata }) => {
           <Selector
             items={["Urban Climb Blackburn", "BoulderLabs Clayton"]}
             value={metadata.location}
-            update={(value: any) => updateMetadata({ ...metadata, location: value })}
+            update={(value: any) =>
+              updateMetadata({ ...metadata, location: value })
+            }
           />
         </UploadMetadataField>
         <UploadMetadataField
@@ -84,7 +86,7 @@ export const UploadMetadata = ({ metadata, updateMetadata }) => {
                 ...metadata,
                 type: value,
                 scale: null,
-                grade: null
+                grade: null,
               })
             }
           />

@@ -8,10 +8,9 @@ type Location {
   metadata: LocationMetadata!
   indoor: Boolean!
   image: String! # Image URL
-
   # This equivalently is a user id - companies treated as users. May not have one!
   company: String
-  
+
   # ratings: LinkedID
   # comments: LinkedID
 }

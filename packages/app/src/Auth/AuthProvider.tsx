@@ -4,6 +4,7 @@ import { tokenVar } from "../Apollo/apollo";
 import { fetchUser, verifyToken } from "./Utils";
 import { getAsyncData, storeAsyncData } from "../Utils/AsyncStorage";
 import { LoadingScreen } from "../Utils/MiscComponents";
+import { User } from "common";
 
 export const AuthGateway = ({ children }) => {
   const [token, updateToken] = useState("");
@@ -46,7 +47,7 @@ export const useAuthData = () => {
 };
 
 export function useProvideAuth(updateToken) {
-  const [userData, updateUserData] = useState({});
+  const [userData, updateUserData] = useState<User | undefined>(undefined);
 
   const refreshData = async () => {
     await fetchUser().then((user) => {

@@ -16,7 +16,7 @@ export async function getLocationsById(
 
   var locations = [];
   for (var id of args.ids) {
-    var _id = new ObjectId(args.id);
+    var _id = new ObjectId(id);
     var loc = (await db.locationsCollection?.findOne({ _id })) as Location;
     logger.info(`Retrieved location ${loc.name}`);
     locations.push(loc);

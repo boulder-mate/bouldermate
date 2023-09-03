@@ -9,15 +9,21 @@ import {
   TouchableHighlight,
 } from "react-native";
 import Octicons from "react-native-vector-icons/Octicons";
+import { AddToProjects } from "./HeaderButtons";
 
 let wallImage = require("../../assets/images/wall-image.jpg");
 
-export const RouteCard = ({ route }) => {
+export const RouteCard = ({ route, gym }) => {
   const navigator = useNavigation<any>();
 
   return (
     <TouchableHighlight
-      onPress={() => navigator.navigate("RoutePage", { route })}
+      onPress={() =>
+        navigator.navigate("RoutePage", {
+          routeObj: { ...route, location: gym },
+          headerButton: AddToProjects,
+        })
+      }
       style={styles.container}
     >
       <View>

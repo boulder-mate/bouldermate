@@ -18,7 +18,7 @@ export async function getRoutesById(
 
   var routes = [];
   for (var id of args.ids) {
-    var _id = new ObjectId(args.id);
+    var _id = new ObjectId(id);
     var route = (await db.routesCollection?.findOne({ _id })) as Route;
     logger.info(`Retrieved route ${route.name}`);
     routes.push(route);
@@ -42,7 +42,7 @@ export async function getUserRoutes(
   var page = args.page || 0;
   querying = querying.slice(page, page + PAGINATION_SIZE);
 
-  return getRoutesById(obj, args, context, info);
+  return await getRoutesById(obj, { ids: querying }, context, info);
 }
 
 export const routeQueries = {
