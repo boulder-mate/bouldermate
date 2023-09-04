@@ -9,7 +9,7 @@ import { Logger } from "../utils/logging";
 const logger = new Logger("User Mutations");
 
 async function createUser(
-  obj: any,
+  parent: any,
   args: any,
   context: AuthContext,
   info: any
@@ -49,7 +49,7 @@ async function createUser(
   });
 
   return await authenticate(
-    obj,
+    parent,
     { identifier: args.email, password: args.password },
     context,
     info

@@ -11,7 +11,7 @@ type Location {
   # This equivalently is a user id - companies treated as users. May not have one!
   company: String
 
-  # ratings: LinkedID
+  ratings: Rating # Gets its average from it's routes
   # comments: LinkedID
 }
 
@@ -54,6 +54,7 @@ input LocationMetadataInput {
 type Query {
   getLocationsById(ids: [String]!): [Location]
   getAllLocations: [Location]
+  getUserLocations: [Location]
 }
 
 type Mutation {

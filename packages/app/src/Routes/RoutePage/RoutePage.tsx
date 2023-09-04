@@ -45,7 +45,7 @@ const GET_ROUTE = gql`
 
 let height = Dimensions.get("screen").height;
 
-// Input refers to page route, not the object
+// Input refers to react native route, not the object
 export const RoutePage = ({ route }) => {
   var routeObj = route.params.routeObj;
   var routeId = route.params.id;

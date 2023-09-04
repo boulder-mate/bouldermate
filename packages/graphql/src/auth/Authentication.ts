@@ -9,7 +9,7 @@ import env from "../envManager";
 const logger = new Logger("Authorize");
 
 export async function authenticate(
-  obj: any,
+  parent: any,
   args: any,
   context: AuthContext,
   info: any
@@ -40,7 +40,7 @@ export async function authenticate(
 }
 
 export async function verifyToken(
-  obj: any,
+  parent: any,
   args: any,
   context: AuthContext,
   info: any

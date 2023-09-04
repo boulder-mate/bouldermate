@@ -7,7 +7,7 @@ import { Logger } from "../utils/logging";
 const logger = new Logger("LocationQueries");
 
 export async function getLocationsById(
-  obj: any,
+  parent: any,
   args: any,
   context: AuthContext,
   info: any
@@ -26,7 +26,7 @@ export async function getLocationsById(
 }
 
 export async function getAllLocations(
-  obj: any,
+  parent: any,
   args: any,
   context: AuthContext,
   info: any
@@ -42,7 +42,25 @@ export async function getAllLocations(
   return docArray as Location[];
 }
 
+export async function getUserLocations(
+  parent: any,
+  args: any,
+  context: AuthContext,
+  info: any
+) {
+  if (!context.user?._id)
+    throw new Error("No user token was attached to the locations request");
+  // Feed the IDs into LocationById Util
+  return await getLocationsById(
+    parent,
+    { ids: context.user.locations },
+    context,
+    info
+  );
+}
+
 export const locationQueries = {
   getLocationsById,
   getAllLocations,
+  getUserLocations,
 };

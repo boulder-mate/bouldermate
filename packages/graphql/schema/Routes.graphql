@@ -61,4 +61,5 @@ type Query {
 
 type Mutation {
   createRoute(route: RouteInput!): String!
+  addRouteToUser(route_id: String!): Boolean!
 }

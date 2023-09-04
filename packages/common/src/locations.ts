@@ -13,7 +13,7 @@ export type Location = ID &
 
     indoor?: Boolean;
     company?: LinkedID;
-    // ratings?: Rating[];
+    ratings?: Rating;
     // comments?: Comment[];
   };
 

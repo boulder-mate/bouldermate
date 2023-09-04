@@ -27,3 +27,7 @@ export async function searchUser(args: UserSearchParams): Promise<User | null> {
   if (!user) return null;
   else return user as User;
 }
+
+export async function updateUser(payload: Object, user_id: string) {
+  await db.usersCollection?.updateOne({ _id: new ObjectId(user_id) }, payload);
+}

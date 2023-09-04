@@ -1,4 +1,5 @@
 import { ID, Time, LinkedID } from "./abstract";
+import { Project } from "./route";
 
 export type User = ID &
   Time & {
@@ -7,7 +8,7 @@ export type User = ID &
     email: string;
     pass_hash: string;
     locations: LinkedID[];
-    routes: LinkedID[];
+    projects: Project[];
     ratings: LinkedID[];
     comments: LinkedID[];
     verified: boolean;
@@ -48,4 +49,3 @@ export type UserPreferences = {
   // These will get fleshed out with the frontend
   private?: boolean;
 };
-

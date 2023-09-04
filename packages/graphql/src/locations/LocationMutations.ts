@@ -10,7 +10,7 @@ export const AMAZON_API_URL = `https://console.aws.amazon.com/apigateway`;
 const logger = new Logger("LocationMutations");
 
 export async function createLocation(
-  obj: any,
+  parent: any,
   args: any,
   context: AuthContext,
   info: any
