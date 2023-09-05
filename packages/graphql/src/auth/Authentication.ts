@@ -1,6 +1,6 @@
 import { compare } from "bcrypt";
 import { AuthContext } from "./ResolveAuthContext";
-import { searchUser } from "./Utils";
+import { searchUser } from "../users/dbOperations";
 import * as jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 import { Logger } from "../utils/logging";
@@ -14,8 +14,6 @@ export async function authenticate(
   context: AuthContext,
   info: any
 ) {
-  // logger.debug(`Received authentication request from ${args.identifer}`);
-
   // If they identify via email, will include @
   if (args.identifier.includes("@"))
     var user = await searchUser({ email: args.identifier });

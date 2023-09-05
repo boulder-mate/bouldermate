@@ -5,6 +5,7 @@ import { db } from "../database";
 import { Logger } from "../utils/logging";
 import { searchAwsLocations } from "../aws";
 import { uploadImage } from "../utils/fileutils";
+import { uploadLocation } from "./dbOperations";
 
 export const AMAZON_API_URL = `https://console.aws.amazon.com/apigateway`;
 const logger = new Logger("LocationMutations");
@@ -45,13 +46,17 @@ export async function createLocation(
     },
     indoor: input.indoor,
     company: context.user?._id,
-    // ratings: [],
+    rating: {
+      total_ratings: 0,
+      sum: 0,
+    },
+
     // comments: [],
   };
 
   // Upload to database
   logger.info(`Uploading location to db ${location.name}`);
-  await db.locationsCollection?.insertOne(location);
+  await uploadLocation(location);
 
   // Return string id of newly created object
   return location._id.toString();

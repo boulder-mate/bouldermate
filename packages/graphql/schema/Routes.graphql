@@ -56,10 +56,11 @@ input GradeInput {
 
 type Query {
   getRoutesById(ids: [String]!): [Route]
-  getUserRoutes(page: Int): [Route]
+  getUserRoutes: [Route]
 }
 
 type Mutation {
   createRoute(route: RouteInput!): String!
-  addRouteToUser(route_id: String!): Boolean!
+  addProjectToUser(route_id: String!): Boolean!
+  rateRoute(rating: Float!, route_id: String!): Boolean!
 }

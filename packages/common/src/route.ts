@@ -11,9 +11,9 @@ export type Route = Time &
     };
     colors: string[];
     name: string;
-    routesetters: ID[];
+    routesetters: string[];
     image: string; // image url
-    location: ID;
+    location: LinkedID;
     rating: Rating;
 
     active: boolean; // Is the route still there and useable
@@ -23,7 +23,6 @@ export type Route = Time &
     ascents: number; // Derived per update
     projects: number; // Derived per update
 
-    // ratings: LinkedID; // Stored in their own collection!
     // comments: LinkedID; // Stored in their own collection!
   };
 
@@ -63,5 +62,6 @@ export type Project = Time & {
 export enum ProjectStatus {
   Completed = "Completed",
   Projecting = "Projecting",
+  Projected = "Projected", // Projecting -> Inactive
   Following = "Following",
 }

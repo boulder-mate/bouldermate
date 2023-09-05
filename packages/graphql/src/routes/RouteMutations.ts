@@ -1,14 +1,15 @@
-import { Route } from "common";
+import { Project, ProjectStatus, Route } from "common";
 import { newId, newTime } from "../utils/typeutils";
 import { AuthContext } from "../auth/ResolveAuthContext";
 import { uploadImage } from "../utils/fileutils";
 import { db } from "../database";
 import { Logger } from "../utils/logging";
-import { updateUser } from "../auth/Utils";
+import { updateUser } from "../users/dbOperations";
 import { getRoutesById } from "./RouteQueries";
-import { updateRoute } from "./Utils";
+import { updateRoute, uploadRoute } from "./dbOperations";
+import { updateLocationRating } from "../locations/utils";
 
-const logger = new Logger("RouteMutations");
+const logger = new Logger("Route Mutation");
 
 export async function createRoute(
   parent: any,
@@ -50,22 +51,33 @@ export async function createRoute(
 
   // Upload to database
   logger.info(`Uploading route to db ${route}`);
-  await db.routesCollection?.insertOne(route);
+  await uploadRoute(route);
 
   // Return string id of newly created object
   return route._id.toString();
 }
 
-export async function addRouteToUser(
+export async function addProjectToUser(
   parent: any,
   args: any,
   context: AuthContext,
   info: any
 ) {
-  // Used in the context of adding route as a project
+  logger.info("Adding route to user as project");
+
   if (!context.user?._id)
     throw new Error("No user token was attached to update request");
-  await updateUser({ $push: { routes: args.route_id } }, context.user._id);
+  var projects = context.user.projects;
+  var newProject = {
+    ...newTime(),
+    route: args.route_id,
+    status: ProjectStatus.Projecting,
+    notes: [],
+  } as Project;
+
+  projects.push(newProject);
+
+  await updateUser({ projects }, context.user._id);
   return true;
 }
 
@@ -75,6 +87,8 @@ export async function rateRoute(
   context: AuthContext,
   info: any
 ) {
+  logger.info("Received route rating from user");
+
   // Resolve user and specified project
   var projects = context.user?.projects;
   if (!projects) return new Error("No user attached to route rating");
@@ -86,28 +100,43 @@ export async function rateRoute(
   // Get the project data, including whether user left a previous review
   const project = projects[i as any] as any;
   const hasReviewed = !!project.rating;
+  logger.debug(
+    `User has reviewed before? ${hasReviewed}, previous rating: ${project.rating}`
+  );
 
   // Get the route data
-  const route = (
+  var route = (
     await getRoutesById(parent, { ids: [args.route_id] }, context, info)
   )[0];
 
-  // Update the rating data on the route
+  // Update the rating
+  const newRating = {
+    sum: route.rating.sum + args.rating + (hasReviewed ? -project.rating : 0),
+    total_ratings: route.rating.total_ratings + (hasReviewed ? 0 : 1),
+  };
+  logger.debug(`Route rating data updated to ${JSON.stringify(newRating)}`);
+
+  // Write new rating to db
   await updateRoute(args.route_id, {
-    rating: {
-      sum: route.rating.sum + args.rating + (hasReviewed ? -project.rating : 0),
-      total_ratings: route.rating.total_ratings + (hasReviewed ? 0 : 1),
-    },
+    rating: newRating,
   });
 
   // Feed this through to the location if resulting average changes
+  // No need to await this
+  const sumDelta = newRating.sum - route.rating.sum;
+  const totalDelta = newRating.total_ratings - route.rating.total_ratings;
+  updateLocationRating(sumDelta, totalDelta, route.location);
 
   // Add the rating to the users project
   projects[i as any].rating = args.rating;
+  logger.debug("Updating user rating for project");
   await updateUser({ projects }, context.user?._id);
+
+  return true;
 }
 
 export const routeMutations = {
   createRoute,
-  addRouteToUser,
+  addProjectToUser,
+  rateRoute,
 };

@@ -1,6 +1,6 @@
-import { AuthContext } from "./ResolveAuthContext";
-import { searchUser } from "./Utils";
-import { authenticate, verifyToken } from "./Authentication";
+import { AuthContext } from "../auth/ResolveAuthContext";
+import { searchUser } from "./dbOperations";
+import { authenticate, verifyToken } from "../auth/Authentication";
 
 async function getUser(
   parent: any,

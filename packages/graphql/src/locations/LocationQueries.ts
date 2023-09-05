@@ -3,6 +3,7 @@ import { Location } from "common";
 import { db } from "../database";
 import { ObjectId } from "mongodb";
 import { Logger } from "../utils/logging";
+import { allLocations, getLocations } from "./dbOperations";
 
 const logger = new Logger("LocationQueries");
 
@@ -13,16 +14,7 @@ export async function getLocationsById(
   info: any
 ) {
   logger.info(`Received location query for IDs ${args.ids}`);
-
-  var locations = [];
-  for (var id of args.ids) {
-    var _id = new ObjectId(id);
-    var loc = (await db.locationsCollection?.findOne({ _id })) as Location;
-    logger.info(`Retrieved location ${loc.name}`);
-    locations.push(loc);
-  }
-
-  return locations;
+  return await getLocations(args.ids);
 }
 
 export async function getAllLocations(
@@ -32,14 +24,9 @@ export async function getAllLocations(
   info: any
 ) {
   logger.debug(`Received location collection query`);
+  var locations = await allLocations();
 
-  var cursor = db.locationsCollection?.find();
-  var docArray = await cursor?.toArray();
-  // Let's hope this doesn't happen..
-  if (!docArray)
-    throw new Error("Could not find any documents in locations collection");
-
-  return docArray as Location[];
+  return locations as Location[];
 }
 
 export async function getUserLocations(
