@@ -1,6 +1,6 @@
 import { compare } from "bcrypt";
 import { AuthContext } from "./ResolveAuthContext";
-import { searchUser } from "./Utils";
+import { searchUser } from "../users/dbOperations";
 import * as jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 import { Logger } from "../utils/logging";
@@ -9,13 +9,11 @@ import env from "../envManager";
 const logger = new Logger("Authorize");
 
 export async function authenticate(
-  obj: any,
+  parent: any,
   args: any,
   context: AuthContext,
   info: any
 ) {
-  // logger.debug(`Received authentication request from ${args.identifer}`);
-
   // If they identify via email, will include @
   if (args.identifier.includes("@"))
     var user = await searchUser({ email: args.identifier });
@@ -40,7 +38,7 @@ export async function authenticate(
 }
 
 export async function verifyToken(
-  obj: any,
+  parent: any,
   args: any,
   context: AuthContext,
   info: any

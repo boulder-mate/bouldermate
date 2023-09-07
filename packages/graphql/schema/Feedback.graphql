@@ -1,9 +1,6 @@
 type Rating {
-    id: String!
-    created: String!
-    last_updated: String!
-    user_id: String!
-    value: Int!
+    sum: Float!
+    total_ratings: Int!
 }
 
 type Comment {

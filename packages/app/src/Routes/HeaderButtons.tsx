@@ -18,12 +18,46 @@ const UPLOAD_ROUTE = gql`
   }
 `;
 
-export const AddToProjects = () => {
+const ADD_PROJECT = gql`
+  mutation AddRouteToUser($routeId: String!) {
+    addRouteToUser(route_id: $routeId)
+  }
+`;
+
+export const AddToProjects = ({ route_id }) => {
+  const [addRouteToUser, addRouteResult] = useMutation(ADD_PROJECT);
+  const [submitting, updateSubmitting] = useState(false);
+
   return (
     <TouchableHighlight
       style={[styles.headerButton, { backgroundColor: "green" }]}
+      onPress={async () => {
+        updateSubmitting(true);
+        try {
+          // Call the mutation
+          var res: any = await addRouteToUser({
+            variables: {
+              routeId: route_id,
+            },
+          });
+
+          // Handle the result if there were no issues calling the function
+          if (res?.error) throw Error(`${res?.error.graphQlErrors}`);
+        } catch (err) {
+          console.log("Graphql route upload (or navigation) error:", err);
+          Alert.alert(
+            "Error",
+            "An issue occurred creating this route. Please try again or notify BoulderMate support."
+          );
+          updateSubmitting(false);
+        }
+      }}
     >
-      <Text style={styles.buttonText}>Add to Projects +</Text>
+      {submitting ? (
+        <Progress.Circle color={"white"} size={25} indeterminate />
+      ) : (
+        <Text style={styles.buttonText}>Add to Projects +</Text>
+      )}
     </TouchableHighlight>
   );
 };

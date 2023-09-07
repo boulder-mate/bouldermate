@@ -1,7 +1,7 @@
 import { View, StyleSheet, Text } from "react-native";
 import * as Progress from "react-native-progress";
 
-export const Horizontal = ({ styles = {} }) => {
+export const Horizontal = ({ style = {} }) => {
   return (
     <View
       style={[
@@ -9,7 +9,7 @@ export const Horizontal = ({ styles = {} }) => {
           borderBottomColor: "black",
           borderBottomWidth: 0.5,
         },
-        styles,
+        style,
       ]}
     />
   );

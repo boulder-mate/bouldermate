@@ -1,15 +1,20 @@
-import { AuthContext } from "./ResolveAuthContext";
-import { searchUser } from "./Utils";
-import { authenticate, verifyToken } from "./Authentication";
+import { AuthContext } from "../auth/ResolveAuthContext";
+import { searchUser } from "./dbOperations";
+import { authenticate, verifyToken } from "../auth/Authentication";
 
-async function getUser(obj: any, args: any, context: AuthContext, info: any) {
+async function getUser(
+  parent: any,
+  args: any,
+  context: AuthContext,
+  info: any
+) {
   var user = await searchUser(args);
   if (!user) throw new Error("User not found");
   return user;
 }
 
 async function currentUser(
-  obj: any,
+  parent: any,
   args: any,
   context: AuthContext,
   info: any

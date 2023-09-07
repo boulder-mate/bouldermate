@@ -1,8 +1,8 @@
 import { GraphQLUpload } from "graphql-upload";
 import { routeMutations } from "../routes/RouteMutations";
 import { routeQueries } from "../routes/RouteQueries";
-import { userMutations } from "../auth/UserMutations";
-import { userQueries } from "../auth/UserQueries";
+import { userMutations } from "../users/UserMutations";
+import { userQueries } from "../users/UserQueries";
 import { locationMutations } from "../locations/LocationMutations";
 import { locationQueries } from "../locations/LocationQueries";
 

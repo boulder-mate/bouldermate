@@ -5,13 +5,15 @@ import {
   StyleSheet,
   TouchableHighlight,
   Alert,
+  ScrollView,
+  Dimensions,
 } from "react-native";
 import { RouteCard } from "./RouteCard";
-import { useAuthData } from "../Auth/AuthProvider";
 import DropDownPicker from "react-native-dropdown-picker";
 import { useEffect, useState } from "react";
 import { gql, useLazyQuery, useQuery } from "@apollo/client";
-import { LoadingScreen } from "../Utils/MiscComponents";
+import { Horizontal, LoadingScreen } from "../Utils/MiscComponents";
+import * as Progress from "react-native-progress";
 
 const GET_LOCATIONS = gql`
   query GetUserLocations {
@@ -69,17 +71,17 @@ export const RoutesLanding = () => {
 
   const navigation = useNavigation<any>();
 
+  // Query routes whenever we change a location!
   useEffect(() => {
-    // With a nonempty location selected, query it's routes
     !!selectedLocation &&
       getRoutesById({
         variables: {
           ids: selectedLocation?.routes?.active || [],
         },
-      })
-        .then((result) => {
-          setRoutes(result.data.getRoutesById);
-        })
+      }).then((result) => {
+        if (result.error) console.log("Error fetching routes:", result.error);
+        setRoutes(result.data?.getRoutesById || []);
+      });
   }, [selectedLocation]);
 
   useEffect(() => {
@@ -95,6 +97,8 @@ export const RoutesLanding = () => {
     );
   }
 
+  console.log("routesResult.loading is", routesResult.loading);
+
   // Gym selection dropdown at top
   //  Gym recently viewed - store with async (last 5)
   //  Gym 'search' option at the bottom
@@ -104,20 +108,25 @@ export const RoutesLanding = () => {
   //  Route filter options
   return (
     <View style={styles.main}>
-      <GymSelector
-        location={selectedLocation}
-        setLocation={setSelectedLocation}
-        options={locations}
-      />
+      <View style={{ paddingTop: 10, paddingHorizontal: 10 }}>
+        <GymSelector
+          location={selectedLocation}
+          setLocation={setSelectedLocation}
+          options={locations}
+        />
 
-      <TouchableHighlight
-        style={styles.addRoute}
-        onPress={() => navigation.navigate("RouteUpload")}
-      >
-        <Text style={styles.addRouteText}>Add route +</Text>
-      </TouchableHighlight>
+        <TouchableHighlight
+          style={styles.addRoute}
+          onPress={() => navigation.navigate("RouteUpload")}
+        >
+          <Text style={styles.addRouteText}>Add route +</Text>
+        </TouchableHighlight>
+        <Horizontal style={{ marginTop: 10 }} />
+      </View>
       {routesResult.loading ? (
-        <LoadingScreen text={"Fetching location routes.."} />
+        <View style={{}}>
+          <LoadingScreen text={"Finding routes at " + selectedLocation.name} />
+        </View>
       ) : (
         <RouteList routes={routes} gymName={selectedLocation?.name} />
       )}
@@ -127,11 +136,13 @@ export const RoutesLanding = () => {
 
 const RouteList = ({ routes, gymName }) => {
   return (
-    <View style={styles.cardsSection}>
+    <ScrollView style={styles.cardsSection}>
       {routes.map((x) => (
-        <RouteCard route={x} key={x._id} gym={gymName} />
+        <View style={{ marginVertical: 10, paddingHorizontal: 10 }}>
+          <RouteCard route={x} key={x._id} gym={gymName} />
+        </View>
       ))}
-    </View>
+    </ScrollView>
   );
 };
 
@@ -176,8 +187,8 @@ const GymSelector = ({ location, setLocation, options }) => {
 
 const styles = StyleSheet.create({
   main: {
-    padding: 10,
     flexDirection: "column",
+    backgroundColor: "#EEE",
   },
   addRoute: {
     backgroundColor: "green",
@@ -194,7 +205,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   cardsSection: {
-    marginVertical: 10,
+    height: Dimensions.get("window").height,
   },
   dropdownPicker: {
     height: 50,

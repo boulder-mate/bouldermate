@@ -11,9 +11,10 @@ export type Route = Time &
     };
     colors: string[];
     name: string;
-    routesetters: ID[];
+    routesetters: string[];
     image: string; // image url
-    location: ID;
+    location: LinkedID;
+    rating: Rating;
 
     active: boolean; // Is the route still there and useable
     decomissioned?: string; // The time the route was taken down, if it was
@@ -21,9 +22,7 @@ export type Route = Time &
 
     ascents: number; // Derived per update
     projects: number; // Derived per update
-    // average_rating: number; // Derived per update
 
-    // ratings: LinkedID; // Stored in their own collection!
     // comments: LinkedID; // Stored in their own collection!
   };
 
@@ -49,19 +48,20 @@ export enum RouteColors {
   Wood = "#D2B48C", // Lighter wood color hex code
 }
 
-export type Project = ID &
-  Time & {
-    user: LinkedID;
-    route: LinkedID | Route;
-    status: ProjectStatus;
-    flash?: boolean;
-    onsight?: boolean;
-    redpoint?: boolean;
-    notes: string[];
-  };
+// Stored on a user
+export type Project = Time & {
+  route: LinkedID;
+  status: ProjectStatus;
+  flash?: boolean;
+  onsight?: boolean;
+  redpoint?: boolean;
+  rating?: number;
+  notes: string[];
+};
 
 export enum ProjectStatus {
   Completed = "Completed",
   Projecting = "Projecting",
+  Projected = "Projected", // Projecting -> Inactive
   Following = "Following",
 }

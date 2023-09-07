@@ -4,18 +4,23 @@ export type Source = {
   user_id: LinkedID;
 };
 
-export type RatingValue = {
-  value: number;
+export type Target = {
+  target_id: LinkedID;
 };
 
-// Ratings are stored on their target!
-export type Rating = Time & Source & RatingValue;
+// Comments are stored in their own collection, with replies stored recursively.
+// The base of a comment tree is typed as a CommentRoot
+export type CommentRoot = ID & Time & Source & Target & Comment;
 
-// Comments also stored on their target, replies are defined recursively
-export type Comment = ID &
-  Time &
+export type Comment = Time &
   Source & {
     text: string;
     votes: number;
     replies: Comment[];
   };
+
+// Ratings are stored on their target - need to be updated synchronously
+export type Rating = {
+  sum: number;
+  total_ratings: number;
+};

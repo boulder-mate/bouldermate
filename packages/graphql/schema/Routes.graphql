@@ -10,12 +10,12 @@ type Route {
   active: Boolean!
   image: String!
   location: String!
+  rating: Rating!
 
   # average_rating: Float!
   ascents: Int!
   projects: Int!
 
-  # ratings: String!
   # comments: String!
 }
 
@@ -56,9 +56,11 @@ input GradeInput {
 
 type Query {
   getRoutesById(ids: [String]!): [Route]
-  getUserRoutes(page: Int): [Route]
+  getUserRoutes: [Route]
 }
 
 type Mutation {
   createRoute(route: RouteInput!): String!
+  addProjectToUser(route_id: String!): Boolean!
+  rateRoute(rating: Float!, route_id: String!): Boolean!
 }

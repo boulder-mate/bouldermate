@@ -1,5 +1,5 @@
 import { User } from "common";
-import { searchUser } from "./Utils";
+import { searchUser } from "../users/dbOperations";
 import { Logger } from "../utils/logging";
 import * as jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
@@ -25,7 +25,8 @@ async function decryptSymmetric(keyName: string, apiKey: string): Promise<any> {
 export async function resolveContext(context: any): Promise<AuthContext> {
   var token = context.req?.headers?.authorization;
   // If we are developing locally, allow x-user-id to be set in Apollo for easier mocking
-  var userId = env.NODE_ENV as any === "local" ? context.req?.headers["user-id"] : "";
+  var userId =
+    (env.NODE_ENV as any) === "local" ? context.req?.headers["user_id"] : "";
   //   var apiKey = context.req?.headers["x-api-key"];
   var userObject: User | null = null;
 

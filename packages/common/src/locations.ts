@@ -10,10 +10,11 @@ export type Location = ID &
     };
     metadata: LocationMetadata;
     image: string;
+    rating: Rating;
 
     indoor?: Boolean;
     company?: LinkedID;
-    // ratings?: Rating[];
+    
     // comments?: Comment[];
   };
 

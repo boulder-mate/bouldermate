@@ -10,37 +10,53 @@ import {
 } from "react-native";
 import Octicons from "react-native-vector-icons/Octicons";
 import { AddToProjects } from "./HeaderButtons";
+import { ColorDisplay } from "./Uploads/UploadMetadata";
 
 let wallImage = require("../../assets/images/wall-image.jpg");
 
 export const RouteCard = ({ route, gym }) => {
   const navigator = useNavigation<any>();
 
+  console.log("grades", route.grades);
+  const getGrade = () => {
+    if (route.grades.user.length > 0) {
+      
+    }
+  }
+
   return (
     <TouchableHighlight
       onPress={() =>
         navigator.navigate("RoutePage", {
           routeObj: { ...route, location: gym },
-          headerButton: AddToProjects,
+          headerButton: () => <AddToProjects route_id={route._id} />,
         })
       }
       style={styles.container}
     >
       <View>
-        <Image source={wallImage} resizeMode="cover" style={styles.image} />
+        <Image
+          source={{ uri: route.image }}
+          resizeMode="cover"
+          style={styles.image}
+        />
         <View style={styles.aboutContainer}>
           <View style={styles.about}>
-            <Text
-              style={styles.title}
-              numberOfLines={1}
-              adjustsFontSizeToFit={true}
+            <View
+              style={{ flexDirection: "row", alignItems: "center", gap: 5 }}
             >
-              Little Green Fuckers
-            </Text>
+              <ColorDisplay colors={route.colors} size={17.5} />
+              <Text
+                style={styles.title}
+                numberOfLines={1}
+                adjustsFontSizeToFit={true}
+              >
+                {route.name}
+              </Text>
+            </View>
             <View style={styles.desc}>
-              <Text style={styles.descText}>Green</Text>
-              <Octicons name="dot-fill" style={styles.dots} />
-              <Text style={styles.descText}>V7</Text>
+              <View style={{ marginHorizontal: 5 }} />
+              <Text style={[styles.descText]}>V7</Text>
               <Octicons name="dot-fill" style={styles.dots} />
               <Text style={styles.descText}>4.71</Text>
               <Octicons name="star-fill" style={styles.dots} />
@@ -61,7 +77,7 @@ export const RouteCard = ({ route, gym }) => {
 const styles = StyleSheet.create({
   container: {
     shadowColor: "black",
-    shadowOffset: { width: 5, height: 5 },
+    shadowOffset: { width: 2, height: 2 },
     shadowOpacity: 0.5,
     borderRadius: 20,
     borderWidth: 1,

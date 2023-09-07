@@ -1,5 +1,18 @@
 type Project {
-    route: Route!
-    user_id: LinkedID!
-    user_rating: Int!
+  created: String!
+  last_updated: String!
+  route: String!
+  status: ProjectStatus!
+  notes: [String]!
+  flash: Boolean
+  onsight: Boolean
+  rating: Float
+  grade: Grade
+}
+
+enum ProjectStatus {
+  Completed
+  Projecting
+  Projected
+  Following
 }
