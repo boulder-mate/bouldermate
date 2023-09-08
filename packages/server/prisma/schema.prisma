@@ -7,16 +7,6 @@ generator client {
     provider = "prisma-client-js"
 }
 
-model Post {
-    id       String    @id @default(auto()) @map("_id") @db.ObjectId
-    slug     String    @unique
-    title    String
-    body     String
-    author   User      @relation(fields: [authorId], references: [id])
-    authorId String    @db.ObjectId
-    comments Comment[]
-}
-
 // ABSTRACT DATA
 
 type Time {
@@ -24,66 +14,68 @@ type Time {
     last_updated String
 }
 
+// ORGANISATIONS
+
+model Organisation {
+    id           String      @id @default(auto()) @map("_id") @db.ObjectId
+    account      User        
+    company_name String
+    phone_number String
+}
+
 // USERS
 
 model User {
     id          String          @id @default(auto()) @map("_id") @db.ObjectId
-    time        Time
+    when        Time
     username    String
     name        String
     email       String
-    locations   Location @relation
-    routes      Route @relation
-    ratings     Rating @relation
-    comments    Comment[] @relation
+    locations   Location       
+    routes      Route           
+    ratings     Rating          
+    comments    Comment[]       
     preferences UserPreferences
     verified    Boolean
 
-    bio String
+    bio String?
 
-    routesetter RoutesetterDetails
-    gym_admin   GymAdminDetails
-    gym_info    GymDetails
+    routesetter Routesetter?
+    org_admin   Organisation[] 
+    locationId  String         @db.ObjectId
+    Grade       Grade[]
+}
+
+model Routesetter {
+    id                 String         @id @default(auto()) @map("_id") @db.ObjectId
+    user               User           
+    routes_created     Route[]        
+    organisations      Organisation[] 
+    routesetting_since String
 }
 
 type UserPreferences {
     private Boolean
 }
 
-// type RoutesetterDetails {
-//     routes_created: [ObjectId]!
-//     companies: [ObjectId]!
-//     routesetting_since String
-// }
-
-// type GymAdminDetails {
-//     companies: [ObjectId]!
-//     readonly Boolean
-// }
-
-// type GymDetails {
-//     company_name String
-//     phone_number String
-// }
-
 // ROUTES
 
 model Route {
-    id           String     @id @default(auto()) @map("_id") @db.ObjectId
-    created      String
-    last_updated String
-    type         RouteTypes
-    grades       Grades
-    colors       String[]
-    name         String
-    routesetters User       @relation
-    active       Boolean
-    image        String
-    location     Location   @relation
-    ascents      Int
-    projects     Int
-    rating       Rating     @relation
-    comments     Comment    @relation
+    id                   String      @id @default(auto()) @map("_id") @db.ObjectId
+    when                 Time
+    type                 RouteTypes
+    routesetter_grade    Grade       
+    user_grades          Grade       
+    colors               String[]
+    name                 String
+    routesetters         User        
+    active               Boolean
+    image                String
+    location             Location  
+    ascents              Int
+    projects             Int
+    ratings              Rating[]    
+    comments             Comment[]   
 }
 
 enum RouteTypes {
@@ -95,11 +87,59 @@ enum RouteTypes {
 }
 
 model Grade {
-    type  String
-    value String
+    id      String @id @default(auto()) @map("_id") @db.ObjectId
+    from    User   
+    type    String
+    value   String
+    Route   Route  
 }
 
-model Grades {
-    routesetter Grade
-    user        Grade[]
+// LOCATIONS
+
+model Location {
+    id              String           @id @default(auto()) @map("_id") @db.ObjectId
+    when            Time
+    name            String
+    active_routes   Route[]          
+    inactive_routes Route[]          
+    metadata        LocationMetadata
+    image           String
+    ratings         Rating[]        
+    comments        Comment[]       
+
+    indoor         Boolean?
+    organisation   Organisation 
+    User           User[]
+    organisationId String       @db.ObjectId
+}
+
+type LocationMetadata {
+    address     String
+    suburb      String
+    state       String
+    postcode    String
+    country     String
+    coordinates Coordinates
+}
+
+type Coordinates {
+    lat Float
+    lng Float
+}
+
+// FEEDBACK
+
+model Comment {
+    id         String    @id @default(auto()) @map("_id") @db.ObjectId
+    when       Time
+    from       User      
+    replies    Comment[]
+    text       String
+    votes      Int
+}
+
+model Rating {
+    when       Time
+    from       User    
+    value      Float
 }
