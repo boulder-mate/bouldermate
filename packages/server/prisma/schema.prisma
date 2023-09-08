@@ -1,0 +1,105 @@
+datasource db {
+    provider = "mongodb"
+    url      = env("DATABASE_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model Post {
+    id       String    @id @default(auto()) @map("_id") @db.ObjectId
+    slug     String    @unique
+    title    String
+    body     String
+    author   User      @relation(fields: [authorId], references: [id])
+    authorId String    @db.ObjectId
+    comments Comment[]
+}
+
+// ABSTRACT DATA
+
+type Time {
+    created      String
+    last_updated String
+}
+
+// USERS
+
+model User {
+    id          String          @id @default(auto()) @map("_id") @db.ObjectId
+    time        Time
+    username    String
+    name        String
+    email       String
+    locations   Location @relation
+    routes      Route @relation
+    ratings     Rating @relation
+    comments    Comment[] @relation
+    preferences UserPreferences
+    verified    Boolean
+
+    bio String
+
+    routesetter RoutesetterDetails
+    gym_admin   GymAdminDetails
+    gym_info    GymDetails
+}
+
+type UserPreferences {
+    private Boolean
+}
+
+// type RoutesetterDetails {
+//     routes_created: [ObjectId]!
+//     companies: [ObjectId]!
+//     routesetting_since String
+// }
+
+// type GymAdminDetails {
+//     companies: [ObjectId]!
+//     readonly Boolean
+// }
+
+// type GymDetails {
+//     company_name String
+//     phone_number String
+// }
+
+// ROUTES
+
+model Route {
+    id           String     @id @default(auto()) @map("_id") @db.ObjectId
+    created      String
+    last_updated String
+    type         RouteTypes
+    grades       Grades
+    colors       String[]
+    name         String
+    routesetters User       @relation
+    active       Boolean
+    image        String
+    location     Location   @relation
+    ascents      Int
+    projects     Int
+    rating       Rating     @relation
+    comments     Comment    @relation
+}
+
+enum RouteTypes {
+    Boulder
+    Lead
+    TopRope
+    Trad
+    Ice
+}
+
+model Grade {
+    type  String
+    value String
+}
+
+model Grades {
+    routesetter Grade
+    user        Grade[]
+}
