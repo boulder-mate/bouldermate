@@ -1,8 +1,7 @@
 // Ensure all necessary env vars are supplied before serving
 if (!process.env.NODE_ENV) throw "NODE_ENV not supplied!";
 
-if (!process.env.MONGO_URL) throw "MONGO_URL not supplied!";
-if (!process.env.MONGO_DB_NAME) throw "MONGO_DB_NAME not supplied!";
+if (!process.env.SQL_PASSWORD) throw "MONGO_URL not supplied!";
 if (!process.env.JWT_SECRET) throw "JWT_SECRET not supplied!";
 
 if (!process.env.AWS_ACCESS_KEY) throw "AWS_ACCESS_KEY not supplied!";

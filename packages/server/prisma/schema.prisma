@@ -1,5 +1,5 @@
 datasource db {
-    provider = "mongodb"
+    provider = "postgres"
     url      = env("DATABASE_URL")
 }
 
@@ -7,75 +7,78 @@ generator client {
     provider = "prisma-client-js"
 }
 
-// ABSTRACT DATA
-
-type Time {
-    created      String
-    last_updated String
-}
-
 // ORGANISATIONS
 
 model Organisation {
-    id           String      @id @default(auto()) @map("_id") @db.ObjectId
-    account      User        
-    company_name String
+    id           String               @id
+    account      User                 @relation(fields: [email], references: [email])
+    email        String               @unique // This is used for User account relation!
+    company_name String               @unique
     phone_number String
+    locations    Location[]
+    routesetters RoutesettersOnOrgs[]
 }
 
 // USERS
 
 model User {
-    id          String          @id @default(auto()) @map("_id") @db.ObjectId
-    when        Time
-    username    String
-    name        String
-    email       String
-    locations   Location       
-    routes      Route           
-    ratings     Rating          
-    comments    Comment[]       
-    preferences UserPreferences
-    verified    Boolean
+    id           String     @id
+    created      String
+    last_updated String
+    username     String     @unique
+    name         String
+    email        String     @unique
+    locations    Location[]
+    projects     Project[]
+    comments     Comment[]
+    verified     Boolean
 
     bio String?
 
+    // User preferences
+    private Boolean
+
+    // Additional perms
     routesetter Routesetter?
-    org_admin   Organisation[] 
-    locationId  String         @db.ObjectId
-    Grade       Grade[]
+    org_account Organisation?
 }
 
 model Routesetter {
-    id                 String         @id @default(auto()) @map("_id") @db.ObjectId
-    user               User           
-    routes_created     Route[]        
-    organisations      Organisation[] 
+    user_id            String                 @id
+    user               User                   @relation(fields: [user_id], references: [id])
+    routes             RoutesettersOnRoutes[]
+    organisations      RoutesettersOnOrgs[]
     routesetting_since String
-}
-
-type UserPreferences {
-    private Boolean
 }
 
 // ROUTES
 
+model Project {
+    id       String  @id
+    route    Route   @relation(fields: [route_id], references: [id])
+    route_id String
+    user     User    @relation(fields: [username], references: [username])
+    username String
+    review   Review?
+
+    @@unique([username, route_id])
+}
+
 model Route {
-    id                   String      @id @default(auto()) @map("_id") @db.ObjectId
-    when                 Time
-    type                 RouteTypes
-    routesetter_grade    Grade       
-    user_grades          Grade       
-    colors               String[]
-    name                 String
-    routesetters         User        
-    active               Boolean
-    image                String
-    location             Location  
-    ascents              Int
-    projects             Int
-    ratings              Rating[]    
-    comments             Comment[]   
+    id           String                 @id
+    created      String
+    last_updated String
+    type         RouteTypes[]
+    colors       String[]
+    name         String
+    routesetters RoutesettersOnRoutes[]
+    active       Boolean
+    image        String
+
+    location    Location  @relation(fields: [location_id], references: [id])
+    location_id String
+    projects    Project[]
+    comments    Comment[]
 }
 
 enum RouteTypes {
@@ -86,60 +89,87 @@ enum RouteTypes {
     Ice
 }
 
-model Grade {
-    id      String @id @default(auto()) @map("_id") @db.ObjectId
-    from    User   
-    type    String
-    value   String
-    Route   Route  
-}
-
 // LOCATIONS
 
 model Location {
-    id              String           @id @default(auto()) @map("_id") @db.ObjectId
-    when            Time
-    name            String
-    active_routes   Route[]          
-    inactive_routes Route[]          
-    metadata        LocationMetadata
-    image           String
-    ratings         Rating[]        
-    comments        Comment[]       
+    id           String   @id
+    created      String
+    last_updated String
+    name         String
+    routes       Route[]
+    users        User[]
+    image        String
+    avg_rating   Float?
+    indoor       Boolean?
 
-    indoor         Boolean?
-    organisation   Organisation 
-    User           User[]
-    organisationId String       @db.ObjectId
-}
+    // Admin
+    organisation Organisation @relation(fields: [org_id], references: [id])
+    org_id       String
 
-type LocationMetadata {
-    address     String
-    suburb      String
-    state       String
-    postcode    String
-    country     String
-    coordinates Coordinates
-}
-
-type Coordinates {
-    lat Float
-    lng Float
+    // Metadata
+    address  String
+    suburb   String
+    state    String
+    postcode String
+    country  String
+    lat      Float
+    lng      Float
 }
 
 // FEEDBACK
 
 model Comment {
-    id         String    @id @default(auto()) @map("_id") @db.ObjectId
-    when       Time
-    from       User      
-    replies    Comment[]
-    text       String
-    votes      Int
+    id           String @id
+    created      String
+    last_updated String
+    route        Route  @relation(fields: [route_id], references: [id])
+    route_id     String
+
+    author    User      @relation(fields: [username], references: [username])
+    username  String
+    children  Comment[] @relation("Parent")
+    parent    Comment?  @relation("Parent", fields: [parent_id], references: [id])
+    parent_id String?
+    text      String
+    votes     Int
 }
 
-model Rating {
-    when       Time
-    from       User    
-    value      Float
+model Review {
+    created      String
+    last_updated String
+    project      Project    @relation(fields: [project_id], references: [id])
+    project_id   String     @id
+    rating       Float
+    value        Float
+    type         GradeScale
+}
+
+enum GradeScale {
+    VScale
+    Ewbank
+    YDS
+}
+
+// RELATION TABLES (n-m relations)
+
+model RoutesettersOnOrgs {
+    created      String
+    last_updated String
+    organisation Organisation @relation(fields: [org_id], references: [id])
+    org_id       String
+    routesetter  Routesetter  @relation(fields: [user_id], references: [user_id])
+    user_id      String
+
+    @@id([org_id, user_id])
+}
+
+model RoutesettersOnRoutes {
+    created      String
+    last_updated String
+    route        Route       @relation(fields: [route_id], references: [id])
+    route_id     String
+    routesetter  Routesetter @relation(fields: [user_id], references: [user_id])
+    user_id      String
+
+    @@id([route_id, user_id])
 }
