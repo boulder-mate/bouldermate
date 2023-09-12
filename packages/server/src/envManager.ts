@@ -1,7 +1,7 @@
 // Ensure all necessary env vars are supplied before serving
 if (!process.env.NODE_ENV) throw "NODE_ENV not supplied!";
 
-if (!process.env.SQL_PASSWORD) throw "MONGO_URL not supplied!";
+if (!process.env.DATABASE_URL) throw "DATABASE_URL not supplied!";
 if (!process.env.JWT_SECRET) throw "JWT_SECRET not supplied!";
 
 if (!process.env.AWS_ACCESS_KEY) throw "AWS_ACCESS_KEY not supplied!";
@@ -18,8 +18,6 @@ enum env {
   NODE_ENV = process.env.NODE_ENV as any,
   PORT = process.env.PORT as any,
 
-  MONGO_URL = process.env.MONGO_URL as any,
-  MONGO_DB_NAME = process.env.MONGO_DB_NAME as any,
   JWT_SECRET = process.env.JWT_SECRET as any,
 
   AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY as any,

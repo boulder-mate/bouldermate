@@ -1,5 +1,5 @@
 datasource db {
-    provider = "postgres"
+    provider = "cockroachdb"
     url      = env("DATABASE_URL")
 }
 
@@ -10,7 +10,9 @@ generator client {
 // ORGANISATIONS
 
 model Organisation {
-    id           String               @id
+    id           String               @id @default(uuid())
+    created      DateTime             @default(now())
+    last_updated DateTime             @default(now())
     account      User                 @relation(fields: [email], references: [email])
     email        String               @unique // This is used for User account relation!
     company_name String               @unique
@@ -22,21 +24,21 @@ model Organisation {
 // USERS
 
 model User {
-    id           String     @id
-    created      String
-    last_updated String
+    id           String     @id @default(uuid())
+    created      DateTime   @default(now())
+    last_updated DateTime   @default(now())
     username     String     @unique
     name         String
     email        String     @unique
     locations    Location[]
     projects     Project[]
     comments     Comment[]
-    verified     Boolean
+    verified     Boolean    @default(false)
 
-    bio String?
+    bio String @default("")
 
     // User preferences
-    private Boolean
+    private Boolean @default(false)
 
     // Additional perms
     routesetter Routesetter?
@@ -45,6 +47,8 @@ model User {
 
 model Routesetter {
     user_id            String                 @id
+    created            DateTime               @default(now())
+    last_updated       DateTime               @default(now())
     user               User                   @relation(fields: [user_id], references: [id])
     routes             RoutesettersOnRoutes[]
     organisations      RoutesettersOnOrgs[]
@@ -54,25 +58,27 @@ model Routesetter {
 // ROUTES
 
 model Project {
-    id       String  @id
-    route    Route   @relation(fields: [route_id], references: [id])
-    route_id String
-    user     User    @relation(fields: [username], references: [username])
-    username String
-    review   Review?
+    id           String   @id @default(uuid())
+    created      DateTime @default(now())
+    last_updated DateTime @default(now())
+    route        Route    @relation(fields: [route_id], references: [id])
+    route_id     String
+    user         User     @relation(fields: [username], references: [username])
+    username     String
+    review       Review?
 
     @@unique([username, route_id])
 }
 
 model Route {
-    id           String                 @id
-    created      String
-    last_updated String
+    id           String                 @id @default(uuid())
+    created      DateTime               @default(now())
+    last_updated DateTime               @default(now())
     type         RouteTypes[]
     colors       String[]
     name         String
     routesetters RoutesettersOnRoutes[]
-    active       Boolean
+    active       Boolean                @default(true)
     image        String
 
     location    Location  @relation(fields: [location_id], references: [id])
@@ -92,15 +98,15 @@ enum RouteTypes {
 // LOCATIONS
 
 model Location {
-    id           String   @id
-    created      String
-    last_updated String
+    id           String   @id @default(uuid())
+    created      DateTime @default(now())
+    last_updated DateTime @default(now())
     name         String
     routes       Route[]
     users        User[]
     image        String
     avg_rating   Float?
-    indoor       Boolean?
+    indoor       Boolean  @default(true)
 
     // Admin
     organisation Organisation @relation(fields: [org_id], references: [id])
@@ -119,10 +125,10 @@ model Location {
 // FEEDBACK
 
 model Comment {
-    id           String @id
-    created      String
-    last_updated String
-    route        Route  @relation(fields: [route_id], references: [id])
+    id           String   @id @default(uuid())
+    created      DateTime @default(now())
+    last_updated DateTime @default(now())
+    route        Route    @relation(fields: [route_id], references: [id])
     route_id     String
 
     author    User      @relation(fields: [username], references: [username])
@@ -131,17 +137,18 @@ model Comment {
     parent    Comment?  @relation("Parent", fields: [parent_id], references: [id])
     parent_id String?
     text      String
-    votes     Int
+    votes     Int       @default(0)
 }
 
 model Review {
-    created      String
-    last_updated String
-    project      Project    @relation(fields: [project_id], references: [id])
-    project_id   String     @id
-    rating       Float
-    value        Float
-    type         GradeScale
+    created      DateTime    @default(now())
+    last_updated DateTime    @default(now())
+    project      Project     @relation(fields: [project_id], references: [id])
+    project_id   String      @id
+    // May contain only a rating or only a grade
+    rating       Float?
+    value        Float?
+    type         GradeScale?
 }
 
 enum GradeScale {
@@ -153,8 +160,8 @@ enum GradeScale {
 // RELATION TABLES (n-m relations)
 
 model RoutesettersOnOrgs {
-    created      String
-    last_updated String
+    created      DateTime     @default(now())
+    last_updated DateTime     @default(now())
     organisation Organisation @relation(fields: [org_id], references: [id])
     org_id       String
     routesetter  Routesetter  @relation(fields: [user_id], references: [user_id])
@@ -164,8 +171,8 @@ model RoutesettersOnOrgs {
 }
 
 model RoutesettersOnRoutes {
-    created      String
-    last_updated String
+    created      DateTime    @default(now())
+    last_updated DateTime    @default(now())
     route        Route       @relation(fields: [route_id], references: [id])
     route_id     String
     routesetter  Routesetter @relation(fields: [user_id], references: [user_id])

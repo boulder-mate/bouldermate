@@ -1,0 +1,62 @@
+type Location {
+  _id: ObjectId!
+  created: String!
+  last_updated: String!
+  name: String!
+  # In the rest of the code this is actually a typescript map!
+  routes: LocationRoutes!
+  metadata: LocationMetadata!
+  indoor: Boolean!
+  image: String! # Image URL
+  # This equivalently is a user id - companies treated as users. May not have one!
+  company: String
+
+  rating: Rating # Gets its average from it's routes
+  # comments: LinkedID
+}
+
+type LocationRoutes {
+  active: [String]!
+  inactive: [String]!
+}
+
+type LocationMetadata {
+  address: String!
+  suburb: String!
+  state: String!
+  postcode: String!
+  country: String!
+  coordinates: Coordinates!
+}
+
+type Coordinates {
+  lat: Float!
+  lng: Float!
+}
+
+# Infer whether creation is valid by verifying user is a company account in context!
+input LocationInput {
+  name: String!
+  metadata: LocationMetadataInput!
+  indoor: Boolean!
+  image: Upload!
+  company: String # Add the company if BM admins create manually
+}
+
+input LocationMetadataInput {
+  address: String!
+  suburb: String!
+  postcode: String!
+  state: String!
+  country: String!
+}
+
+type Query {
+  getLocationsById(ids: [String]!): [Location]
+  getAllLocations: [Location]
+  getUserLocations: [Location]
+}
+
+type Mutation {
+  createLocation(location: LocationInput!): String!
+}

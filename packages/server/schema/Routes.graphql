@@ -1,0 +1,66 @@
+type Route {
+  _id: ObjectId!
+  created: String!
+  last_updated: String!
+  type: [RouteTypes]!
+  grades: Grades!
+  colors: [String]!
+  name: String!
+  routesetters: [String]!
+  active: Boolean!
+  image: String!
+  location: String!
+  rating: Rating!
+
+  # average_rating: Float!
+  ascents: Int!
+  projects: Int!
+
+  # comments: String!
+}
+
+enum RouteTypes {
+  Boulder
+  Lead
+  TopRope
+  AutoBelay
+  Trad
+  Ice
+}
+
+type Grade {
+  type: String!
+  value: String!
+}
+
+type Grades {
+  routesetter: Grade
+  user: [Grade]!
+}
+
+input RouteInput {
+  type: [RouteTypes]!
+  colors: [String]!
+  name: String!
+  image: Upload!
+  location: String!
+  routesetters: [String]!
+  routesetter_grade: GradeInput
+  notes: String
+}
+
+input GradeInput {
+  type: String!
+  value: String!
+}
+
+type Query {
+  getRoutesById(ids: [String]!): [Route]
+  getUserRoutes: [Route]
+}
+
+type Mutation {
+  createRoute(route: RouteInput!): String!
+  addProjectToUser(route_id: String!): Boolean!
+  rateRoute(rating: Float!, route_id: String!): Boolean!
+}
