@@ -1,0 +1,207 @@
+datasource db {
+    provider = "cockroachdb"
+    url      = env("DATABASE_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+// ORGANISATIONS
+
+model Organisation {
+    id           String             @id @default(uuid())
+    created      DateTime           @default(now())
+    last_updated DateTime           @default(now())
+    user         User               @relation(fields: [email], references: [email])
+    email        String             @unique // This is used for User account relation!
+    company_name String             @unique
+    phone_number String
+    locations    Location[]
+    routesetters RoutesetterOnOrg[]
+}
+
+// USERS
+
+model User {
+    id           String           @id @default(uuid())
+    created      DateTime         @default(now())
+    last_updated DateTime         @default(now())
+    username     String           @unique
+    name         String
+    pass_hash    String
+    email        String           @unique
+    locations    UserOnLocation[]
+    projects     Project[]
+    comments     Comment[]
+    verified     Boolean          @default(false)
+
+    bio String @default("")
+
+    // User preferences
+    private Boolean @default(false)
+
+    // Additional perms
+    routesetter  Routesetter?
+    organisation Organisation?
+}
+
+model Routesetter {
+    user_id            String               @id
+    created            DateTime             @default(now())
+    last_updated       DateTime             @default(now())
+    user               User                 @relation(fields: [user_id], references: [id])
+    routes             RoutesetterOnRoute[]
+    organisations      RoutesetterOnOrg[]
+    routesetting_since DateTime
+}
+
+// PROJECTS
+
+model Project {
+    id           String        @id @default(uuid())
+    created      DateTime      @default(now())
+    last_updated DateTime      @default(now())
+    route        Route         @relation(fields: [route_id], references: [id])
+    route_id     String
+    user         User          @relation(fields: [user_id], references: [id])
+    user_id      String
+    notes        String[]
+    status       ProjectStatus
+    review       Review?
+
+    @@unique([user_id, route_id])
+}
+
+enum ProjectStatus {
+    Flashed
+    Completed
+    Projecting
+    Watching
+    Abandoned
+}
+
+// ROUTES
+
+model Route {
+    id           String               @id @default(uuid())
+    created      DateTime             @default(now())
+    last_updated DateTime             @default(now())
+    type         RouteTypes[]
+    colors       String[]
+    name         String
+    routesetters RoutesetterOnRoute[]
+    active       Boolean              @default(true)
+    image        String
+
+    location    Location  @relation(fields: [location_id], references: [id])
+    location_id String
+    projects    Project[]
+    comments    Comment[]
+}
+
+enum RouteTypes {
+    Boulder
+    Rope
+    Ice
+}
+// Add subtypes !!
+
+// LOCATIONS
+
+model Location {
+    id           String           @id @default(uuid())
+    created      DateTime         @default(now())
+    last_updated DateTime         @default(now())
+    name         String
+    routes       Route[]
+    users        UserOnLocation[]
+    image        String
+    indoor       Boolean          @default(true)
+
+    // Admin
+    organisation Organisation @relation(fields: [org_id], references: [id])
+    org_id       String
+
+    // Metadata
+    address  String
+    suburb   String
+    state    String
+    postcode String
+    country  String
+    lat      Float
+    lng      Float
+
+    // Cached values - need to figure this out
+    avg_rating Float?
+}
+
+// FEEDBACK
+
+model Comment {
+    id           String   @id @default(uuid())
+    created      DateTime @default(now())
+    last_updated DateTime @default(now())
+    route        Route    @relation(fields: [route_id], references: [id])
+    route_id     String
+
+    author    User      @relation(fields: [username], references: [username])
+    username  String
+    children  Comment[] @relation("Parent")
+    parent    Comment?  @relation("Parent", fields: [parent_id], references: [id])
+    parent_id String?
+    text      String
+    votes     Int       @default(0)
+}
+
+model Review {
+    project      Project     @relation(fields: [project_id], references: [id])
+    project_id   String      @id
+    created      DateTime    @default(now())
+    last_updated DateTime    @default(now())
+    // May contain only a rating or only a grade
+    rating       Float?
+    grade        String?
+    grade_scale  GradeScale?
+}
+
+enum GradeScale {
+    VScale
+    Ewbank
+    YDS
+}
+
+// RELATION TABLES (n-m relations)
+
+model RoutesetterOnOrg {
+    created      DateTime     @default(now())
+    last_updated DateTime     @default(now())
+    organisation Organisation @relation(fields: [org_id], references: [id])
+    org_id       String
+    routesetter  Routesetter  @relation(fields: [user_id], references: [user_id])
+    user_id      String
+
+    @@id([org_id, user_id])
+}
+
+model RoutesetterOnRoute {
+    created      DateTime    @default(now())
+    last_updated DateTime    @default(now())
+    route        Route       @relation(fields: [route_id], references: [id])
+    route_id     String
+    routesetter  Routesetter @relation(fields: [user_id], references: [user_id])
+    user_id      String
+
+    @@id([route_id, user_id])
+}
+
+model UserOnLocation {
+    created      DateTime @default(now())
+    last_updated DateTime @default(now())
+    user         User     @relation(fields: [user_id], references: [id])
+    user_id      String
+    location     Location @relation(fields: [location_id], references: [id])
+    location_id  String
+
+    @@id([location_id, user_id])
+}

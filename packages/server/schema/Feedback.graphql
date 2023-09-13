@@ -1,0 +1,29 @@
+type Comment {
+  id: String!
+  created: Date!
+  last_updated: Date!
+  route: Route
+  route_id: String!
+  author: User
+  username: String!
+  children: [Comment]!
+  parent: Comment
+  text: String!
+  votes: Int!
+}
+
+type Review {
+  project_id: String!
+  project: Project
+  created: Date!
+  last_updated: Date!
+  rating: Float
+  grade: String
+  grade_scale: GradeScale
+}
+
+enum GradeScale {
+  VScale
+  Ewbank
+  YDS
+}
