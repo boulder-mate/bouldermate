@@ -4,6 +4,7 @@ import { hash } from "bcrypt";
 import { authenticate } from "../auth/Authentication";
 import { Logger } from "../utils/logging";
 import { searchUser, uploadUser } from "./dbOperations";
+import { User } from "@prisma/client";
 
 const logger = new Logger("User Mutations");
 
@@ -34,14 +35,10 @@ async function createUser(
     email: args.email,
     name: args.name,
     pass_hash,
-    locations: [],
-    projects: [],
-    comments: [],
-    ratings: [],
     verified: false,
     bio: "",
     private: false,
-  };
+  } as User;
   await uploadUser(user);
 
   // Verify user as this is always next step

@@ -3,7 +3,7 @@ import { AuthContext } from "./ResolveAuthContext";
 import { searchUser } from "../users/dbOperations";
 import * as jwt from "jsonwebtoken";
 import { Logger } from "../utils/logging";
-import env from "../envManager";
+import env from "../env";
 
 const logger = new Logger("Authorize");
 

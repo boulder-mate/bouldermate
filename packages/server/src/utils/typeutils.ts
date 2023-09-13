@@ -1,12 +1,11 @@
-import { Coordinates, ID, Time } from "common";
 import { v4 as uuid } from "uuid";
 import { Place } from "@aws-sdk/client-location";
 
-export function newId(): ID {
+export function newId() {
   return { id: uuid() };
 }
 
-export function newTime(): Time {
+export function newTime() {
   return {
     created: new Date(),
     last_updated: new Date(),
@@ -19,5 +18,5 @@ export const coordinatesFromAwsLocation = (location: Place) => {
   return {
     lat: coordArray[1],
     lng: coordArray[0],
-  } as Coordinates;
+  };
 };

@@ -2,7 +2,7 @@ import { User } from "@prisma/client";
 import { searchUser } from "../users/dbOperations";
 import { Logger } from "../utils/logging";
 import * as jwt from "jsonwebtoken";
-import env from "../envManager";
+import env from "../env";
 
 export type AuthContext = {
   user: User | null;

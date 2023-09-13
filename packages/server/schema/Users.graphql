@@ -1,42 +1,30 @@
 type User {
   id: String!
-  created: String!
-  last_updated: String!
+  created: Date!
+  last_updated: Date!
   username: String!
   name: String!
   email: String!
-  locations: [String]!
-  routes: [String]!
-  ratings: [String]!
-  comments: [String]!
-  preferences: UserPreferences!
+  locations: [Location]
+  projects: [Project]
+  comments: [Comment]
   verified: Boolean!
 
-  bio: String
+  bio: String!
+  private: Boolean!
 
-  routesetter: RoutesetterDetails
-  gym_admin: GymAdminDetails
-  gym_info: GymDetails
+  routesetter: Routesetter
+  organisation: Organisation
 }
 
-type UserPreferences {
-  private: Boolean
-}
-
-type RoutesetterDetails {
-  routes_created: [String]!
-  companies: [String]!
-  routesetting_since: String!
-}
-
-type GymAdminDetails {
-  companies: [String]!
-  readonly: Boolean
-}
-
-type GymDetails {
-  company_name: String!
-  phone_number: String!
+type Routesetter {
+  user_id: String!
+  created: Date!
+  last_updated: Date!
+  routesetting_since: Date!
+  user: User
+  routes: [Route]
+  organisations: [Organisation]
 }
 
 type Query {

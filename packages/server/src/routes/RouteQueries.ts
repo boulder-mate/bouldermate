@@ -1,6 +1,5 @@
 import { AuthContext } from "../auth/ResolveAuthContext";
 import { Logger } from "../utils/logging";
-import { Project } from "common";
 import { getProjectsOnUser, getRoutes } from "./dbOperations";
 
 const logger = new Logger("Route Query");

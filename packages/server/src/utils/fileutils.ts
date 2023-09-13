@@ -2,7 +2,7 @@ import { ReadStream } from "fs";
 import { s3 } from "../aws";
 import { PutObjectCommand, PutObjectCommandInput } from "@aws-sdk/client-s3";
 import { Logger } from "./logging";
-import env from "../envManager";
+import env from "../env";
 import { v4 as uuid } from "uuid";
 
 const logger = new Logger("FileUtils");

@@ -1,41 +1,27 @@
 type Route {
   id: String!
-  created: String!
-  last_updated: String!
+  created: Date!
+  last_updated: Date!
   type: [RouteTypes]!
-  grades: Grades!
   colors: [String]!
   name: String!
-  routesetters: [String]!
+  routesetters: [Routesetter]!
   active: Boolean!
   image: String!
-  location: String!
-  rating: Rating!
+  location_id: String!
 
-  # average_rating: Float!
+  location: Location
+  projects: [Project]
+  comments: [Comment]
+
+  # Derived data
   ascents: Int!
-  projects: Int!
-
-  # comments: String!
 }
 
 enum RouteTypes {
   Boulder
-  Lead
-  TopRope
-  AutoBelay
-  Trad
+  Rope
   Ice
-}
-
-type Grade {
-  type: String!
-  value: String!
-}
-
-type Grades {
-  routesetter: Grade
-  user: [Grade]!
 }
 
 input RouteInput {

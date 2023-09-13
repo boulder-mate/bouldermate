@@ -1,4 +1,4 @@
-import { Project, Route } from "@prisma/client";
+import { Project, ProjectStatus, Route } from "@prisma/client";
 import { newId, newTime } from "../utils/typeutils";
 import { AuthContext } from "../auth/ResolveAuthContext";
 import { uploadImage } from "../utils/fileutils";
@@ -54,9 +54,10 @@ export async function addProject(
   var newProject = {
     ...newId(),
     ...newTime(),
+    status: ProjectStatus.Projecting,
     user_id: context.user?.id,
     route_id: args.route_id,
-    notes: "",
+    notes: [],
   } as Project;
 
   await createProject(newProject);

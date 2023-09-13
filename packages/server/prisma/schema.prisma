@@ -53,24 +53,35 @@ model Routesetter {
     user               User                 @relation(fields: [user_id], references: [id])
     routes             RoutesetterOnRoute[]
     organisations      RoutesetterOnOrg[]
-    routesetting_since String
+    routesetting_since DateTime
 }
 
-// ROUTES
+// PROJECTS
 
 model Project {
-    id           String   @id @default(uuid())
-    created      DateTime @default(now())
-    last_updated DateTime @default(now())
-    route        Route    @relation(fields: [route_id], references: [id])
+    id           String        @id @default(uuid())
+    created      DateTime      @default(now())
+    last_updated DateTime      @default(now())
+    route        Route         @relation(fields: [route_id], references: [id])
     route_id     String
-    user         User     @relation(fields: [user_id], references: [id])
+    user         User          @relation(fields: [user_id], references: [id])
     user_id      String
-    notes        String
+    notes        String[]
+    status       ProjectStatus
     review       Review?
 
     @@unique([user_id, route_id])
 }
+
+enum ProjectStatus {
+    Flashed
+    Completed
+    Projecting
+    Watching
+    Abandoned
+}
+
+// ROUTES
 
 model Route {
     id           String               @id @default(uuid())
@@ -91,11 +102,10 @@ model Route {
 
 enum RouteTypes {
     Boulder
-    Lead
-    TopRope
-    Trad
+    Rope
     Ice
 }
+// Add subtypes !!
 
 // LOCATIONS
 
@@ -107,7 +117,6 @@ model Location {
     routes       Route[]
     users        UserOnLocation[]
     image        String
-    avg_rating   Float?
     indoor       Boolean          @default(true)
 
     // Admin
@@ -122,6 +131,9 @@ model Location {
     country  String
     lat      Float
     lng      Float
+
+    // Cached values - need to figure this out
+    avg_rating Float?
 }
 
 // FEEDBACK
@@ -143,14 +155,14 @@ model Comment {
 }
 
 model Review {
-    created      DateTime    @default(now())
-    last_updated DateTime    @default(now())
     project      Project     @relation(fields: [project_id], references: [id])
     project_id   String      @id
+    created      DateTime    @default(now())
+    last_updated DateTime    @default(now())
     // May contain only a rating or only a grade
     rating       Float?
-    value        Float?
-    type         GradeScale?
+    grade        String?
+    grade_scale  GradeScale?
 }
 
 enum GradeScale {

@@ -12,7 +12,7 @@ import { createServer } from "http";
 import { graphqlUploadExpress } from "graphql-upload";
 import { expressMiddleware } from "@apollo/server/express4";
 import { Logger } from "./utils/logging";
-import env from "./envManager";
+import env from "./env";
 
 var Fingerprint = require("express-fingerprint");
 

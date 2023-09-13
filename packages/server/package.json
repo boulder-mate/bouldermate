@@ -1,12 +1,14 @@
 {
-  "name": "graphql",
+  "name": "server",
   "version": "1.0.0",
-  "description": "BoulderMate GraphQL API",
+  "description": "BoulderMate App API",
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "serve": "npm run build && npm run start",
-    "start": "sh -ac '. ./.env; node ./build/index.js'"
+    "serve": "npx prisma generate && npm run build && npm run start",
+    "start": "sh -ac '. ./.env; node ./build/index.js'",
+
+    "dev": "sh -ac '. ./.env; nodemon - exec'"
   },
   "author": "Ethan Husband",
   "license": "ISC",
@@ -19,23 +21,18 @@
     "@prisma/client": "^5.2.0",
     "assert": "^2.0.0",
     "bcrypt": "^5.1.0",
-    "common": "file:../common",
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "express-fingerprint": "^1.2.2",
     "graphql": "^16.3.0",
-    "graphql-subscriptions": "^2.0.0",
     "graphql-tag": "^2.12.6",
     "graphql-upload": "^13.0.0",
-    "graphql-ws": "^5.7.0",
     "jsonwebtoken": "^9.0.1",
     "mathjs": "^11.2.1",
     "moment": "^2.29.1",
-    "mongodb": "^5.6.0",
     "node-fetch": "^2.6.6",
     "prisma": "^5.2.0",
-    "uuid": "^8.3.2",
-    "ws": "^7.5.7"
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
@@ -46,6 +43,8 @@
     "@types/node": "^16.11.6",
     "@types/uuid": "^8.3.4",
     "@types/ws": "^8.5.3",
-    "typescript": "^4.7.4"
+    "typescript": "^4.7.4",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1"
   }
 }

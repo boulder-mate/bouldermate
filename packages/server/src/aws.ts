@@ -3,7 +3,7 @@ import {
   LocationClient,
   SearchPlaceIndexForTextCommand,
 } from "@aws-sdk/client-location";
-import env from "./envManager";
+import env from "./env";
 
 // General config settings for all the SDK clients
 const config = {
