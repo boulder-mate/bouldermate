@@ -11,10 +11,10 @@ import { useState, useEffect } from "react";
 import {
   RopeGradeScale,
   BoulderGradeScale,
-  RouteColors,
-  RouteTypes,
   ScaleToGrades,
-} from "common";
+} from "../../constants/Grades";
+import { RouteColors } from "../../constants/ColorMap";
+import { RouteTypes } from "../../constants/RouteTypes";
 import DropDownPicker from "react-native-dropdown-picker";
 import Entypo from "react-native-vector-icons/Entypo";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";

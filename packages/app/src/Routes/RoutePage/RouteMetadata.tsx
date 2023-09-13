@@ -1,4 +1,3 @@
-import { Route } from "common";
 import {
   View,
   Text,
@@ -8,7 +7,6 @@ import {
   Dimensions,
 } from "react-native";
 import moment from "moment";
-import { LinearGradient } from "expo-linear-gradient";
 
 import Entypo from "react-native-vector-icons/Entypo";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -17,7 +15,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 const Climber = require("../../../assets/images/climber.png");
 let height = Dimensions.get("screen").height;
 
-export const RouteMetadata = ({ route }: { route: Route }) => {
+export const RouteMetadata = ({ route }) => {
   return (
     <ScrollView style={{ height, overflow: "scroll" }} persistentScrollbar>
       <View style={styles.container}>

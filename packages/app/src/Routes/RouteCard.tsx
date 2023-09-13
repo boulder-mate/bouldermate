@@ -1,5 +1,4 @@
 import { useNavigation } from "@react-navigation/native";
-import { Route } from "common";
 import {
   View,
   Text,

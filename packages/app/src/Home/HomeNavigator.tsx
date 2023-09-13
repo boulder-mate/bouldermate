@@ -3,7 +3,7 @@ import { stackHeader } from "../Header";
 import { createStackNavigator } from "@react-navigation/stack";
 import { HomeLanding } from "./HomeLanding";
 import { TabNavigator } from "./TabNavigator";
-import { RouteTypes } from "common";
+import { RouteTypes } from "../constants/RouteTypes";
 
 export const HomeNavigator = () => {
   const Stack = createStackNavigator();
