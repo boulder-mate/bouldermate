@@ -1,15 +1,15 @@
 import { Coordinates, ID, Time } from "common";
-import { ObjectId } from "mongodb";
+import { v4 as uuid } from "uuid";
 import { Place } from "@aws-sdk/client-location";
 
 export function newId(): ID {
-  return { _id: new ObjectId() };
+  return { id: uuid() };
 }
 
 export function newTime(): Time {
   return {
-    created: new Date().toISOString(),
-    last_updated: new Date().toISOString(),
+    created: new Date(),
+    last_updated: new Date(),
   };
 }
 

@@ -1,7 +1,7 @@
 type Location {
-  _id: ObjectId!
-  created: String!
-  last_updated: String!
+  id: String!
+  created: Date!
+  last_updated: Date!
   name: String!
   # In the rest of the code this is actually a typescript map!
   routes: LocationRoutes!
@@ -37,13 +37,10 @@ type Coordinates {
 # Infer whether creation is valid by verifying user is a company account in context!
 input LocationInput {
   name: String!
-  metadata: LocationMetadataInput!
   indoor: Boolean!
   image: Upload!
   company: String # Add the company if BM admins create manually
-}
-
-input LocationMetadataInput {
+  # Metadata
   address: String!
   suburb: String!
   postcode: String!
@@ -58,5 +55,5 @@ type Query {
 }
 
 type Mutation {
-  createLocation(location: LocationInput!): String!
+  uploadLocation(location: LocationInput!): String!
 }

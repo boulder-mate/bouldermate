@@ -1,14 +1,14 @@
 type User {
-  _id: ObjectId!
+  id: String!
   created: String!
   last_updated: String!
   username: String!
   name: String!
   email: String!
-  locations: [ObjectId]!
-  routes: [ObjectId]!
-  ratings: [ObjectId]!
-  comments: [ObjectId]!
+  locations: [String]!
+  routes: [String]!
+  ratings: [String]!
+  comments: [String]!
   preferences: UserPreferences!
   verified: Boolean!
 
@@ -24,13 +24,13 @@ type UserPreferences {
 }
 
 type RoutesetterDetails {
-  routes_created: [ObjectId]!
-  companies: [ObjectId]!
+  routes_created: [String]!
+  companies: [String]!
   routesetting_since: String!
 }
 
 type GymAdminDetails {
-  companies: [ObjectId]!
+  companies: [String]!
   readonly: Boolean
 }
 
@@ -40,7 +40,7 @@ type GymDetails {
 }
 
 type Query {
-  getUser(id: ObjectId, username: String, email: String): User
+  getUser(id: String, username: String, email: String): User
   authenticate(identifier: String!, password: String!): String!
   verifyToken(token: String!): Boolean!
   currentUser: User

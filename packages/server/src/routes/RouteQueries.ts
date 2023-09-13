@@ -1,10 +1,7 @@
 import { AuthContext } from "../auth/ResolveAuthContext";
-import { Route } from "common";
-import { db } from "../database";
-import { ObjectId } from "mongodb";
 import { Logger } from "../utils/logging";
 import { Project } from "common";
-import { getRoutes } from "./dbOperations";
+import { getProjectsOnUser, getRoutes } from "./dbOperations";
 
 const logger = new Logger("Route Query");
 
@@ -18,20 +15,19 @@ export async function getRoutesById(
   return await getRoutes(args.ids);
 }
 
-export async function getUserRoutes(
+export async function getUserProjects(
   parent: any,
   args: any,
   context: AuthContext,
   info: any
 ) {
-  var querying = context.user?.projects?.map((x: Project) => x.route);
-  if (!querying) return [];
+  if (!context.user?.id)
+    throw new Error("No user token was attached to update request");
 
-  logger.info(`Received nonempty query for user routes ${querying}`);
-  return await getRoutesById(parent, { ids: querying }, context, info);
+  return await getProjectsOnUser(context.user?.id);
 }
 
 export const routeQueries = {
   getRoutesById,
-  getUserRoutes,
+  getUserProjects,
 };

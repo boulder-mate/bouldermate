@@ -1,5 +1,5 @@
 type Route {
-  _id: ObjectId!
+  id: String!
   created: String!
   last_updated: String!
   type: [RouteTypes]!
@@ -43,7 +43,7 @@ input RouteInput {
   colors: [String]!
   name: String!
   image: Upload!
-  location: String!
+  location_id: String!
   routesetters: [String]!
   routesetter_grade: GradeInput
   notes: String
@@ -56,11 +56,11 @@ input GradeInput {
 
 type Query {
   getRoutesById(ids: [String]!): [Route]
-  getUserRoutes: [Route]
+  getUserProjects: [Route]
 }
 
 type Mutation {
-  createRoute(route: RouteInput!): String!
-  addProjectToUser(route_id: String!): Boolean!
+  uploadRoute(route: RouteInput!): String!
+  addProject(route_id: String!): Boolean!
   rateRoute(rating: Float!, route_id: String!): Boolean!
 }

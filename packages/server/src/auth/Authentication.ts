@@ -2,7 +2,6 @@ import { compare } from "bcrypt";
 import { AuthContext } from "./ResolveAuthContext";
 import { searchUser } from "../users/dbOperations";
 import * as jwt from "jsonwebtoken";
-import { ObjectId } from "mongodb";
 import { Logger } from "../utils/logging";
 import env from "../envManager";
 
@@ -26,7 +25,7 @@ export async function authenticate(
   if (!res) throw new Error("Incorrect password");
 
   const token = jwt.sign(
-    { user_id: (user._id as ObjectId).toString() },
+    { user_id: user.id },
     env.JWT_SECRET as any,
     {
       // Caution: Setting an expiry will only work if we encode an object

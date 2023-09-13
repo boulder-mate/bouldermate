@@ -1,16 +1,16 @@
-import { Location } from "common";
+import { Location } from "@prisma/client";
 import { coordinatesFromAwsLocation, newId, newTime } from "../utils/typeutils";
 import { AuthContext } from "../auth/ResolveAuthContext";
-import { db } from "../database";
 import { Logger } from "../utils/logging";
 import { searchAwsLocations } from "../aws";
 import { uploadImage } from "../utils/fileutils";
-import { uploadLocation } from "./dbOperations";
+import { createLocation } from "./dbOperations";
+import { searchOrganisation } from "../organisations/dbOperations";
 
 export const AMAZON_API_URL = `https://console.aws.amazon.com/apigateway`;
 const logger = new Logger("LocationMutations");
 
-export async function createLocation(
+export async function uploadLocation(
   parent: any,
   args: any,
   context: AuthContext,
@@ -18,6 +18,13 @@ export async function createLocation(
 ): Promise<string> {
   var input = args.location;
   logger.info("Received location creation request");
+
+  // Verify this was done by an organisation account
+  var org = await searchOrganisation({ email: context.user?.email });
+  if (!org)
+    throw new Error(
+      "Cannot create location from account not associated with an organisation"
+    );
 
   // Derive coordinates - query AWS for locations
   const locdata = input.metadata;
@@ -34,34 +41,20 @@ export async function createLocation(
   var location: Location = {
     ...newId(),
     ...newTime(),
-    name: input.name,
+    ...coordinates,
+    ...input,
     image: imageUrl,
-    routes: {
-      active: [],
-      inactive: [],
-    },
-    metadata: {
-      ...input.metadata,
-      coordinates,
-    },
-    indoor: input.indoor,
-    company: context.user?._id,
-    rating: {
-      total_ratings: 0,
-      sum: 0,
-    },
-
-    // comments: [],
+    org_id: org.id,
   };
 
   // Upload to database
-  logger.info(`Uploading location to db ${location.name}`);
-  await uploadLocation(location);
+  logger.info(`Uploading location ${location.name} to db`);
+  await createLocation(location);
 
   // Return string id of newly created object
-  return location._id.toString();
+  return location.id;
 }
 
 export const locationMutations = {
-  createLocation,
+  uploadLocation,
 };

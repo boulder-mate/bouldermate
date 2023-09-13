@@ -1,8 +1,7 @@
-import { User } from "common";
+import { User } from "@prisma/client";
 import { searchUser } from "../users/dbOperations";
 import { Logger } from "../utils/logging";
 import * as jwt from "jsonwebtoken";
-import { ObjectId } from "mongodb";
 import env from "../envManager";
 
 export type AuthContext = {
@@ -38,7 +37,7 @@ export async function resolveContext(context: any): Promise<AuthContext> {
 
   if (userId) {
     try {
-      userObject = await searchUser({ id: new ObjectId(userId) });
+      userObject = await searchUser({ id: userId });
     } catch (err) {}
   }
 
@@ -67,7 +66,7 @@ export async function resolveToken(token: string): Promise<User> {
     throw new Error("Could not verify user authorization token");
   }
 
-  var user = await searchUser({ id: new ObjectId(userId as string) });
+  var user = await searchUser({ id: userId });
   if (!user) {
     logger.error("User encoded in authorization token was not found");
     throw new Error("User encoded in authorization token was not found");

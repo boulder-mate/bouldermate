@@ -1,9 +1,7 @@
 import { AuthContext } from "../auth/ResolveAuthContext";
-import { Location } from "common";
-import { db } from "../database";
-import { ObjectId } from "mongodb";
+import { Location } from "@prisma/client";
 import { Logger } from "../utils/logging";
-import { allLocations, getLocations } from "./dbOperations";
+import { allLocations, getLocations, getLocationsOnUser } from "./dbOperations";
 
 const logger = new Logger("LocationQueries");
 
@@ -35,15 +33,10 @@ export async function getUserLocations(
   context: AuthContext,
   info: any
 ) {
-  if (!context.user?._id)
+  if (!context.user?.id)
     throw new Error("No user token was attached to the locations request");
-  // Feed the IDs into LocationById Util
-  return await getLocationsById(
-    parent,
-    { ids: context.user.locations },
-    context,
-    info
-  );
+
+  return await getLocationsOnUser(context.user.id);
 }
 
 export const locationQueries = {

@@ -1,5 +1,3 @@
-import { ObjectId } from "mongodb";
-import { db } from "../database";
 import { newId, newTime } from "../utils/typeutils";
 import { AuthContext } from "../auth/ResolveAuthContext";
 import { hash } from "bcrypt";
@@ -41,7 +39,8 @@ async function createUser(
     comments: [],
     ratings: [],
     verified: false,
-    preferences: {},
+    bio: "",
+    private: false,
   };
   await uploadUser(user);
 

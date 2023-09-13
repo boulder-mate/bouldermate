@@ -1,18 +1,17 @@
-import { User } from "common";
-import { db } from "../database";
-import { ObjectId } from "mongodb";
+import { User } from "@prisma/client";
+import { db } from "../db";
 
 export type UserSearchParams = {
-  id?: ObjectId;
+  id?: string;
   email?: string;
   username?: string;
 };
 
 export async function searchUser(args: UserSearchParams): Promise<User | null> {
   // Query a user by id, username or email - one function for all
-  var query = {};
+  var query = {} as any;
   if (args.id) {
-    query = { _id: args.id };
+    query = { id: args.id };
   } else if (args.email) {
     query = { email: args.email };
   } else if (args.username) {
@@ -23,15 +22,15 @@ export async function searchUser(args: UserSearchParams): Promise<User | null> {
     );
   }
 
-  var user = await db.usersCollection?.findOne(query);
+  var user = await db.user.findUnique({ where: query });
   if (!user) return null;
   else return user as User;
 }
 
 export async function updateUser(payload: Object, user_id: string) {
-  await db.usersCollection?.updateOne({ _id: new ObjectId(user_id) }, { $set: payload });
+  return await db.user.update({ data: payload, where: { id: user_id } });
 }
 
 export async function uploadUser(user: User) {
-  await db.usersCollection?.insertOne(user);
+  return await db.user.create({ data: user });
 }

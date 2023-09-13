@@ -10,30 +10,31 @@ generator client {
 // ORGANISATIONS
 
 model Organisation {
-    id           String               @id @default(uuid())
-    created      DateTime             @default(now())
-    last_updated DateTime             @default(now())
-    account      User                 @relation(fields: [email], references: [email])
-    email        String               @unique // This is used for User account relation!
-    company_name String               @unique
+    id           String             @id @default(uuid())
+    created      DateTime           @default(now())
+    last_updated DateTime           @default(now())
+    user         User               @relation(fields: [email], references: [email])
+    email        String             @unique // This is used for User account relation!
+    company_name String             @unique
     phone_number String
     locations    Location[]
-    routesetters RoutesettersOnOrgs[]
+    routesetters RoutesetterOnOrg[]
 }
 
 // USERS
 
 model User {
-    id           String     @id @default(uuid())
-    created      DateTime   @default(now())
-    last_updated DateTime   @default(now())
-    username     String     @unique
+    id           String           @id @default(uuid())
+    created      DateTime         @default(now())
+    last_updated DateTime         @default(now())
+    username     String           @unique
     name         String
-    email        String     @unique
-    locations    Location[]
+    pass_hash    String
+    email        String           @unique
+    locations    UserOnLocation[]
     projects     Project[]
     comments     Comment[]
-    verified     Boolean    @default(false)
+    verified     Boolean          @default(false)
 
     bio String @default("")
 
@@ -41,17 +42,17 @@ model User {
     private Boolean @default(false)
 
     // Additional perms
-    routesetter Routesetter?
-    org_account Organisation?
+    routesetter  Routesetter?
+    organisation Organisation?
 }
 
 model Routesetter {
-    user_id            String                 @id
-    created            DateTime               @default(now())
-    last_updated       DateTime               @default(now())
-    user               User                   @relation(fields: [user_id], references: [id])
-    routes             RoutesettersOnRoutes[]
-    organisations      RoutesettersOnOrgs[]
+    user_id            String               @id
+    created            DateTime             @default(now())
+    last_updated       DateTime             @default(now())
+    user               User                 @relation(fields: [user_id], references: [id])
+    routes             RoutesetterOnRoute[]
+    organisations      RoutesetterOnOrg[]
     routesetting_since String
 }
 
@@ -63,22 +64,23 @@ model Project {
     last_updated DateTime @default(now())
     route        Route    @relation(fields: [route_id], references: [id])
     route_id     String
-    user         User     @relation(fields: [username], references: [username])
-    username     String
+    user         User     @relation(fields: [user_id], references: [id])
+    user_id      String
+    notes        String
     review       Review?
 
-    @@unique([username, route_id])
+    @@unique([user_id, route_id])
 }
 
 model Route {
-    id           String                 @id @default(uuid())
-    created      DateTime               @default(now())
-    last_updated DateTime               @default(now())
+    id           String               @id @default(uuid())
+    created      DateTime             @default(now())
+    last_updated DateTime             @default(now())
     type         RouteTypes[]
     colors       String[]
     name         String
-    routesetters RoutesettersOnRoutes[]
-    active       Boolean                @default(true)
+    routesetters RoutesetterOnRoute[]
+    active       Boolean              @default(true)
     image        String
 
     location    Location  @relation(fields: [location_id], references: [id])
@@ -98,15 +100,15 @@ enum RouteTypes {
 // LOCATIONS
 
 model Location {
-    id           String   @id @default(uuid())
-    created      DateTime @default(now())
-    last_updated DateTime @default(now())
+    id           String           @id @default(uuid())
+    created      DateTime         @default(now())
+    last_updated DateTime         @default(now())
     name         String
     routes       Route[]
-    users        User[]
+    users        UserOnLocation[]
     image        String
     avg_rating   Float?
-    indoor       Boolean  @default(true)
+    indoor       Boolean          @default(true)
 
     // Admin
     organisation Organisation @relation(fields: [org_id], references: [id])
@@ -159,7 +161,7 @@ enum GradeScale {
 
 // RELATION TABLES (n-m relations)
 
-model RoutesettersOnOrgs {
+model RoutesetterOnOrg {
     created      DateTime     @default(now())
     last_updated DateTime     @default(now())
     organisation Organisation @relation(fields: [org_id], references: [id])
@@ -170,7 +172,7 @@ model RoutesettersOnOrgs {
     @@id([org_id, user_id])
 }
 
-model RoutesettersOnRoutes {
+model RoutesetterOnRoute {
     created      DateTime    @default(now())
     last_updated DateTime    @default(now())
     route        Route       @relation(fields: [route_id], references: [id])
@@ -179,4 +181,15 @@ model RoutesettersOnRoutes {
     user_id      String
 
     @@id([route_id, user_id])
+}
+
+model UserOnLocation {
+    created      DateTime @default(now())
+    last_updated DateTime @default(now())
+    user         User     @relation(fields: [user_id], references: [id])
+    user_id      String
+    location     Location @relation(fields: [location_id], references: [id])
+    location_id  String
+
+    @@id([location_id, user_id])
 }
