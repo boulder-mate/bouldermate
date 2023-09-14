@@ -3,13 +3,13 @@ import { client } from "../Apollo/apollo";
 import { gql } from "@apollo/client";
 
 const AUTHORIZE = gql`
-  query Authenticate($identifier: String!, $password: String!) {
+  query Query($identifier: String!, $password: String!) {
     authenticate(identifier: $identifier, password: $password)
   }
 `;
 
 const VERIFY = gql`
-  query Verify($token: String!) {
+  query Query($token: String!) {
     verifyToken(token: $token)
   }
 `;
@@ -33,33 +33,27 @@ const REGISTER = gql`
 const CURRENT_USER = gql`
   query CurrentUser {
     currentUser {
-      _id
+      id
       created
       last_updated
       username
       name
       email
-      locations
-      routes
-      ratings
-      comments
-      preferences {
-        private
-      }
       verified
       bio
+      private
+      # These are for querying existence. Follow up query should be made for body
+      locations {
+        id
+      }
+      organisation {
+        id
+      }
+      projects {
+        id
+      }
       routesetter {
-        routes_created
-        companies
-        routesetting_since
-      }
-      gym_admin {
-        companies
-        readonly
-      }
-      gym_info {
-        company_name
-        phone_number
+        user_id
       }
     }
   }

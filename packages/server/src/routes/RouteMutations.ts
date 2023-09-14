@@ -29,8 +29,8 @@ export async function uploadRoute(
     name: input.name,
     location_id: input.location_id,
     image: imageUrl,
-    // ratings: [],
-    // comments: [],
+    rope_variants: input.rope_variants,
+    length: input.length,
   };
 
   // Upload to database
@@ -55,6 +55,7 @@ export async function addProject(
     ...newId(),
     ...newTime(),
     status: ProjectStatus.Projecting,
+    completed_variants: [],
     user_id: context.user?.id,
     route_id: args.route_id,
     notes: [],

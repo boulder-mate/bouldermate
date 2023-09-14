@@ -19,13 +19,13 @@ const UPLOAD_ROUTE = gql`
 `;
 
 const ADD_PROJECT = gql`
-  mutation AddRouteToUser($routeId: String!) {
-    addRouteToUser(route_id: $routeId)
+  mutation AddProject($routeId: String!) {
+    addProject(route_id: $routeId)
   }
 `;
 
 export const AddToProjects = ({ route_id }) => {
-  const [addRouteToUser, addRouteResult] = useMutation(ADD_PROJECT);
+  const [addProject, addProjectResult] = useMutation(ADD_PROJECT);
   const [submitting, updateSubmitting] = useState(false);
 
   return (
@@ -35,7 +35,7 @@ export const AddToProjects = ({ route_id }) => {
         updateSubmitting(true);
         try {
           // Call the mutation
-          var res: any = await addRouteToUser({
+          var res: any = await addProject({
             variables: {
               routeId: route_id,
             },

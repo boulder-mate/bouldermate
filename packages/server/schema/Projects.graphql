@@ -9,6 +9,7 @@ type Project {
   status: ProjectStatus!
   notes: [String]!
   review: Review
+  completed_variants: [RopeVariants]
 }
 
 enum ProjectStatus {
@@ -17,4 +18,12 @@ enum ProjectStatus {
   Projecting
   Projected
   Following
+}
+
+enum RopeVariants {
+    TopRope
+    AutoBelay
+    Lead
+    Trad
+    Free
 }

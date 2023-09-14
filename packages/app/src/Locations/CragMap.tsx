@@ -20,29 +20,29 @@ import { getAsyncData, storeAsyncData } from "../Utils/AsyncStorage";
 import { min } from "math";
 
 const GET_LOCATIONS = gql`
-  query getLocations {
+  query GetAllLocations {
     getAllLocations {
-      _id
+      id
       created
       last_updated
       name
       image
-      routes {
-        active
-        inactive
-      }
-      metadata {
-        address
-        suburb
-        state
-        postcode
-        country
-        coordinates {
-          lat
-          lng
-        }
-      }
       indoor
+      address
+      suburb
+      state
+      postcode
+      country
+      lat
+      lng
+      org_id
+      avg_rating
+      routes {
+        id
+      }
+      users {
+        id
+      }
     }
   }
 `;
@@ -142,8 +142,8 @@ export const CragMapRoot = () => {
 const CragMap = ({ data, onSelectedLocation, selectedLocation }) => {
   const initRegion = selectedLocation
     ? {
-        latitude: selectedLocation?.metadata?.coordinates?.lat,
-        longitude: selectedLocation?.metadata?.coordinates?.lng,
+        latitude: selectedLocation?.lat,
+        longitude: selectedLocation?.lng,
         latitudeDelta: 1,
         longitudeDelta: 1,
       }
@@ -154,8 +154,8 @@ const CragMap = ({ data, onSelectedLocation, selectedLocation }) => {
 
   const handleMarkerPress = (location) => {
     mapRef.current.animateToRegion({
-      latitude: location.metadata.coordinates.lat - 0.05,
-      longitude: location.metadata.coordinates.lng,
+      latitude: location.lat - 0.05,
+      longitude: location.lng,
       latitudeDelta: 0.15,
       longitudeDelta: 0.15,
     });
@@ -174,11 +174,11 @@ const CragMap = ({ data, onSelectedLocation, selectedLocation }) => {
         {data.map((x: any) => (
           <Marker
             coordinate={{
-              latitude: x.metadata.coordinates.lat,
-              longitude: x.metadata.coordinates.lng,
+              latitude: x.lat,
+              longitude: x.lng,
             }}
             onPress={() => handleMarkerPress(x)}
-            key={x._id}
+            key={x.id}
           >
             <Fontisto
               name="map-marker"
@@ -186,7 +186,7 @@ const CragMap = ({ data, onSelectedLocation, selectedLocation }) => {
               size={40}
               style={styles.markerShadow}
             />
-            {x._id === selectedLocation?._id && (
+            {x.id === selectedLocation?.id && (
               <View style={styles.markerLabel} />
             )}
           </Marker>

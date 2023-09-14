@@ -18,15 +18,38 @@ import * as Progress from "react-native-progress";
 const GET_LOCATIONS = gql`
   query GetUserLocations {
     getUserLocations {
+      id
+      created
       last_updated
       name
       routes {
+        id
+        created
+        type
+        name
         active
-        inactive
+        image
+        colors
       }
-      indoor
       image
-      company
+      indoor
+      address
+      suburb
+      state
+      postcode
+      country
+      lat
+      lng
+      org_id
+      organisation {
+        id
+        created
+        last_updated
+        email
+        company_name
+        phone_number
+      }
+      avg_rating
     }
   }
 `;

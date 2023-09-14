@@ -14,6 +14,8 @@ type Route {
   projects: [Project]
   comments: [Comment]
 
+  rope_variants: [RopeVariants]
+
   # Derived data
   ascents: Int!
 }
@@ -32,6 +34,8 @@ input RouteInput {
   location_id: String!
   routesetters: [String]!
   routesetter_grade: GradeInput
+  rope_variants: [RopeVariants]
+  length: Float
   notes: String
 }
 
