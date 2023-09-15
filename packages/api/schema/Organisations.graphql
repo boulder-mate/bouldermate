@@ -1,0 +1,12 @@
+type Organisation {
+  id: String!
+  created: Date!
+  last_updated: Date!
+  user: User
+  email: String!
+  company_name: String!
+  logo: String!
+  phone_number: String!
+  locations: [Location]
+  routesetters: [Routesetter]
+}

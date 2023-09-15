@@ -1,0 +1,56 @@
+type Route {
+  id: String!
+  created: Date!
+  last_updated: Date!
+  type: [RouteTypes]!
+  colors: [String]!
+  name: String!
+  routesetters: [Routesetter]!
+  active: Boolean!
+  image: String!
+  location_id: String!
+
+  location: Location
+  projects: [Project]
+  comments: [Comment]
+
+  rope_variants: [RopeVariants]
+
+  # Derived data
+  ascents: Int!
+}
+
+enum RouteTypes {
+  Boulder
+  Rope
+  Ice
+}
+
+input RouteInput {
+  type: [RouteTypes]!
+  colors: [String]!
+  name: String!
+  image: Upload!
+  location_id: String!
+  routesetters: [String]!
+  routesetter_grade: GradeInput
+  rope_variants: [RopeVariants]
+  length: Float
+  notes: String
+}
+
+input GradeInput {
+  type: String!
+  value: String!
+}
+
+type Query {
+  getRoutesById(ids: [String]!): [Route]
+  getUserProjects: [Route]
+}
+
+type Mutation {
+  uploadRoute(route: RouteInput!): String!
+  addProject(route_id: String!): Boolean!
+  rateRoute(rating: Float!, route_id: String!): Boolean!
+}

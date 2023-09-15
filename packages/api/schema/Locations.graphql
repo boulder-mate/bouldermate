@@ -1,0 +1,48 @@
+type Location {
+  id: String!
+  created: Date!
+  last_updated: Date!
+  name: String!
+  routes: [Route]
+  users: [User]
+  image: String! # Image URL
+  indoor: Boolean!
+  
+  address: String!
+  suburb: String!
+  state: String!
+  postcode: String!
+  country: String!
+  lat: Float!
+  lng: Float!
+  
+  org_id: String!
+  organisation: Organisation
+
+  # Derived
+  avg_rating: Float
+}
+
+# Infer whether creation is valid by verifying user is a company account in context!
+input LocationInput {
+  name: String!
+  indoor: Boolean!
+  image: Upload!
+  company: String # Add the company if BM admins create manually
+  # Metadata
+  address: String!
+  suburb: String!
+  postcode: String!
+  state: String!
+  country: String!
+}
+
+type Query {
+  getLocationsById(ids: [String]!): [Location]
+  getAllLocations: [Location]
+  getUserLocations: [Location]
+}
+
+type Mutation {
+  uploadLocation(location: LocationInput!): String!
+}
