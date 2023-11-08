@@ -7,7 +7,7 @@
     "build": "tsc",
     "serve": "npx prisma generate && npm run build && npm run start",
     "start": "sh -ac '. ./.env; node ./build/index.js'",
-    "dev": "sh -ac '. ./.env; nodemon - exec'"
+    "dev": "sh -ac '. ./.env; nodemon --watch './**/*.ts' --exec 'ts-node' src/index.ts'"
   },
   "author": "Ethan Husband",
   "license": "ISC",

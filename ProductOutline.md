@@ -1,20 +1,25 @@
-# BoulderMate Documentation
+# BoulderMate Product Documentation
 
-This document outlines the intended functionality of all features offered by the BoulderMate app as a product itself. It should be adapted each time an update is pushed appropriately. Each section pertains to a different feature, and this document is intended to cover all features such that it could also be used as a guideline for testing each of these features respectively.
+This document outlines the intended functionality of all features offered by the BoulderMate app as a product itself. It should be adapted each time an update is pushed appropriately. Each section pertains to a different feature, and this document is intended to cover all features - such that it could also be used as a guideline for testing each of these features respectively.
+
+**Features in italics are yet to be added**
 
 ## <ins>Routes</ins>
 
 #### Uploading Routes
-
-  - Only routesetter or gym admin accounts can upload a route
-  - Gym options are only those gyms the routesetter is associated with
-  - Route options are correct + all supported
-  - Routesetters come just from the gym selected, can select multiple and multiple are displayed
+  - Routes page has an Upload Route button to access the upload flow
   - Can select multiple colours, where multiple selections display in a 'rainbow'
   - Can optionally set grade scale, grade and routes
+  - Required fields are routesetters,
   - Preview button directs to RoutePage where the header button is an upload
   - All data in the preview page feeds through correctly
-  - Upload button on a preview RoutePage prompts an alert to confirm upload and indicate price
+  - Upload button on a preview RoutePage prompts an alert to confirm upload
+  - Route options are correct + all supported
+  - *Only routesetter or gym admin accounts can upload a route*
+  - *Gym options are only those gyms the routesetter is associated with*
+
+  - Routesetters come just from the gym selected, can select multiple and multiple are displayed
+  - 
 
 #### Modifying routes
 
