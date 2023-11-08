@@ -36,7 +36,7 @@ And scanning the QR code that appears in the console.
 You'll know this has all worked when you see the landing page on your phone, and can create an account!
 
 <p align="center">
-  <img src="./packages/mobile-app/assets/images/landing_page.jpeg" width="20%">
+  <img src="./packages/mobile-app/assets/images/landing_page.jpeg" width="40%">
 </p>
 
 ## Contributions
