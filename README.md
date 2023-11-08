@@ -8,17 +8,7 @@ This repository has a monorepo structure, where all components of the applicatio
 #### API
 
 To run the API successfully one first needs to define the environment in their `.env` file
-
-```
-NODE_ENV=local
-DATABASE_URL=<Any valid CockroachDB connection URL>
-JWT_SECRET=<Any string, if running casually>
-
-AWS_ACCESS_KEY=<An AWS Access Key ID>
-AWS_SECRET=<A matching AWS Secret Access Key>
-AWS_REGION=<A valid AWS region>
-AWS_IMAGES_BUCKET=<URL to an AWS S3 Bucket>
-```
+This has been templated in the package and just needs to be filled out with valid values.
 
 The API package can then be run with
 ```
@@ -34,14 +24,8 @@ In order to initialise the prisma schema in CockroachDB
 
 #### Mobile App
 
-Running the mobile app can be more complicated if you have no prior experience doing so.
-
-It first requires the following `.env` variables:
-```
-APP_ENV=local
-GQL_LOCAL_PORT=8000
-GMAPS_API_KEY=<Any valid Google Maps API Key>
-```
+Running the mobile app can be more complicated if you have no prior experience doing so, but Expo Go offers a relatively simple method if you're just browsing.
+Firstly, you need to update the templated `.env` file in the package to flesh out the field values. 
 
 Then ensure you have <a href="https://expo.dev/client">Expo Go</a> installed on your phone, such that you can then easily run the app with
 ```
