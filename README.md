@@ -4,7 +4,6 @@
 This repository has a monorepo structure, where all components of the application can be found inside the `packages` folder.
 
 ## Installation
----
 
 #### API
 
@@ -57,7 +56,6 @@ You'll know this has all worked when you see the landing page on your phone, and
 </p>
 
 ## Contributions
----
 
 ### Running the App
 
