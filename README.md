@@ -5,7 +5,7 @@ This repository has a monorepo structure, where all components of the applicatio
 
 ## Installation
 
-#### API
+### API
 
 To run the API successfully one first needs to define the environment in their `.env` file
 This has been templated in the package and just needs to be filled out with valid values.
@@ -22,7 +22,7 @@ npx prisma db push
 ```
 In order to initialise the prisma schema in CockroachDB
 
-#### Mobile App
+### Mobile App
 
 Running the mobile app can be more complicated if you have no prior experience doing so, but Expo Go offers a relatively simple method if you're just browsing.
 Firstly, you need to update the templated `.env` file in the package to flesh out the field values. 
@@ -36,7 +36,7 @@ And scanning the QR code that appears in the console.
 You'll know this has all worked when you see the landing page on your phone, and can create an account!
 
 <p align="center">
-  <img src="./packages/mobile-app/assets/images/landing_page.jpeg" width="40%">
+  <img src="./packages/mobile-app/assets/images/landing_page.jpeg" width="20%">
 </p>
 
 ## Contributions
