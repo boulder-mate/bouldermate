@@ -11,7 +11,7 @@
 
 This repository has a monorepo structure, where all components of the application can be found inside the `packages` folder.
 
-## Installation
+## INSTALLATION
 
 ### API
 
@@ -47,7 +47,7 @@ You'll know this has all worked when you see the landing page on your phone, and
   <img src="./packages/mobile-app/assets/images/landing_page.jpeg" width="40%">
 </p>
 
-## Contributions
+## CONTRIBUTIONS
 
 ### Running the App
 
