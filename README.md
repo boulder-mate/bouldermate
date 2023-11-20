@@ -10,9 +10,10 @@
 
 > React Native Social App for Rock Climbing and Bouldering
 
-This repository has a monorepo structure, where all components of the application can be found inside the `packages` folder.
-
 ## INSTALLATION
+
+This repository has a monorepo structure, where all components of the application can be found inside the `packages` folder.
+Once cloned, each package can be independently installed as per below.
 
 ### API
 
