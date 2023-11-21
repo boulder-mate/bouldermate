@@ -51,6 +51,8 @@ You'll know this has all worked when you see the landing page on your phone, and
 
 ## CONTRIBUTIONS
 
+Before making any contribution, you need to **request the `.env` variables for the packages.**
+
 ### Running the App
 
 There are more ways to run the app that Expo Go, in particular via the Expo Development Client - which is often necessary when using packages unsupported by Expo Go. Using the development client should be the preferred method by anyone developing the App.
