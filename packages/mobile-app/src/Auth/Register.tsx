@@ -123,5 +123,8 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
   },
-  textField: {},
+  textField: {
+    flex: 1,
+    height: 45,
+  },
 });

@@ -64,6 +64,7 @@ export default {
     plugins: [],
     extra: {
       gqlHostname: process.env.GQL_HOSTNAME,
+      gqlLocalPort: process.env.GQL_LOCAL_PORT,
       nodeEnv: process.env.APP_ENV,
       eas: {
         projectId: process.env.EAS_PROJECT_ID,

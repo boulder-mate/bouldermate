@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
   textField: {
     fontSize: 15,
     flex: 1,
+    height: 45,
   },
   fieldContainer: {
     flexDirection: "row",

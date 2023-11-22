@@ -40,7 +40,7 @@ function parseGqlHostname() {
 
   // Retrieve IP from URL
   var ip = extractIPfromURL(debuggerUrl);
-  return ip.concat(":8000");
+  return ip.concat(":" + envVar("gqlLocalPort"));
 }
 
 const parseHttpPrefix = () =>
